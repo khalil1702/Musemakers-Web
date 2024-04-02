@@ -19,6 +19,7 @@ class CommentaireController extends AbstractController
         $commentaires = $entityManager
             ->getRepository(Commentaire::class)
             ->findAll();
+            
 
         return $this->render('commentaire/index.html.twig', [
             'commentaires' => $commentaires,

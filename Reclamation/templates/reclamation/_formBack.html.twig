@@ -3,9 +3,6 @@
 <div style="display: none;">
     {{ form_row(form.daterec) }}
 </div>
-<div style="display: none;">
-    {{ form_row(form.statutrec) }}
-</div>
 
 <div class="form-group">
     {{ form_label(form.descrirec, 'Description', {'label_attr': {'class': 'form-label'}}) }}
@@ -31,6 +28,13 @@
     </div>
 </div>
 
+<div class="form-group">
+    {{ form_label(form.statutrec, 'Statut', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.statutrec, {'attr': {'class': 'form-control'}}) }}
+    <div class="error-message">
+        {{ form_errors(form.statutrec) }} {# Affiche les erreurs de validation pour le statut #}
+    </div>
+</div>
 
 <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

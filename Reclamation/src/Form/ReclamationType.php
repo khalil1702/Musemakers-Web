@@ -28,10 +28,17 @@ class ReclamationType extends AbstractType
                 'placeholder' => 'Choisir une catégorie', // Optionnel : affichez un libellé par défaut
                 'required' => true, // Optionnel : spécifiez si la sélection d'une catégorie est obligatoire
             ])
-            ->add('statutrec', HiddenType::class, [
-                'data' => 'En Cours', // Valeur par défaut
-                'mapped' => false, // Ne pas mapper ce champ à l'entité Reclamation
+            
+            ->add('statutrec', ChoiceType::class, [
+                'choices' => [
+                    'Resolue' => 'Resolue',
+                    'Fermée' => 'Fermée ',
+                    'En Cours' => 'En Cours',
+                ],
+                'placeholder' => 'Choisir le statut', // Optionnel : affichez un libellé par défaut
+                'required' => true, // Optionnel : spécifiez si la sélection d'une catégorie est obligatoire
             ])
+            
             ->add('idu', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'prenomUser', // Le champ de l'entité à afficher dans le formulaire

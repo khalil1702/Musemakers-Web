@@ -5,42 +5,47 @@
 {% block body %}
     <h1>Liste des réclamations</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Prénom</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Date</th>
-                <th>Catégorie</th>
-                <th>Statut</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for reclamation in reclamations %}
-            <tr>
-                <td>{{ reclamation.idU.prenomUser }}</td>
-                <td>{{ reclamation.idU.nomUser }}</td>
-                <td>{{ reclamation.descrirec }}</td>
-                <td>{{ reclamation.daterec ? reclamation.daterec|date('Y-m-d') : '' }}</td>
-                <td>{{ reclamation.categorierec }}</td>
-                <td>{{ reclamation.statutrec }}</td>
-                
-                <td>
-                    <a href="{{ path('app_reclamation_show', {'idrec': reclamation.idrec}) }}">voir</a>
-                    <a href="{{ path('app_reclamation_edit', {'idrec': reclamation.idrec}) }}">modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">aucun enregistrement trouvé</td>
-            </tr>
-        {% endfor %}
-    </table>
-        </section>
     <a href="{{ path('app_reclamation_new') }}">Créer une nouvelle Réclamation</a>
-            </tbody>
+            
 
+
+<section class="people04 cid-u76D6GhCcM" id="testimonials-4-u76D6GhCcM">
+          <div class="container">
+              
+              <div class="row mbr-masonry" data-masonry="{&quot;percentPosition&quot;: true }">
+              {% for reclamation in reclamations %}
+                  <div class="item features-without-image col-12 col-md-6 col-lg-4 active animate__animated animate__delay-1s animate__fadeIn">
+                      <div class="item-wrapper reclamation-card">
+                          <div class="card-box align-left">
+                              
+                              <div class="img-wrapper mt-4 mb-3">
+                                <img src="/FrontOffice/images/photo-1615572359976-1fe39507ed7b.jpeg" data-slide-to="0" data-bs-slide-to="0">
+
+                              </div>
+                              <h5 class="card-title mbr-fonts-style display-7">
+                                  <strong>{{ reclamation.idU.prenomUser }} {{ reclamation.idU.nomUser }}</strong>
+                              </h5>
+                              <p class="card-text mbr-fonts-style display-7">
+                                 <strong>Description :</strong>  {{ reclamation.descrirec }}<br>
+                                 <strong>Catégorie :</strong> {{ reclamation.categorierec }}<br>
+                                 <strong>Statut :</strong> {% if reclamation.statutrec == 'En Cours' %}
+                            <label class="badge badge-warning">{{ reclamation.statutrec }}</label>
+                                {% elseif reclamation.statutrec == 'Fermée' %}
+                                    <label class="badge badge-danger">{{ reclamation.statutrec }}</label>
+                                {% elseif reclamation.statutrec == 'Resolue' %}
+                                    <label class="badge badge-success">{{ reclamation.statutrec }}</label>
+                                {% endif %}<br>
+                                 <strong>Date :</strong> {{ reclamation.daterec ? reclamation.daterec|date('Y-m-d') : '' }}
+                              </p>
+                          </div>
+                          <a href="{{ path('app_reclamation_show', {'idrec': reclamation.idrec}) }}">voir</a>
+                          <a href="{{ path('app_reclamation_edit', {'idrec': reclamation.idrec}) }}">modifier</a>
+                      </div>
+                      
+                  </div>
+                {% endfor %}
+              </div>
+          </div>
+      </section>
 {% endblock %}
 
