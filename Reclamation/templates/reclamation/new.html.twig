@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Reclamation{% endblock %}
+ {% block stylesheets %}
+    <link rel="preconnect" href="{{asset('https://fonts.googleapis.com')}}">
+    <link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" crossorigin>
+    <link href="{{asset('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap')}}" rel="stylesheet">
+    <link href="{{asset('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <link href="{{asset('FrontOffice/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/styles.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/additional.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/animate.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/bootstrap-grid.min.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/bootstrap-reboot.min.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/jarallax.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/style-dropdown.css')}}" rel="stylesheet">
+    <style>
+        /* CSS to position the footer at the bottom */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f9fa; /* Adjust background color as needed */
+            padding: 20px 0; /* Adjust padding as needed */
+        }
+    </style>
+    {% endblock %}
+{% block body %}
+    <h1>Créer une nouvelle Réclamation</h1>
+
+    {{ include('reclamation/_form.html.twig') }}
+
+    <a href="{{ path('app_reclamation_index') }}">Retour à la liste</a>
+{% endblock %}
+

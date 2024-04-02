@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Commentaire{% endblock %}
+
+{% block body %}
+    <h1 class="comment-title">Créer un nouveau commentaire</h1>
+
+    <div class="comment-form">
+        {{ form_start(form) }}
+        <div style="display: none;">
+            {{ form_row(form.datecom) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.idrec, 'Description de la réclamation', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.idrec, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.idrec) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.contenucom, 'Contenu du commentaire', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.contenucom, {'attr': {'class': 'form-control'}}) }}
+               <div class="error-message">
+            {{ form_errors(form.contenucom) }} {# Affiche les erreurs de validation pour le contenucom #}
+    </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        {{ form_end(form) }}
+
+        <a href="{{ path('app_commentaire_index') }}" class="back-link">Retour à la liste des commentaires</a>
+    </div>
+{% endblock %}

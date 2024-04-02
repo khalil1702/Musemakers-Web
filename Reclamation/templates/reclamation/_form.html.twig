@@ -1,0 +1,33 @@
+{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+
+<div style="display: none;">
+    {{ form_row(form.daterec) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.descrirec, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.descrirec, {'attr': {'class': 'form-control'}}) }}
+    <div class="error-message">
+        {{ form_errors(form.descrirec) }} {# Affiche les erreurs de validation pour la description #}
+    </div>
+</div>
+
+<div class="form-group">
+    {{ form_label(form.categorierec, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.categorierec, {'attr': {'class': 'form-control'}}) }}
+    <div class="error-message">
+        {{ form_errors(form.categorierec) }} {# Affiche les erreurs de validation pour la catégorie #}
+    </div>
+</div>
+
+<div class="form-group">
+    {{ form_label(form.idu, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.idu, {'attr': {'class': 'form-control'}}) }}
+    <div class="error-message">
+        {{ form_errors(form.idu) }} {# Affiche les erreurs de validation pour le prénom #}
+    </div>
+</div>
+
+
+<button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

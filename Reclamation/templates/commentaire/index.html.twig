@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index des commentaires{% endblock %}
+
+{% block body %}
+    <h1>Index des commentaires</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Prenom</th>
+                <th>Nom</th>
+                <th>Description de la Reclamation</th>
+                <th>Contenu du Commentaire</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commentaire in commentaires %}
+            <tr>
+                <td>{{ commentaire.idrec.idu.prenomUser }}</td>
+                <td>{{ commentaire.idrec.idu.nomUser }}</td>
+                <td>{{ commentaire.idrec.descrirec }}</td>
+                <td>{{ commentaire.contenucom }}</td>
+                <td>{{ commentaire.datecom ? commentaire.datecom|date('Y-m-d') : '' }}</td>
+                
+                <td>
+                    <a href="{{ path('app_commentaire_show', {'idcom': commentaire.idcom}) }}">Voir</a>
+                    <a href="{{ path('app_commentaire_edit', {'idcom': commentaire.idcom}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun enregistrement trouvé.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_commentaire_new') }}">Créer un nouveau commentaire</a>
+{% endblock %}
