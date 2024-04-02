@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Oeuvre index{% endblock %}
+
+{% block affichageoeuvreclient %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .oeuvre-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .oeuvre-card {
+            flex: 0 0 300px; /* Largeur fixe de chaque carte */
+            margin-right: 10px; /* Espacement entre les cartes */
+            scroll-snap-align: start;
+        }
+
+        .oeuvre-card img {
+            height: 200px; /* Hauteur fixe de l'image */
+            object-fit: cover; /* Ajuster l'image pour remplir le conteneur tout en préservant son aspect */
+        }
+    </style>
+{% endblock %}
+
+  
+
+    <div class="oeuvre-carousel">
+        {% for oeuvre in oeuvres %}
+            <div class="oeuvre-card">
+                <a href="{{ path('app_oeuvre_showclient', {'idOeuvre': oeuvre.idOeuvre}) }}">
+                    <img src="{{ path('user_images', {'imageName': oeuvre.image}) }}" alt="{{ oeuvre.nomOeuvre }}">
+                    <h5>{{ oeuvre.nomOeuvre }}</h5>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+   
+
+{% endblock %}

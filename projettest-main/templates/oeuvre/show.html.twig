@@ -1,0 +1,43 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Oeuvre{% endblock %}
+
+{% block showoeuvre %}
+    <h1>Oeuvre</h1>
+
+    <table class="table">
+        <tbody>
+          
+            <tr>
+                <th>NomOeuvre</th>
+                <td>{{ oeuvre.nomOeuvre }}</td>
+            </tr>
+            <tr>
+                <th>CategorieOeuvre</th>
+                <td>{{ oeuvre.categorieOeuvre }}</td>
+            </tr>
+            <tr>
+                <th>PrixOeuvre</th>
+                <td>{{ oeuvre.prixOeuvre }}</td>
+            </tr>
+            <tr>
+                <th>Datecreation</th>
+                <td>{{ oeuvre.datecreation ? oeuvre.datecreation|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ oeuvre.description }}</td>
+            </tr>
+            <tr>
+           
+          <img src="{{ path('user_images', {'imageName': oeuvre.image}) }}" alt="{{ oeuvre.nomOeuvre  }}" class="oeuvre-image" style="width: 300px; height: 200px;">
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_oeuvre_index') }}">back to list</a>
+
+    <a href="{{ path('app_oeuvre_edit', {'idOeuvre': oeuvre.idOeuvre}) }}">edit</a>
+
+    {{ include('oeuvre/_delete_form.html.twig') }}
+{% endblock %}

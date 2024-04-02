@@ -1,0 +1,23 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Les avis par rapport a l'oeuvre {{ oeuvre.nomOeuvre }}{% endblock %}
+
+{% block avisadmin %}
+    <h1>Les avis par rapport a l'oeuvre {{ oeuvre.nomOeuvre }}</h1>
+    
+    {% if avis is not empty %}
+        <ul>
+            {% for avi in avis %}
+                <li>
+                    <strong>Commentaire:</strong> {{ avi.commentaire }}<br>
+                    <strong>Note:</strong> {{ avi.note }}<br>
+                    <!-- Autres détails de l'avis si nécessaire -->
+                    <!-- Formulaire pour le bouton "Supprimer" -->
+                   
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun avis trouvé pour cette œuvre.</p>
+    {% endif %}
+{% endblock %}

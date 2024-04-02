@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+    <link rel="preconnect" href="{{asset('https://fonts.googleapis.com')}}">
+    <link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" crossorigin>
+    <link href="{{asset('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap')}}" rel="stylesheet">
+    <link href="{{asset('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <link href="{{asset('FrontOffice/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/styles.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/additional.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/animate.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/bootstrap-grid.min.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/bootstrap-reboot.min.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/jarallax.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/style-dropdown.css')}}" rel="stylesheet">
+    <style>
+        /* CSS to position the footer at the bottom */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f9fa; /* Adjust background color as needed */
+            padding: 20px 0; /* Adjust padding as needed */
+        }
+    </style>
+    {% endblock %}
+</head>
+<body>      
+<section class="menu menu2 cid-u76D6GfvJg" once="menu" id="menu-5-u76D6GfvJg" style="margin-top: 50px;">
+        <section class="top-bar animated-header">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                          <a class="navbar-brand" href="index.html">
+                            <img src="{{asset('FrontOffice/images/logo-bg.png')}}" class="img-fluid" alt="" width="100" height="100">
+                          </a>
+                          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                              aria-expanded="false" aria-label="Toggle navigation">
+                              <span class="navbar-toggler-icon"></span>
+                          </button>
+      
+                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                              <ul class="navbar-nav ml-auto">
+                                  <li class="nav-item">
+                                      <a class="nav-link" href="index.html">Home
+                                          <span class="sr-only">(current)</span>
+                                      </a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" href="about.html">About</a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" href="service.html">Service</a>
+                                  </li>
+                                  <li class="nav-item dropdown">
+                                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                          aria-expanded="false">
+                                          Pages
+                                      </a>
+                                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                          <a class="dropdown-item" href="404.html">404 Page</a>
+                                          <a class="dropdown-item" href="gallery.html">Gallery</a>
+                                          <a class="dropdown-item" href="single-post.html">Single Post</a>
+                                      </div>
+                                  </li>
+                                  <li class="nav-item dropdown">
+                                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                          aria-expanded="false">
+                                          Blog
+                                      </a>
+                                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                          <a class="dropdown-item" href="blog-fullwidth.html">Blog Full</a>
+                                          <a class="dropdown-item" href="blog-left-sidebar.html">Blog Left sidebar</a>
+                                          <a class="dropdown-item" href="blog-right-sidebar.html">Blog Right sidebar</a>
+                                      </div>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" href="contact.html">Contact</a>
+                                  </li>
+                              </ul>
+                          </div>
+                      </nav>
+                  </div>
+              </div>
+          </div>
+      </section>
+      </section>
+      <section class="header18 cid-u76D6GfPy6 mbr-fullscreen" data-bg-video="https://www.youtube.com/watch?v=3ZycPk_2llg" id="hero-15-u76D6GfPy6">
+        <div class="mbr-overlay" style="opacity: 0.3; background-color: rgb(0, 0, 0);"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="content-wrap col-12 col-md-8">
+                    <h1 class="mbr-section-title mbr-fonts-style mbr-white mb-4 display-1 animate__animated animate__delay-1s animate__fadeInUp">
+                        <strong>Découvrez l'Art</strong>
+                    </h1>
+                    <p class="mbr-fonts-style mbr-text mbr-white mb-4 display-7 animate__animated animate__delay-1s animate__fadeInUp">Plongez dans un monde d'expressions artistiques uniques et réservez votre place pour des expositions exclusives.</p>
+                    <div class="mbr-section-btn">
+                        <a class="btn btn-white-outline display-7 animate__animated animate__delay-1s animate__fadeInUp" href="#">Commencer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <style>
+        .header18 {
+            position: relative;
+            z-index: 1; /* Ensure the video section appears above other elements */
+        }
+    </style>                  
+ 
+      {% block showdetailsoeuvre %} {% endblock %}
+      {% block addavis %} {% endblock %}
+      {% block succes %}  {% endblock %}
+      {% block historiqueavis %} {% endblock %}
+      {% block editavis %} {% endblock %}
+      {% block affichageoeuvreclient1 %} {% endblock %}
+     
+      <section class="footer2 cid-u76D6Gi8zy" id="footer-5-u76D6Gi8zy">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-lg-6 center mt-2 mb-3">
+              <p class="mbr-fonts-style copyright mb-0 display-7">
+                © 2024 Galerie d&#x27;Art Moderne. Tous droits réservés.
+              </p>
+            </div>
+            <div class="col-12 col-lg-6 center">
+              <div class="row-links mt-2 mb-3">
+                <ul class="row-links-soc">
+                  <li class="row-links-soc-item mbr-fonts-style display-7">
+                    <a href="#" class="text-white">Accueil</a>
+                  </li>
+                  <li class="row-links-soc-item mbr-fonts-style display-7">
+                    <a href="#" class="text-white">Expositions</a>
+                  </li>
+                  <li class="row-links-soc-item mbr-fonts-style display-7">
+                    <a href="#" class="text-white">Réservations</a>
+                  </li>
+                  <li class="row-links-soc-item mbr-fonts-style display-7">
+                    <a href="#" class="text-white">Contact</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
+
+
+    
+
+
+
+    {% block javascripts %}
+<script src="{{asset('https://code.jquery.com/jquery-3.3.1.slim.min.js')}}"></script>
+<script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')}}"></script>
+<script src="{{asset('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')}}"></script>
+
+<script src="{{asset('FrontOffice/js/formoid.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/script.js')}}"></script>
+<script src="{{asset('FrontOffice/js/navbar-dropdown.js')}}"></script>
+<script src="{{asset('FrontOffice/js/smooth-scroll.js')}}"></script>
+<script src="{{asset('FrontOffice/js/jarallax.js')}}"></script>
+<script src="{{asset('FrontOffice/js/index.js')}}"></script>
+<script src="{{asset('FrontOffice/js/imagesloaded.pkgd.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/scroll-gallery.js')}}"></script>
+  
+  <script>
+
+    (function(){
+      var animationInput = document.createElement('input');
+      animationInput.setAttribute('name', 'animation');
+      animationInput.setAttribute('type', 'hidden');
+      document.body.append(animationInput);
+    })();
+
+  </script>
+
+{% endblock %}
+</body>
+</html>

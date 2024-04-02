@@ -1,0 +1,28 @@
+{% extends 'nav_foot_client.html.twig' %}
+
+{% block historiqueavis %}
+  <div class="d-flex justify-content-between align-items-center">
+        <h1>Historique des Avis</h1>
+        <a href="{{ path('app1_oeuvre_index') }}" class="btn btn-primary">Retour aux oeuvres</a>
+    </div>
+    {% if avis is not empty %}
+        <ul>
+            {% for avisItem in avis %}
+                <li>
+                    <strong>Commentaire:</strong> {{ avisItem.commentaire }}<br>
+                    <strong>Note:</strong> {{ avisItem.note }}<br>
+                    <!-- Ajoutez d'autres détails de l'avis si nécessaire -->
+                    <a href="{{ path('app_avis_edit', {'idAvis': avisItem.idAvis}) }}" class="btn btn-primary">Modifier avis</a>
+                    <form action="{{ path('app_avis_delete', {'idAvis': avisItem.idAvis}) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet avis?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avisItem.idAvis) }}">
+                        <button type="submit" class="btn btn-danger">Supprimer avis</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun avis trouvé.</p>
+    {% endif %}
+{% endblock %}
+

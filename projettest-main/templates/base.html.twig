@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+    <link rel="preconnect" href="{{asset('https://fonts.googleapis.com')}}">
+    <link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" crossorigin>
+    <link href="{{asset('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap')}}" rel="stylesheet">
+    <link href="{{asset('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <link href="{{asset('FrontOffice/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/styles.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/additional.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/animate.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/bootstrap-grid.min.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/bootstrap-reboot.min.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/jarallax.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/style-dropdown.css')}}" rel="stylesheet">
+    <style>
+        /* CSS to position the footer at the bottom */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f9fa; /* Adjust background color as needed */
+            padding: 20px 0; /* Adjust padding as needed */
+        }
+    </style>
+    {% endblock %}
+</head>
+<body>                        
+ <section class="menu menu2 cid-u76D6GfvJg" once="menu" id="menu-5-u76D6GfvJg">
+        <section class="top-bar animated-header">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                          <a class="navbar-brand" href="index.html">
+                            <img src="{{asset('FrontOffice/images/logo-bg.png')}}" class="img-fluid" alt="" width="100" height="100">
+                          </a>
+                          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                              aria-expanded="false" aria-label="Toggle navigation">
+                              <span class="navbar-toggler-icon"></span>
+                          </button>
+      
+                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                              <ul class="navbar-nav ml-auto">
+                                  <li class="nav-item">
+                                      <a class="nav-link" href="index.html">Home
+                                          <span class="sr-only">(current)</span>
+                                      </a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" href="about.html">About</a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" href="service.html">Service</a>
+                                  </li>
+                                  <li class="nav-item dropdown">
+                                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                          aria-expanded="false">
+                                          Pages
+                                      </a>
+                                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                          <a class="dropdown-item" href="404.html">404 Page</a>
+                                          <a class="dropdown-item" href="gallery.html">Gallery</a>
+                                          <a class="dropdown-item" href="single-post.html">Single Post</a>
+                                      </div>
+                                  </li>
+                                  <li class="nav-item dropdown">
+                                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                          aria-expanded="false">
+                                          Blog
+                                      </a>
+                                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                          <a class="dropdown-item" href="blog-fullwidth.html">Blog Full</a>
+                                          <a class="dropdown-item" href="blog-left-sidebar.html">Blog Left sidebar</a>
+                                          <a class="dropdown-item" href="blog-right-sidebar.html">Blog Right sidebar</a>
+                                      </div>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" href="contact.html">Contact</a>
+                                  </li>
+                              </ul>
+                          </div>
+                      </nav>
+                  </div>
+              </div>
+          </div>
+      </section>
+      </section>
+      <section class="header18 cid-u76D6GfPy6 mbr-fullscreen" data-bg-video="https://www.youtube.com/watch?v=3ZycPk_2llg" id="hero-15-u76D6GfPy6">
+        <div class="mbr-overlay" style="opacity: 0.3; background-color: rgb(0, 0, 0);"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="content-wrap col-12 col-md-8">
+                    <h1 class="mbr-section-title mbr-fonts-style mbr-white mb-4 display-1 animate__animated animate__delay-1s animate__fadeInUp">
+                        <strong>Découvrez l'Art</strong>
+                    </h1>
+                    <p class="mbr-fonts-style mbr-text mbr-white mb-4 display-7 animate__animated animate__delay-1s animate__fadeInUp">Plongez dans un monde d'expressions artistiques uniques et réservez votre place pour des expositions exclusives.</p>
+                    <div class="mbr-section-btn">
+                        <a class="btn btn-white-outline display-7 animate__animated animate__delay-1s animate__fadeInUp" href="#">Commencer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <style>
+        .header18 {
+            position: relative;
+            z-index: 1; /* Ensure the video section appears above other elements */
+        }
+    </style>
+  
+<section class="gallery07 cid-u76D6GfNW1" id="gallery-16-u76D6GfNW1">
+    <div class="container-fluid gallery-wrapper">
+        <div class="row justify-content-center">
+            <div class="col-12 content-head">
+                <div class="mbr-section-head mb-5">
+                    <h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                        <strong>Galerie d&#x27;Art Inspirante</strong>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+               
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+
+
+          <style>
+        
+      </style>
+       {% block affichageoeuvreclient %}
+                   
+                {% endblock %}
+      <section class="features03 cid-u76D6GfSIP" id="events-1-u76D6GfSIP">
+          <div class="container-fluid">
+              <div class="row justify-content-center mb-5">
+                  <div class="col-12 content-head">
+                      <div class="mbr-section-head">
+                          <h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                              <strong>Expositions à Venir</strong>
+                          </h4>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="item features-image col-12 col-md-6 col-lg-3 active">
+                      <div class="item-wrapper">
+                          <div class="item-img mb-3">
+                              <img src="{{asset('FrontOffice/images/photo-1576859933830-7c9ab41142b7.jpeg')}}">
+
+                          </div>
+                          <div class="item-content align-left">
+                              <h6 class="item-subtitle mbr-fonts-style mb-3 display-5">
+                                  <strong><a class="text-black fw-bold" href="#">Exposition Printanière Éblouissante</a></strong>
+                              </h6>
+                              <p class="mbr-text mbr-fonts-style mb-3 display-7">20 Avril 2024</p>
+                              <p class="mbr-text mbr-fonts-style mb-3 display-7">Explorez une collection éclatante de chefs-d&#x27;œuvre floraux et laissez-vous emporter par la beauté de la nature.</p>
+                              <div class="mbr-section-btn item-footer"><a href="#" class="btn item-btn btn-primary display-7">Réserver</a></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-image col-12 col-md-6 col-lg-3">
+                      <div class="item-wrapper">
+                          <div class="item-img mb-3">
+                            <img src="{{ asset('FrontOffice/images/photo-1609065846641-a685ea20e58c.jpeg') }}" data-slide-to="1" data-bs-slide-to="1">
+
+
+                          </div>
+                          <div class="item-content align-left">
+                              <h6 class="item-subtitle mbr-fonts-style mb-3 display-5">
+                                  <strong><a class="text-black fw-bold" href="#">Exposition Estivale Vibrante</a></strong>
+                              </h6>
+                              <p class="mbr-text mbr-fonts-style mb-3 display-7">15 Juin 2024</p>
+                              <p class="mbr-text mbr-fonts-style mb-3 display-7">Plongez dans un océan de couleurs vives et de créativité débordante lors de notre exposition estivale incontournable.</p>
+                              <div class="mbr-section-btn item-footer"><a href="#" class="btn item-btn btn-primary display-7">Réserver</a></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-image col-12 col-md-6 col-lg-3">
+                      <div class="item-wrapper">
+                          <div class="item-img mb-3">
+                              <img src="{{ asset('FrontOffice/images/photo-1564399580075-5dfe19c205f3.jpeg') }}" data-slide-to="2" data-bs-slide-to="2">
+
+                          </div>
+                          <div class="item-content align-left">
+                              <h6 class="item-subtitle mbr-fonts-style mt-0 mb-3 display-5">
+                                  <strong><a class="text-black fw-bold" href="#">Exposition Automnale Envoûtante</a></strong>
+                              </h6>
+                              <p class="mbr-text mbr-fonts-style mb-3 display-7">10 Septembre 2024</p>
+                              <p class="mbr-text mbr-fonts-style mb-3 display-7">Laissez-vous envoûter par les tons chauds de l&#x27;automne et découvrez des œuvres captivantes qui éveilleront vos sens.</p>
+                              <div class="mbr-section-btn item-footer"><a href="#" class="btn item-btn btn-primary display-7">Réserver</a></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-image col-12 col-md-6 col-lg-3">
+                      <div class="item-wrapper">
+                          <div class="item-img mb-3">
+                            <img src="{{ asset('FrontOffice/images/photo-1605429523419-d828acb941d9.jpeg') }}" data-slide-to="3" data-bs-slide-to="3">
+
+                          </div>
+                          <div class="item-content align-left">
+                              <h6 class="item-subtitle mbr-fonts-style mt-0 mb-3 display-5">
+                                  <strong><a class="text-black fw-bold" href="#">Exposition Hivernale Magique</a></strong>
+                              </h6>
+                              <p class="mbr-text mbr-fonts-style mb-3 display-7">5 Décembre 2024</p>
+                              <p class="mbr-text mbr-fonts-style mb-3 display-7">Plongez dans un univers hivernal féerique où la magie de l&#x27;art vous réchauffera le cœur et l&#x27;esprit.</p>
+                              <div class="mbr-section-btn item-footer"><a href="#" class="btn item-btn btn-primary display-7">Réserver</a></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+       
+      </style>
+      <section class="header18 cid-u76D6GfYdC mbr-fullscreen" data-bg-video="https://www.youtube.com/watch?v=3ZycPk_2llg" id="video-5-u76D6GfYdC">
+        <div class="mbr-overlay" style="opacity: 0.3; background-color: rgb(0, 0, 0);"></div>
+        <div class="container-fluid">
+          <div class="row">
+          </div>
+        </div>
+      </section>
+          <style>
+      
+      
+      </style>
+      <section class="list05 cid-u76D6Gg9qv" id="faq-3-u76D6Gg9qv">
+          <div class="container">
+              <div class="col-12 mb-5 content-head">
+                  <h3 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                      <strong>Questions Fréquentes</strong>
+                  </h3>   
+              </div>
+              <div class="row justify-content-center">
+                  <div class="col-12 col-lg-8">
+                      <div class="item features-without-image col-12 active">
+                          <div class="item-wrapper">
+                              <h5 class="mbr-card-title mbr-fonts-style mt-0 mb-3 display-5">
+                                  <strong>Comment réserver une exposition?</strong></h5>
+                              <p class="mbr-text mbr-fonts-style mt-0 mb-3 display-7">
+                                  Pour réserver une exposition, il vous suffit de cliquer sur le bouton &#x27;Réserver&#x27; et de suivre les instructions simples.
+                              </p>
+                          </div>
+                      </div>
+                      <div class="item features-without-image col-12">
+                          <div class="item-wrapper">
+                              <h5 class="mbr-card-title mbr-fonts-style mt-0 mb-3 display-5">
+                                  <strong>Puis-je annuler ma réservation?</strong></h5>
+                              <p class="mbr-text mbr-fonts-style mt-0 mb-3 display-7">
+                                  Oui, vous pouvez annuler votre réservation en nous contactant directement par e-mail ou par téléphone.
+                              </p>
+                          </div>
+                      </div>
+                      <div class="item features-without-image col-12">
+                          <div class="item-wrapper">
+                              <h5 class="mbr-card-title mbr-fonts-style mt-0 mb-3 display-5">
+                                  <strong>Que faire en cas de réclamation?</strong></h5>
+                              <p class="mbr-text mbr-fonts-style mt-0 mb-3 display-7">
+                                  En cas de réclamation, veuillez remplir le formulaire de réclamation sur notre site et notre équipe vous assistera dans les plus brefs délais.
+                              </p>
+                          </div>
+                      </div>
+                        <div class="item features-without-image col-12">
+                          <div class="item-wrapper">
+                              <h5 class="mbr-card-title mbr-fonts-style mt-0 mb-3 display-5">
+                                  <strong>Y a-t-il des visites guidées disponibles?</strong></h5>
+                              <p class="mbr-text mbr-fonts-style mt-0 mb-3 display-7">
+                                  Oui, nous proposons des visites guidées pour certaines expositions. Veuillez consulter les détails de l&#x27;événement pour plus d&#x27;informations.
+                              </p>
+                          </div>
+                      </div>
+                        <div class="item features-without-image col-12">
+                          <div class="item-wrapper">
+                              <h5 class="mbr-card-title mbr-fonts-style mt-0 mb-3 display-5">
+                                  <strong>Puis-je acheter des œuvres exposées?</strong></h5>
+                              <p class="mbr-text mbr-fonts-style mt-0 mb-3 display-7">
+                                  Certaines œuvres sont disponibles à l&#x27;achat. Contactez-nous pour plus d&#x27;informations sur l&#x27;acquisition d&#x27;œuvres d&#x27;art.
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+          <style>
+        
+      </style>
+      <section class="people03 cid-u76D6GgV4e" id="guests-1-u76D6GgV4e">
+          <div class="container-fluid">
+              <div class="row justify-content-center">
+                  <div class="col-12 content-head">
+                      <div class="mbr-section-head mb-5">
+                          <h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                              <strong>Rencontrez nos Invités</strong>
+                          </h4>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="item features-image col-12 col-md-6 col-lg-3">
+                      <div class="item-wrapper">
+                          <div class="item-img mb-3">
+                              <img src="{{ asset('FrontOffice/images/photo-1541881856704-3c4b2896c0f8.jpeg') }}" >
+
+                          </div>
+                          <div class="item-content align-left">
+                              <h6 class="item-subtitle mbr-fonts-style display-5">
+                                  <strong>Lucien Beaumont</strong></h6>
+                              <p class="mbr-text mbr-fonts-style display-7">Artiste Visionnaire</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-image col-12 col-md-6 col-lg-3">
+                      <div class="item-wrapper">
+                          <div class="item-img mb-3">
+                              <img src="{{ asset('FrontOffice/images/photo-1644945570917-1585f682efaa.jpeg') }}" >
+
+                          </div>
+                          <div class="item-content align-left">
+                              <h6 class="item-subtitle mbr-fonts-style display-5">
+                                  <strong>Amélie Rousseau</strong></h6>
+                              <p class="mbr-text mbr-fonts-style display-7">Maître de la Couleur</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-image col-12 col-md-6 col-lg-3">
+                      <div class="item-wrapper">
+                          <div class="item-img mb-3">
+                              <img src="{{ asset('FrontOffice/images/photo-1581803118522-7b72a50f7e9f.jpeg') }}" >
+
+                          </div>
+                          <div class="item-content align-left">
+                              <h6 class="item-subtitle mbr-fonts-style display-5">
+                                  <strong>Étienne Lefevre</strong></h6>
+                              <p class="mbr-text mbr-fonts-style display-7">Sculpteur Émérite</p>
+                          </div>
+                      </div>
+                  </div>
+            <div class="item features-image col-12 col-md-6 col-lg-3">
+              <div class="item-wrapper">
+                <div class="item-img mb-3">
+                  <img src="{{ asset('FrontOffice/images/photo-1535704882196-765e5fc62a53.jpeg') }}" >
+
+                </div>
+                <div class="item-content align-left">
+                  <h6 class="item-subtitle mbr-fonts-style display-5">
+                    <strong>Camille Dubois</strong>
+                  </h6>
+                  <p class="mbr-text mbr-fonts-style display-7">Photographe Inspirée</p>
+                </div>
+              </div>
+            </div>
+              </div>
+          </div>
+      </section>
+          <style>
+      
+      
+      </style>
+      <section class="features10 cid-u76D6GgaWd" id="metrics-2-u76D6GgaWd">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="item features-without-image col-12 col-md-6 col-lg-4">
+              <div class="item-wrapper">
+                <div class="card-box align-left">
+                  <h5 class="card-title mbr-fonts-style display-1">
+                    <strong>1200+</strong>
+                  </h5>
+                  <p class="card-text mbr-fonts-style mb-3 display-7">
+                    Œuvres Éblouissantes
+                  </p>            
+                </div>
+              </div>
+            </div>
+            <div class="item features-without-image col-12 col-md-6 col-lg-4">
+              <div class="item-wrapper">
+                <div class="card-box align-left">
+                  <h5 class="card-title mbr-fonts-style display-1">
+                    <strong>500+</strong>
+                  </h5>
+                  <p class="card-text mbr-fonts-style mb-3 display-7">
+                    Expositions Uniques
+                  </p>            
+                </div>
+              </div>
+            </div>
+            <div class="item features-without-image col-12 col-md-6 col-lg-4">
+              <div class="item-wrapper">
+                <div class="card-box align-left">
+                  <h5 class="card-title mbr-fonts-style display-1">
+                    <strong>99%</strong>
+                  </h5>
+                  <p class="card-text mbr-fonts-style mb-3 display-7">
+                    Satisfaction Clientèle
+                  </p>            
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+          <style>
+      
+      </style>
+      <section class="gallery09 cid-u76D6Gg15a" id="gallery-9-u76D6Gg15a">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-12 col-md-12 col-lg-4 main-text">
+              <div class="">
+                <h5 class="mbr-section-title mbr-fonts-style mt-0 mb-4 display-2">
+                  <strong>Art Vivant</strong>
+                </h5>
+                <h6 class="mbr-section-subtitle mbr-fonts-style mt-0 mb-4 display-7">
+                  Explorez un Monde d&#x27;Émotions et de Créativité à travers nos Collections Exclusives d&#x27;Art Contemporain.
+                </h6>
+              </div>
+            </div>
+            <div class="col-lg-8 side-features row">
+              <div class="item features-image col-12 col-md-6 col-lg-6 active">
+                <div class="item-wrapper">
+                  <div class="item-img">
+                    <img src="{{ asset('FrontOffice/images/photo-1569783721854-33a99b4c0bae.jpeg') }}" >
+
+                  </div>
+                </div>
+              </div>
+              <div class="item features-image col-12 col-md-6 col-lg-6 active">
+                <div class="item-wrapper">
+                  <div class="item-img">
+                    <img src="{{ asset('FrontOffice/images/photo-1565452171067-f2b1384f958d.jpeg') }}" >
+
+                  </div>
+                </div>
+              </div>
+              <div class="item features-image col-12 col-md-6 col-lg-6 active">
+                <div class="item-wrapper">
+                  <div class="item-img">
+                    <img src="{{ asset('FrontOffice/images/photo-1518998053901-5348d3961a04.jpeg') }}" >
+
+                  </div>
+                </div>
+              </div>
+              <div class="item features-image col-12 col-md-6 col-lg-6 active">
+                <div class="item-wrapper">
+                  <div class="item-img">
+                    <img src="{{ asset('FrontOffice/images/photo-1563000215-e31a8ddcb2d0.jpeg') }}" >
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+          <style>
+      
+      </style>
+      
+        <section class="article01 cid-u76D6GhAFH" id="about-us-1-u76D6GhAFH">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="card col-md-12 col-lg-12">
+                <div class="card-wrapper">
+                  <div class="row">
+                    <div class="image-wrapper col-12 col-sm-6 justify-content-center">
+                        <img src="{{ asset('FrontOffice/images/photo-1591163088186-367c5daff7b0.jpeg') }}" >
+
+                    </div>
+                    <div class="image-wrapper col-12 col-sm-6 justify-content-center">
+                        <img src="{{ asset('FrontOffice/images/photo-1608371945786-d47d3cdd31da.jpeg') }}" >
+
+                    </div>
+                  </div>
+      
+                  <div class="card-box align-left mb-3 card-content-text">
+                    <h4 class="card-title mbr-fonts-style mbr-white mb-0 display-5">
+                      <strong>Notre Mission Artistique</strong>
+                    </h4>
+                    <p class="mbr-text mbr-fonts-style mt-3 mb-0 display-7">
+                    Chez Art Vivant, nous croyons en la puissance de l&#x27;art pour inspirer, émouvoir et transformer.
+                    </p>
+                    <p class="mbr-text mbr-fonts-style mt-3 mb-0 display-7">
+                    Nous nous engageons à promouvoir des artistes talentueux et à offrir une expérience immersive à nos visiteurs.
+                    </p>
+                    <p class="mbr-text mbr-fonts-style mt-3 mb-0 display-7">
+                    Rejoignez-nous dans notre quête pour célébrer la beauté et la diversité de l&#x27;expression artistique.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+          <style>
+    
+      </style>
+      <section class="people04 cid-u76D6GhCcM" id="testimonials-4-u76D6GhCcM">
+          <div class="container">
+              <div class="row mb-5 justify-content-center">
+                  <div class="col-12 mb-0 content-head">
+                      <h3 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                          <strong>Témoignages</strong>
+                      </h3>	
+                  </div>
+              </div>
+              <div class="row mbr-masonry" data-masonry="{&quot;percentPosition&quot;: true }">
+                  <div class="item features-without-image col-12 col-md-6 col-lg-4 active">
+                      <div class="item-wrapper">
+                          <div class="card-box align-left">
+                              <p class="card-text mbr-fonts-style display-7">
+                                  Une expérience artistique incroyable! Chaque œuvre raconte une histoire unique.
+                              </p>
+                              <div class="img-wrapper mt-4 mb-3">
+                                <img src="{{ asset('FrontOffice/images/photo-1615572359976-1fe39507ed7b.jpeg') }}" data-slide-to="0" data-bs-slide-to="0">
+
+                              </div>
+                              <h5 class="card-title mbr-fonts-style display-7">
+                                  <strong>Pierre Lemoine</strong>
+                              </h5>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-without-image col-12 col-md-6 col-lg-4">
+                      <div class="item-wrapper">
+                          <div class="card-box align-left">
+                              <p class="card-text mbr-fonts-style display-7">
+                                  Art Vivant a révolutionné ma perception de l&#x27;art contemporain. Un lieu incontournable!
+                              </p>
+                              <div class="img-wrapper mt-4 mb-3">
+                                <img src="{{ asset('FrontOffice/images/photo-1536763225213-b5592b525630.jpeg') }}" data-slide-to="1" data-bs-slide-to="1">
+
+                              </div>
+                              <h5 class="card-title mbr-fonts-style display-7">
+                                  <strong>Sophie Bouchard</strong>
+                              </h5>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-without-image col-12 col-md-6 col-lg-4">
+                      <div class="item-wrapper">
+                          <div class="card-box align-left">
+                              <p class="card-text mbr-fonts-style display-7">
+                                  Des expositions captivantes et un personnel passionné. Une destination artistique inégalée.
+                              </p>
+                              <div class="img-wrapper mt-4 mb-3">
+                                <img src="{{ asset('FrontOffice/images/photo-1489980721706-f487dab89c24.jpeg') }}" data-slide-to="2" data-bs-slide-to="2">
+
+                              </div>
+                              <h5 class="card-title mbr-fonts-style display-7">
+                                  <strong>Antoine Girard</strong>
+                              </h5>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+          <style>
+        
+      </style>
+      <section class="features03 cid-u76D6Gh3Js" id="partners-1-u76D6Gh3Js">
+          <div class="container-fluid">
+              <div class="row justify-content-center mb-5">
+                  <div class="col-12 content-head">
+                      <div class="mbr-section-head">
+                          <h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                              <strong>Nos Partenaires</strong>
+                          </h4>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="item features-image col-12 col-md-6 col-sm-6 col-lg-2 active">
+                      <div class="item-wrapper">
+                          <div class="item-img">
+                              <img src="assets/images/photo-1651044450619-5ce74d316987.jpeg" data-slide-to="1" data-bs-slide-to="1">
+                              <img src="{{ asset('FrontOffice/images/photo-1617727553252-65863c156eb0.jpeg') }}" data-slide-to="1" data-bs-slide-to="1">
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-image col-12 col-md-6 col-sm-6 col-lg-2">
+                      <div class="item-wrapper">
+                          <div class="item-img">
+                              <img src="{{ asset('FrontOffice/images/photo-1617727553252-65863c156eb0.jpeg') }}" data-slide-to="2" data-bs-slide-to="2">
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-image col-12 col-md-6 col-sm-6 col-lg-2">
+                      <div class="item-wrapper">
+                          <div class="item-img">
+                              <img src="{{ asset('FrontOffice/images/hoto-1554463529-e27854014799.jpeg') }}" data-slide-to="3" data-bs-slide-to="3">
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-image col-12 col-md-6 col-sm-6 col-lg-2">
+                      <div class="item-wrapper">
+                          <div class="item-img">
+                              <img src="{{ asset('FrontOffice/images/photo-1502828331539-51c709e80300.jpeg') }}" data-slide-to="4" data-bs-slide-to="4">
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-image col-12 col-md-6 col-sm-6 col-lg-2">
+                      <div class="item-wrapper">
+                          <div class="item-img">
+                            <img src="{{ asset('FrontOffice/images/photo-1646825461394-ebd1800141d1.jpeg') }}" data-slide-to="5" data-bs-slide-to="5">
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-image col-12 col-md-6 col-sm-6 col-lg-2">
+                      <div class="item-wrapper">
+                          <div class="item-img">
+                            <img src="{{ asset('FrontOffice/images/photo-1651853082689-706323a31427.jpeg') }}" data-slide-to="6" data-bs-slide-to="6">
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+          <style>
+      
+      </style>
+      <section class="gallery10 cid-u76D6GhtJ2" id="features-61-u76D6GhtJ2">
+        <div class="container-fluid">
+            <div class="loop-container">
+              <div class="item display-1" data-linewords="
+                Design Époustouflant *
+                Réservations Faciles *
+                Expositions Enivrantes *
+                Réclamations Express *
+                Navigation Intuitive *
+                Réactivité Maximale *" 
+              data-direction="-1" data-speed="0.05">
+              </div>
+              <div class="item display-1" data-linewords="
+                Design Époustouflant *
+                Réservations Faciles *
+                Expositions Enivrantes *
+                Réclamations Express *
+                Navigation Intuitive *
+                Réactivité Maximale *" 
+              data-direction="-1" data-speed="0.05">
+              </div>
+            </div>   
+        </div>
+      </section>
+          <style>
+        
+      </style>
+      <section class="pricing1 cid-u76D6GiuJU" id="pricing-cards-1-u76D6GiuJU">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12 content-head">
+              <div class="mbr-section-head mb-5">
+                <h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                  <strong>Nos Tarifs</strong>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="item features-without-image col-12 col-md-6 col-lg-3 item-mb">
+              <div class="item-wrapper">
+                <div class="item-head">
+                  <h5 class="item-title mbr-fonts-style mb-0 display-5">
+                    <strong>Basique</strong>
+                  </h5>
+                  <h6 class="item-subtitle mbr-fonts-style mt-0 mb-0 display-7">
+                    <strong>9.99</strong>/mois
+                  </h6>
+                </div>
+                <div class="item-content">
+                  <p class="mbr-text mbr-fonts-style display-7">Accès aux expositions standard, réservation d&#x27;une exposition à la fois.</p>
+                </div>
+                <div class="mbr-section-btn item-footer"><a href="" class="btn item-btn btn-primary display-7">Choisissez</a></div>
+              </div>
+            </div>
+            <div class="item features-without-image col-12 col-md-6 col-lg-3 item-mb">
+              <div class="item-wrapper">
+                <div class="item-head">
+                  <h5 class="item-title mbr-fonts-style mb-0 display-5">
+                    <strong>Standard</strong>
+                  </h5>
+                  <h6 class="item-subtitle mbr-fonts-style mt-0 mb-0 display-7">
+                    <strong>19.99</strong>/mois
+                  </h6>
+                </div>
+                <div class="item-content">
+                  <p class="mbr-text mbr-fonts-style display-7">Accès illimité aux expositions, réservation de plusieurs expositions simultanément.</p>
+                </div>
+                <div class="mbr-section-btn item-footer"><a href="" class="btn item-btn btn-primary display-7">Choisissez</a></div>
+              </div>
+            </div>
+            <div class="item features-without-image col-12 col-md-6 col-lg-3 item-mb">
+              <div class="item-wrapper">
+                <div class="item-head">
+                  <h5 class="item-title mbr-fonts-style mb-0 display-5">
+                    <strong>Premium</strong>
+                  </h5>
+                  <h6 class="item-subtitle mbr-fonts-style mt-0 mb-0 display-7">
+                    <strong>29.99</strong>/mois
+                  </h6>
+                </div>
+                <div class="item-content">
+                  <p class="mbr-text mbr-fonts-style display-7">Expérience VIP avec accès exclusif aux nouvelles expositions et priorité de réservation.</p>
+                </div>
+                <div class="mbr-section-btn item-footer"><a href="" class="btn item-btn btn-primary display-7">Choisissez</a></div>
+              </div>
+            </div>
+            <div class="item features-without-image col-12 col-md-6 col-lg-3 item-mb">
+              <div class="item-wrapper">
+                <div class="item-head">
+                  <h5 class="item-title mbr-fonts-style mb-0 display-5">
+                    <strong>Ultimate</strong>
+                  </h5>
+                  <h6 class="item-subtitle mbr-fonts-style mt-0 mb-0 display-7">
+                    <strong>49.99</strong>/mois
+                  </h6>
+                </div>
+                <div class="item-content">
+                  <p class="mbr-text mbr-fonts-style display-7">Le summum de l&#x27;expérience artistique avec accès illimité, réservations prioritaires et cadeaux exclusifs.</p>
+                </div>
+                <div class="mbr-section-btn item-footer"><a href="" class="btn item-btn btn-primary display-7">Choisissez</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+          <style>
+      
+      </style>
+      <section class="gallery10 cid-u76D6Gi0AQ" id="features-69-u76D6Gi0AQ">
+        <div class="container-fluid">
+            <div class="loop-container">
+              <div class="item display-1" data-linewords="
+                Parcourez notre galerie d&#x27;art virtuelle avec des œuvres uniques. *
+                Réservez vos expositions préférées en quelques clics seulement. *" 
+              data-direction="-1" data-speed="0.05">
+              </div>
+              <div class="item display-1" data-linewords="
+                Parcourez notre galerie d&#x27;art virtuelle avec des œuvres uniques. *
+                Réservez vos expositions préférées en quelques clics seulement. *" 
+              data-direction="-1" data-speed="0.05">
+              </div>
+            </div>   
+        </div>
+      </section>
+          <style>
+      
+      </style>
+      <section class="image02 cid-u76D6GiDMm mbr-fullscreen mbr-parallax-background" id="image-13-u76D6GiDMm">
+          <div class="container">
+              <div class="row"></div>
+          </div>
+      </section>
+          <style>
+          
+      </style>
+      <section class="features035 cid-u76D6GiQu3" id="call-to-action-11-u76D6GiQu3">
+          <div class="container">
+              <div class="row">
+                  <div class="col-12 col-lg-9 active">
+                      <div class="item-wrapper">
+                          <div class="card-box">
+                              <h4 class="card-text mbr-fonts-style display-7">
+                                  Explorez l&#x27;art qui vous parle 
+       Réservez votre expérience dès maintenant!
+                              </h4>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-12 col-lg-3 active">
+                      <div class="mbr-section-btn">
+                          <a class="btn btn-primary display-7" href="#">
+                              Réserver maintenant
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+          <style>
+      
+      
+      </style>
+      <section class="social05 cid-u76D6GiFBh" id="follow-us-2-u76D6GiFBh">
+          <div class="container">
+              <div class="row">
+                  <h3 class="mbr-section-title align-center mb-5 mbr-fonts-style display-2">
+                      <strong>Suivez-nous pour plus</strong>
+                  </h3>
+                  <div class="col-12">
+                      <div class="social-row">
+                          <div class="soc-item">
+                              <a href="#" target="_blank">
+                                  <span class="mbr-iconfont socicon socicon-facebook"></span>
+                              </a>
+                          </div>
+                          <div class="soc-item">
+                              <a href="#" target="_blank">
+                                  <span class="mbr-iconfont socicon-twitter socicon"></span>
+                              </a>
+                          </div>
+                          <div class="soc-item">
+                              <a href="#" target="_blank">
+                                  <span class="mbr-iconfont socicon-instagram socicon"></span>
+                              </a>
+                          </div>
+                          <div class="soc-item">
+                              <a href="#" target="_blank">
+                                  <span class="mbr-iconfont socicon socicon-linkedin"></span>
+                              </a>
+                          </div>
+                          <div class="soc-item">
+                              <a href="#" target="_blank">
+                                  <span class="mbr-iconfont socicon socicon-twitch"></span>
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+          <style>
+      
+      
+      </style>
+      <section class="form5 cid-u76D6GiWPI" id="contact-form-3-u76D6GiWPI">
+          <div class="container">
+              <div class="row justify-content-center">
+                  <div class="col-12 content-head">
+                      <div class="mbr-section-head mb-5">
+                          <h3 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                              <strong>Exprimez-vous</strong>
+                          </h3>                    
+                      </div>
+                  </div>
+              </div>
+              <div class="row justify-content-center">
+                  <div class="col-lg-8 mx-auto mbr-form" data-form-type="formoid">
+                      <form action="https://mobirise.eu/" method="POST" class="mbr-form form-with-styler" data-form-title="Form Name"><input type="hidden" name="email" data-form-email="true" value="">
+                          <div class="row">
+                              <div hidden="hidden" data-form-alert="" class="alert alert-success col-12">Thanks for filling out the form!</div>
+                              <div hidden="hidden" data-form-alert-danger="" class="alert alert-danger col-12">
+                                  Oops...! some problem!
+                              </div>
+                          </div>
+                          <div class="dragArea row">
+                       
+
+                              <div class="col-md col-sm-12 form-group mb-3" data-for="name">
+                                  <input type="text" name="name" placeholder="Nom" data-form-field="name" class="form-control" value="" id="name-form02-0">
+                              </div>
+                              <div class="col-md col-sm-12 form-group mb-3" data-for="email">
+                                  <input type="email" name="email" placeholder="Email" data-form-field="email" class="form-control" value="" id="email-form02-0">
+                              </div>
+                              <div class="col-12 form-group mb-3" data-for="url">
+                                  <input type="url" name="url" placeholder="Téléphone" data-form-field="url" class="form-control" value="" id="url-form5-0">
+                              </div>
+                              <div class="col-12 form-group mb-3" data-for="textarea">
+                                  <textarea name="textarea" placeholder="Message" data-form-field="textarea" class="form-control" id="textarea-form02-0"></textarea>
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12 align-center mbr-section-btn"><button type="submit" class="btn btn-primary display-7">Envoyer</button></div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </section>
+          <style>
+      
+      
+      </style>
+      <section class="contacts01 cid-u76D6GifbR" id="contacts-1-u76D6GifbR">
+          <div class="container">
+              <div class="row justify-content-center">
+                  <div class="col-12 content-head">
+                      <div class="mbr-section-head mb-5">
+                          <h3 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                              <strong>Nous Contacter</strong>
+                          </h3>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="item features-without-image col-12 col-md-6 active">
+                      <div class="item-wrapper">
+                          <div class="text-wrapper">
+                              <h6 class="card-title mbr-fonts-style mb-3 display-5">
+                                  <strong>Téléphone</strong>
+                              </h6>
+                              <p class="mbr-text mbr-fonts-style display-7">
+                                  <a href="tel:123-456-7890" class="text-black">123-456-7890</a>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-without-image col-12 col-md-6">
+                      <div class="item-wrapper">
+                          <div class="text-wrapper">
+                              <h6 class="card-title mbr-fonts-style mb-3 display-5">
+                                  <strong>Email</strong>
+                              </h6>
+                              <p class="mbr-text mbr-fonts-style display-7">
+                                  <a href="mailto:contact@artgallery.com" class="text-black">contact@artgallery.com</a>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-without-image col-12 col-md-6">
+                      <div class="item-wrapper">
+                          <div class="text-wrapper">
+                              <h6 class="card-title mbr-fonts-style mb-3 display-5">
+                                  <strong>Adresse</strong>
+                              </h6>
+                              <p class="mbr-text mbr-fonts-style display-7">
+                                  123 Rue de l&#x27;Art, Paris
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item features-without-image col-12 col-md-6">
+                      <div class="item-wrapper">
+                          <div class="text-wrapper">
+                              <h6 class="card-title mbr-fonts-style mb-3 display-5">
+                                  <strong>Horaires d&#x27;ouverture</strong>
+                              </h6>
+                              <p class="mbr-text mbr-fonts-style display-7">
+                                  Lun - Ven: 9h - 18h
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+          <style>
+      
+      </style>
+      <section class="footer2 cid-u76D6Gi8zy" id="footer-5-u76D6Gi8zy">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-lg-6 center mt-2 mb-3">
+              <p class="mbr-fonts-style copyright mb-0 display-7">
+                © 2024 Galerie d&#x27;Art Moderne. Tous droits réservés.
+              </p>
+            </div>
+            <div class="col-12 col-lg-6 center">
+              <div class="row-links mt-2 mb-3">
+                <ul class="row-links-soc">
+                  <li class="row-links-soc-item mbr-fonts-style display-7">
+                    <a href="#" class="text-white">Accueil</a>
+                  </li>
+                  <li class="row-links-soc-item mbr-fonts-style display-7">
+                    <a href="#" class="text-white">Expositions</a>
+                  </li>
+                  <li class="row-links-soc-item mbr-fonts-style display-7">
+                    <a href="#" class="text-white">Réservations</a>
+                  </li>
+                  <li class="row-links-soc-item mbr-fonts-style display-7">
+                    <a href="#" class="text-white">Contact</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
+
+
+    
+
+
+
+    {% block javascripts %}
+<script src="{{asset('https://code.jquery.com/jquery-3.3.1.slim.min.js')}}"></script>
+<script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')}}"></script>
+<script src="{{asset('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')}}"></script>
+
+<script src="{{asset('FrontOffice/js/formoid.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/script.js')}}"></script>
+<script src="{{asset('FrontOffice/js/navbar-dropdown.js')}}"></script>
+<script src="{{asset('FrontOffice/js/smooth-scroll.js')}}"></script>
+<script src="{{asset('FrontOffice/js/jarallax.js')}}"></script>
+<script src="{{asset('FrontOffice/js/index.js')}}"></script>
+<script src="{{asset('FrontOffice/js/imagesloaded.pkgd.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/scroll-gallery.js')}}"></script>
+  
+  <script>
+
+    (function(){
+      var animationInput = document.createElement('input');
+      animationInput.setAttribute('name', 'animation');
+      animationInput.setAttribute('type', 'hidden');
+      document.body.append(animationInput);
+    })();
+
+  </script>
+
+{% endblock %}
+</body>
+</html>

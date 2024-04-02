@@ -1,0 +1,66 @@
+{% extends 'nav_foot_client.html.twig' %}
+
+{% block title %}Oeuvre{% endblock %}
+
+{% block showdetailsoeuvre %}
+    
+
+    <div class="row">
+        <div class="col-md-6">
+<img src="{{ path('user_images', {'imageName': oeuvre.image}) }}" alt="{{ oeuvre.nomOeuvre }}" class="oeuvre-image" style="width: 300px; height: 300px; object-fit: cover;">
+
+             
+        </div>
+        <div class="col-md-6">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>NomOeuvre</th>
+                        <td>{{ oeuvre.nomOeuvre }}</td>
+                    </tr>
+                    <tr>
+                        <th>CategorieOeuvre</th>
+                        <td>{{ oeuvre.categorieOeuvre }}</td>
+                    </tr>
+                    <tr>
+                        <th>PrixOeuvre</th>
+                        <td>{{ oeuvre.prixOeuvre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Datecreation</th>
+                        <td>{{ oeuvre.datecreation ? oeuvre.datecreation|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ oeuvre.description }}</td>
+                    </tr>
+                </tbody>
+            </table>
+           <div class="d-flex">
+            <a href="{{ path('app_avis_new', {'idOeuvre': oeuvre.idOeuvre}) }}" class="btn btn-primary mt-3 me-3">Donner votre avis</a>
+            <a href="{{ path('app1_oeuvre_index') }}" class="btn btn-primary mt-3">Back to list</a>
+            <a href="{{ path('user_avis_history', {'userId': 1}) }}" class="btn btn-primary mt-3  me-3">Historique des avis</a>
+
+
+        </div>
+        </div>
+    </div>
+   <div class="row mt-5">
+    <div class="col-md-12">
+        <h2>Les avis de nos clients</h2>
+        <ul class="list-group">
+            {% for avis in avis %}
+                <li class="list-group-item">
+                    <strong>Commentaire :</strong> {{ avis.commentaire }}<br>
+                    <strong>Note :</strong> {{ avis.note }}<br>
+                    <!-- Ajoutez d'autres détails de l'avis si nécessaire -->
+                </li>
+            {% else %}
+                <li class="list-group-item">Aucun avis disponible pour le moment.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+{% endblock %}
