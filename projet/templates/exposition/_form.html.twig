@@ -1,0 +1,22 @@
+{{ form_start(form) }}
+<div class="row">
+    {% for child in form %}
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(child) }}
+            {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
+
+            {# Display errors associated with each field #}
+            {% if child.vars.errors|length > 0 %}
+            <div class="alert alert-danger">
+                {% for error in child.vars.errors %}
+                <p>{{ error.message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

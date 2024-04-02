@@ -1,0 +1,45 @@
+{% extends 'nav_foot_admin.html.twig' %}
+
+{% block title %}New Exposition{% endblock %}
+
+{% block new_expo %}
+<div class="d-flex justify-content-center container mt-5">
+    <div class="card p-3 bg-white">
+        <div class="about-product text-center mt-2">
+            <h4>New Exposition</h4>
+        </div>
+        <div class="stats mt-2">
+            {{ include('exposition/_form.html.twig', {'button_label': 'Create'}) }}
+        </div>
+        <div class="d-flex justify-content-between total font-weight-bold mt-4">
+            <a href="{{ path('app_exposition_index') }}" class="btn btn-primary">Back to list</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        const dropZone = document.getElementById('dropZone');
+
+        dropZone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropZone.classList.remove('dragover');
+
+            const file = event.dataTransfer.files[0];
+            const imageFileInput = document.getElementById('image');
+            imageFileInput.files = event.dataTransfer.files;
+        });
+    </script>
+    
+{% endblock %}
+

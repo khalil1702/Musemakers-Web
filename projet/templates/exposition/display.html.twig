@@ -1,0 +1,44 @@
+
+{% block title %}Exposition index{% endblock %}
+
+{% block body %}
+    <h1>Exposition index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdExposition</th>
+                <th>Nom</th>
+                <th>DateDebut</th>
+                <th>DateFin</th>
+                <th>Description</th>
+                <th>Theme</th>
+                <th>Image</th>
+                <th>HeureDebut</th>
+                <th>HeureFin</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for exposition in expositions %}
+            <tr>
+                <td>{{ exposition.idExposition }}</td>
+                <td>{{ exposition.nom }}</td>
+                <td>{{ exposition.dateDebut ? exposition.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ exposition.dateFin ? exposition.dateFin|date('Y-m-d') : '' }}</td>
+                <td>{{ exposition.description }}</td>
+                <td>{{ exposition.theme }}</td>
+                <td>{{ exposition.image }}</td>
+                <td>{{ exposition.heureDebut ? exposition.heureDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ exposition.heureFin ? exposition.heureFin|date('Y-m-d') : '' }}</td>
+               
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

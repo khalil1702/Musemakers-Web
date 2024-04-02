@@ -1,0 +1,85 @@
+{% extends 'nav_foot_client.html.twig' %}
+
+{% block title %}Exposition{% endblock %}
+
+{% block content %}
+    <div class="wrapper">
+        <div class="product-img">
+            <img src="{{ path('user_images', {'imageName': exposition.image}) }}" height="420" width="327" alt="{{ exposition.nom }}">
+        </div>
+        <div class="product-info">
+            <div class="product-text">
+                <h1>{{ exposition.nom }}</h1>
+                <h2>Theme {{ exposition.theme }}</h2>
+                <p>{{ exposition.description }} <br> Date Debut : {{ exposition.dateDebut|date('d-m-Y') }} à  {{ exposition.heureDebut|date('H:i') }} 
+                    <br> Date fin : {{ exposition.dateFin|date('d-m-Y') }} à  {{ exposition.heureFin|date('H:i') }}</p>
+ 
+
+            </div>
+            <div class="product-price-btn">
+              
+                <button type="button" id="reserveButton">Je Réserve</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reservation Modal -->
+    <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reservationModalLabel">Reserve Tickets</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="reservationForm" action="{{ path('app_client_reserve', {'idExposition': exposition.idExposition}) }}" method="post">
+                        <div class="form-group">
+                            <label for="ticketNumber">Number of Tickets:</label>
+                            <input type="number" class="form-control" id="ticketNumber" name="ticketsNumber">
+                            <label id="ticketsError" style="color: red;"></label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.getElementById('reserveButton').addEventListener('click', function() {
+                {% if reservationExists %}
+                    // Afficher une alerte si la réservation existe déjà
+                    alert("Vous avez déjà réservé cette exposition.");
+                {% else %}
+                    // Ouvrir le modal de réservation
+                    $('#reservationModal').modal('show');
+                {% endif %}
+            });
+
+            // Gérer la soumission du formulaire de réservation
+            document.getElementById('reservationForm').addEventListener('submit', function(event) {
+                var ticketsNumber = document.getElementById('ticketNumber').value;
+                var ticketsInput = document.getElementById('ticketNumber');
+                var errorLabel = document.getElementById('ticketsError');
+
+                // Vérifier si le nombre de tickets est négatif ou vide
+                if (ticketsNumber <= 0 || ticketsNumber === '') {
+                    alert("Le nombre de tickets doit être supérieur à zéro.");
+                    errorLabel.textContent = "Le nombre de tickets doit être supérieur à zéro.";
+                    errorLabel.style.color = 'red';
+                    ticketsInput.style.borderColor = 'red';
+                    event.preventDefault(); // Empêcher la soumission du formulaire
+                    return;
+                } else {
+                    // Réinitialiser le label et le style du champ
+                    errorLabel.textContent = '';
+                    errorLabel.style.color = ''; // Réinitialiser la couleur du texte
+                    ticketsInput.style.borderColor = ''; // Réinitialiser la couleur de la bordure
+                }
+            });
+        }
+    </script>
+{% endblock %}

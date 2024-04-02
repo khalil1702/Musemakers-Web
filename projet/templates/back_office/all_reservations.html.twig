@@ -1,0 +1,62 @@
+{% extends 'nav_foot_admin.html.twig' %}
+
+{% block title %}Reservation Requests{% endblock %}
+
+{% block requestreser %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Tous les Reservations</h4>
+                    {% if reservations is empty %}
+                        <p>No reservations found.</p>
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Exposition</th>
+                                        <th>Tickets Number</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for reservation in reservations %}
+                                        <tr>
+                                            <td>{{ reservation.user.nomUser }}</td>
+                                            <td>{{ reservation.exposition.nom }}</td>
+                                            <td>{{ reservation.ticketsNumber }}</td>
+                                            <td>{{ reservation.dateReser|date('Y-m-d H:i:s') }}</td>
+                                            <td>
+                                                {% if reservation.accessByAdmin == 0 %}
+                                                <span class="badge badge-gradient-info">En cours</span>
+                                                {% elseif reservation.accessByAdmin == 1 %}
+                                                <span  class="badge badge-gradient-success">Accepté</span>
+
+                                                {% elseif reservation.accessByAdmin == 2 %}
+                                                <span class="badge badge-gradient-danger">Refusé</span>
+                                                {% elseif reservation.accessByAdmin == 3 %}
+                                                <span class="badge badge-gradient-warning">Annulé</span>
+
+                                                {% else %}
+                                                    Unknown
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <ul class="pagination pagination-sm">
+                                {{ knp_pagination_render(reservations) }}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

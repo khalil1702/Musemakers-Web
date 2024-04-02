@@ -1,0 +1,57 @@
+{% extends 'nav_foot_client.html.twig' %}
+
+{% block title %}My Reservations{% endblock %}
+
+{% block myReservations %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">My Reservations</h1>
+
+    {% if reservations is empty %}
+        <div class="alert alert-info" role="alert">
+            No reservations found.
+        </div>
+    {% else %}
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Exposition</th>
+                    <th scope="col">Tickets Number</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                    <tr>
+                        <td>{{ reservation.exposition.nom }}</td>
+                        <td>{{ reservation.ticketsNumber }}</td>
+                        <td>
+                            {% if reservation.accessByAdmin == 0 %}
+                                <span class="badge badge-warning">En cours</span>
+                            {% elseif reservation.accessByAdmin == 1 %}
+                                <span class="badge badge-success">Accepté</span>
+                            {% elseif reservation.accessByAdmin == 2 %}
+                                <span class="badge badge-danger">Refusé</span>
+                            {% elseif reservation.accessByAdmin == 3 %}
+                                <span class="badge badge-secondary">Annulé</span>
+                            {% else %}
+                                <span class="badge badge-light">Unknown</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if reservation.accessByAdmin in [0, 1] %}
+                                <a href="{{ path('app_client_cancel_reservation', {'id': reservation.idReservation}) }}" class="btn btn-danger">Annuler</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Display pagination links -->
+        <ul class="pagination pagination-sm">
+            {{ knp_pagination_render(reservations) }}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'nav_foot_admin.html.twig' %} 
+
+{% block title %}Exposition index{% endblock %}
+
+{% block index_expo %}
+<div class="container mt-100">
+    <div class="row mb-3">
+        <div class="col-12">
+            <a href="{{ path('app_exposition_new') }}" class="btn btn-primary">Ajouter exposition</a>
+        </div>
+    </div>
+    <div class="row d-flex">
+        {% for exposition in expositions %}
+        <div class="col-md-4 col-sm-6 d-flex">
+            <div class="card mb-30 flex-fill">
+                <a class="card-img-tiles" href="#" data-abc="true">
+                    <div class="inner">
+                        <div class="main-img">
+                            {% if exposition.image %}
+                            <img src="{{ path('user_images', {'imageName': exposition.image}) }}" alt="{{ exposition.nom }}" class="exposition-image" style="width: 100%; height: auto;">
+                            {% else %}
+                            <!-- Placeholder image or handle the case where the image is not set -->
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{ exposition.nom }}</h4>
+                    <p class="text-muted">
+                        <br>Theme: {{ exposition.theme }}
+
+                        {% if exposition.dateDebut %}
+                            {{ exposition.dateDebut|date('Y-m-d ') }}
+                        {% endif %}
+                        {% if exposition.dateFin %}
+                            - {{ exposition.dateFin|date('Y-m-d ') }}
+                        {% endif %}
+                        {% if exposition.theme %}
+            
+        {% endif %}
+        {% if exposition.heureDebut %}
+            <br>Heure Debut: {{ exposition.heureDebut|date('H:i') }}
+        {% endif %}
+        {% if exposition.heureFin %}
+            Heure Fin: {{ exposition.heureFin|date('H:i') }}
+        {% endif %}
+                        
+                    </p>
+                    <div>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ path('app_exposition_show', {'idExposition': exposition.idExposition}) }}">Show</a>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ path('app_exposition_edit', {'idExposition': exposition.idExposition}) }}">Edit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col">
+            <p>No records found</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'nav_foot_admin.html.twig' %}
+
+{% block title %}Exposition{% endblock %}
+
+{% block show_expo %}
+<div class="d-flex justify-content-center container mt-5">
+    <div class="card_show p-3 bg-white">
+        <div class="about-product text-center mt-2">
+            <img class="exposition-image img-fluid" src="{{ path('user_images', {'imageName': exposition.image}) }}" alt="{{ exposition.nom }}" width="300">
+            <div>
+                <h4>{{ exposition.nom }}</h4>
+                <h6 class="mt-0 text-black-50">{{ exposition.description }}</h6>
+            </div>
+        </div>
+        <div class="stats mt-2">
+            <div class="d-flex justify-content-between p-price"><span>DateDebut</span><span>{{ exposition.dateDebut ? exposition.dateDebut|date('Y-m-d') : '' }}</span></div>
+            <div class="d-flex justify-content-between p-price"><span>DateFin</span><span>{{ exposition.dateFin ? exposition.dateFin|date('Y-m-d') : '' }}</span></div>
+            <div class="d-flex justify-content-between p-price"><span>Theme</span><span>{{ exposition.theme }}</span></div>
+            <div class="d-flex justify-content-between p-price"><span>HeureDebut</span><span>{{ exposition.heureDebut ? exposition.heureDebut|date('Y-m-d') : '' }}</span></div>
+            <div class="d-flex justify-content-between p-price"><span>HeureFin</span><span>{{ exposition.heureFin ? exposition.heureFin|date('Y-m-d') : '' }}</span></div>
+        </div>
+        <div class="d-flex justify-content-between total font-weight-bold mt-4">
+            <a href="{{ path('app_exposition_index') }}" class="btn btn-primary">Back to list</a>
+            <a href="{{ path('app_exposition_edit', {'idExposition': exposition.idExposition}) }}" class="btn btn-secondary">Edit</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

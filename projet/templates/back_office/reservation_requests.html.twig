@@ -1,0 +1,106 @@
+{% extends 'nav_foot_admin.html.twig' %}
+
+{% block title %}Reservation Requests{% endblock %}
+
+{% block requestreser %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 grid-margin">
+            <div class="row">
+                <div class="col-md-7 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="clearfix">
+                        <h4 class="card-title float-left">Les expositions les plus reservés</h4>
+                        
+                        <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+                      </div>
+                      <canvas id="visit-sale-chart" class="mt-4"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Statistique General</h4>
+                      <canvas id="traffic-chart"></canvas>
+                      <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="card">
+                
+                <div class="card-body">
+                    <h4 class="card-title">Demande de Reservation </h4>
+                    {% if reservationRequests is empty %}
+                        <p>Aucune Réservation n'a été trouvé.</p>
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>nom client</th>
+                                        <th>Exposition</th>
+                                        <th>Nombre de ticket</th>
+                                        <th>Date de Reservation </th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for reservation in reservationRequests %}
+                                        <tr>
+                                            <td>{{ reservation.user.nomUser }}</td>
+                                            <td>{{ reservation.exposition.nom }}</td>
+                                            <td>{{ reservation.ticketsNumber }}</td>
+                                            <td>{{ reservation.dateReser|date('Y-m-d H:i:s') }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-success btn-accept" data-id="{{ reservation.idReservation }}">Accept</a>
+                                                <a href="#" class="btn btn-danger btn-reject" data-id="{{ reservation.idReservation }}">Reject</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <ul class="pagination pagination-sm">
+                                {{ knp_pagination_render(reservationRequests) }}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const acceptButtons = document.querySelectorAll('.btn-accept');
+        const rejectButtons = document.querySelectorAll('.btn-reject');
+
+        acceptButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const id = this.getAttribute('data-id');
+                if (confirm('Vous etes sure que vous voulez accepter la réservation?')) {
+                    window.location.href = "{{ path('admin_accept_reservation', {'id': 'ID'})|replace({'ID': 'REPLACE_ID'}) }}".replace('REPLACE_ID', id);
+                }
+            });
+        });
+
+        rejectButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const id = this.getAttribute('data-id');
+                if (confirm('Vous etes sure que vous voulez refuser la réservation?')) {
+                    window.location.href = "{{ path('admin_reject_reservation', {'id': 'ID'})|replace({'ID': 'REPLACE_ID'}) }}".replace('REPLACE_ID', id);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
