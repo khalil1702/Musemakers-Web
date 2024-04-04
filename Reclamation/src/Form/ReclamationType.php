@@ -32,7 +32,7 @@ class ReclamationType extends AbstractType
             ->add('statutrec', ChoiceType::class, [
                 'choices' => [
                     'Resolue' => 'Resolue',
-                    'Fermée' => 'Fermée ',
+                    'Fermée' => 'Fermée',
                     'En Cours' => 'En Cours',
                 ],
                 'placeholder' => 'Choisir le statut', // Optionnel : affichez un libellé par défaut

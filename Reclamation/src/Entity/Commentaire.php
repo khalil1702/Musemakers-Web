@@ -21,9 +21,9 @@ class Commentaire
 
     #[ORM\Column(name: "ContenuCom", type: "string", length: 255)]
     #[Assert\NotBlank(message: "Le contenu du commentaire ne peut pas être vide.")]
-    #[Assert\Length( max: 200, maxMessage: "Le contenu du commentaire ne peut pas dépasser {{ limit }} caractères."
-    )]
-    private string $contenucom;
+    #[Assert\Length(max: 200, maxMessage: "Le contenu du commentaire ne peut pas dépasser {{ limit }} caractères.")]
+    private ?string $contenucom = null;
+    
 
     #[ORM\ManyToOne(targetEntity: Reclamation::class)]
     #[ORM\JoinColumn(name: "idrec", referencedColumnName: "idRec")]
@@ -63,11 +63,11 @@ class Commentaire
         return $this;
     }
 
-    public function setContenucom(string $contenucom): self
-    {
-        $this->contenucom = $contenucom;
-        return $this;
-    }
+    public function setContenucom(?string $contenucom): self
+{
+    $this->contenucom = $contenucom;
+    return $this;
+}
 
     public function setIdrec(?Reclamation $idrec): self
     {

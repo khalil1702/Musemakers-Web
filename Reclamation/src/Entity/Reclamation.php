@@ -16,16 +16,18 @@ class Reclamation
     private int $idrec;
 
     #[ORM\Column(name: "descriRec", type: "text", length: 200)]
-#[Assert\NotBlank(message: "Il faut écrire la description")]
-#[Assert\Length(max: 200, maxMessage: "La description ne doit pas dépasser 200 caractères")]
-private string $descrirec;
+    #[Assert\NotBlank(message: "Il faut écrire la description")]
+    #[Assert\Length(max: 200, maxMessage: "La description ne doit pas dépasser 200 caractères")]
+    private ?string $descrirec = null;
+    
 
     #[ORM\Column(name: "DateRec", type: "date")]
     private \DateTime $daterec;
 
     #[ORM\Column(name: "CategorieRec", type: "string", length: 255)]
-    #[Assert\NotBlank(message:"Veuillez choisir une catégorie")]
-    private string $categorierec;
+#[Assert\NotBlank(message:"Veuillez choisir une catégorie")]
+private ?string $categorierec = null;
+
      
     
 
@@ -68,11 +70,12 @@ private string $descrirec;
     }
 
     // Setters
-    public function setDescrirec(string $descrirec): self
-    {
-        $this->descrirec = $descrirec;
-        return $this;
-    }
+    public function setDescrirec(?string $descrirec): self
+{
+    $this->descrirec = $descrirec;
+    return $this;
+}
+
 
     public function setDaterec(\DateTime $daterec): self
     {
@@ -80,11 +83,11 @@ private string $descrirec;
         return $this;
     }
 
-    public function setCategorierec(string $categorierec): self
-    {
-        $this->categorierec = $categorierec;
-        return $this;
-    }
+    public function setCategorierec(?string $categorierec): self
+{
+    $this->categorierec = $categorierec;
+    return $this;
+}
 
     public function setStatutrec(string $statutrec): self
     {
