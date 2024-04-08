@@ -8,15 +8,23 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Idcom</th>
+                <th>Prenom</th>
                 <td>{{ commentaire.idrec.idu.prenomUser }}</td>
             </tr>
+             <tr>
+                <th>Nom</th>
+                <td>{{ commentaire.idrec.idu.nomUser }}</td>
+            </tr>
+             <tr>
+                <th>Description de la Reclamation</th>
+                <td>{{ commentaire.idrec.descrirec }}</td>
+            </tr>
             <tr>
-                <th>Contenucom</th>
+                <th>Contenu du Commentaire</th>
                 <td>{{ commentaire.contenucom }}</td>
             </tr>
             <tr>
-                <th>Datecom</th>
+                <th>Date</th>
                 <td>{{ commentaire.datecom ? commentaire.datecom|date('Y-m-d') : '' }}</td>
             </tr>
             

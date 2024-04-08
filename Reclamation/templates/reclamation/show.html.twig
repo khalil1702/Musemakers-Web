@@ -8,24 +8,29 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Idrec</th>
-                <td>{{ reclamation.idrec }}</td>
+                <th>Prenom</th>
+                <td>{{ reclamation.idu.prenomUser }}</td>
+            </tr>
+             <tr>
+                <th>Nom</th>
+                <td>{{ reclamation.idu.nomUser }}</td>
             </tr>
             <tr>
-                <th>Descrirec</th>
+                <th>Description</th>
                 <td>{{ reclamation.descrirec }}</td>
             </tr>
+            
             <tr>
-                <th>Daterec</th>
-                <td>{{ reclamation.daterec ? reclamation.daterec|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Categorierec</th>
+                <th>Catégorie</th>
                 <td>{{ reclamation.categorierec }}</td>
             </tr>
             <tr>
-                <th>Statutrec</th>
+                <th>Statut</th>
                 <td>{{ reclamation.statutrec }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ reclamation.daterec ? reclamation.daterec|date('Y-m-d') : '' }}</td>
             </tr>
         </tbody>
     </table>
