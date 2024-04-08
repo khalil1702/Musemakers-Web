@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\ExpositionType;
 use App\Repository\ExpositionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
@@ -23,13 +24,29 @@ class ExpositionController extends AbstractController
 
   //////////////
 //only this work
-    #[Route('/', name: 'app_exposition_index', methods: ['GET'])]
-    public function index(ExpositionRepository $expositionRepository): Response
-    {
-        return $this->render('exposition/index.html.twig', [
-            'expositions' => $expositionRepository->findAll(),
-        ]);
-    }
+#[Route('/', name: 'app_exposition_index', methods: ['GET'])]
+public function index(Request $request, ExpositionRepository $expositionRepository, PaginatorInterface $paginator): Response
+{
+    // Get all expositions
+    $expositions = $expositionRepository->findAll();
+
+    // Pagination logic
+    $currentPage = $request->query->getInt('page', 1); // Get the current page number (default to 1)
+    $perPage = 5; // Number of expositions per page (adjust as needed)
+
+    $paginatedExpositions = $paginator->paginate(
+        $expositions,
+        $currentPage,
+        $perPage
+    );
+
+    // Render the template with paginated data
+    return $this->render('exposition/index.html.twig', [
+        'expositions' => $paginatedExpositions,
+        'knp_pagination' => $paginatedExpositions, // Pass the pagination object to Twig
+    ]);
+}
+
     
     #[Route('/user-images/{imageName}', name: 'user_images')]
 public function getUserImage(string $imageName): Response

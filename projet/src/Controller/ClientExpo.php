@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\ExpositionType;
 use App\Repository\ExpositionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +35,7 @@ class ClientExpo extends AbstractController
 
 //hethi  lel lista
 #[Route('/getallExpo', name: 'app_client_getallExpo', methods: ['GET'])]
-public function getallExpoClient(Request $request, ExpositionRepository $expositionRepository): Response
+public function getallExpoClient(Request $request, ExpositionRepository $expositionRepository, PaginatorInterface $paginator): Response
 {
     $searchQuery = $request->query->get('query');
 
@@ -44,11 +45,26 @@ public function getallExpoClient(Request $request, ExpositionRepository $exposit
         $expositions = $expositionRepository->findAll();
     }
 
-    return $this->render('client/liste_expo.html.twig', [
-        'expositions' => $expositions,
-        
+    // Pagination logic
+    $currentPage = $request->query->getInt('page', 1); // Get the current page number (default to 1)
+    $perPage = 5; // Number of expositions per page (adjust as needed)
+
+    $paginatedExpositions = $paginator->paginate(
+        $expositions,
+        $currentPage,
+        $perPage
+    );
+
+    // Convert the paginated expositions to HTML using Twig
+    $html = $this->renderView('client/liste_expo.html.twig', [
+        'expositions' => $paginatedExpositions,
+        'knp_pagination' => $paginatedExpositions, // Pass the pagination object to Twig
     ]);
+
+    // Return the HTML response
+    return new Response($html);
 }
+
 
 
     

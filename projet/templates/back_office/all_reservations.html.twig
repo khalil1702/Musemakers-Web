@@ -48,10 +48,22 @@
                                         </tr>
                                     {% endfor %}
                                 </tbody>
-                            </table>
-                            <ul class="pagination pagination-sm">
-                                {{ knp_pagination_render(reservations) }}
-                            </ul>
+                            </table> <br/>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                  <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
+                                    <a class="page-link" href="{{ path('admin_all_reservations', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
+                                  </li>
+                                  {% for page in 1..knp_pagination.pageCount %}
+                                  <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
+                                    <a class="page-link" href="{{ path('admin_all_reservations', {'page': page }) }}">{{ page }}</a>
+                                  </li>
+                                  {% endfor %}
+                                  <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
+                                    <a class="page-link" href="{{ path('admin_all_reservations', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
+                                  </li>
+                                </ul>
+                            </nav>
                         </div>
                     {% endif %}
                 </div>

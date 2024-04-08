@@ -1,57 +1,146 @@
 {% extends 'nav_foot_client.html.twig' %}
 
-{% block title %}My Reservations{% endblock %}
-
 {% block myReservations %}
-<div class="container mt-5">
-    <h1 class="text-center mb-4">My Reservations</h1>
+<div class="container mt-7">
+  <h2 class="mb-5 text-center">Mes Reservations</h2>
 
-    {% if reservations is empty %}
-        <div class="alert alert-info" role="alert">
-            No reservations found.
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Liste des Reservations </h3>
         </div>
-    {% else %}
-        <table class="table table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Exposition</th>
-                    <th scope="col">Tickets Number</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Action</th>
-                </tr>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Exposition</th>
+                <th scope="col">Nombre de Tickets</th>
+                <th scope="col">Status </th>
+                <th scope="col">Action</th>
+                <th scope="col">progres</th>
+              </tr>
             </thead>
             <tbody>
-                {% for reservation in reservations %}
-                    <tr>
-                        <td>{{ reservation.exposition.nom }}</td>
-                        <td>{{ reservation.ticketsNumber }}</td>
-                        <td>
-                            {% if reservation.accessByAdmin == 0 %}
-                                <span class="badge badge-warning">En cours</span>
-                            {% elseif reservation.accessByAdmin == 1 %}
-                                <span class="badge badge-success">Accepté</span>
-                            {% elseif reservation.accessByAdmin == 2 %}
-                                <span class="badge badge-danger">Refusé</span>
-                            {% elseif reservation.accessByAdmin == 3 %}
-                                <span class="badge badge-secondary">Annulé</span>
-                            {% else %}
-                                <span class="badge badge-light">Unknown</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if reservation.accessByAdmin in [0, 1] %}
-                                <a href="{{ path('app_client_cancel_reservation', {'id': reservation.idReservation}) }}" class="btn btn-danger">Annuler</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+              {% for reservation in reservations %}
+              <tr>
+                <th scope="row">
+                  {{ reservation.exposition.nom }}
+                </th>
+                <td>
+                    {{ reservation.ticketsNumber }}
+                    {% if reservation.accessByAdmin == 0 %}
+                        <a href="#" class="btn btn-sm edit-btn" data-toggle="modal" data-target="#editModal{{ reservation.idReservation }}" style="background-color: #fb6340; border-color: #fb6340; color: #fff;">
+                            <i class="fas fa-edit"></i> 
+                        </a>
+                    {% endif %}
+                </td>
+                
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    {% if reservation.accessByAdmin == 0 %}
+                      <i class="bg-warning"></i> En cours
+                    {% elseif reservation.accessByAdmin == 1 %}
+                      <i class="bg-success"></i> accepté
+                    {% elseif reservation.accessByAdmin == 2 %}
+                      <i class="bg-danger"></i> refusé
+                    {% elseif reservation.accessByAdmin == 3 %}
+                      <i class="bg-default"></i> annulé
+                    {% else %}
+                      <i class="bg-gray"></i> unknown
+                    {% endif %}
+                  </span>
+                </td>
+                <td class="text-end px-1">
+                    {% if reservation.accessByAdmin in [0, 1] %}
+                      <a href="#" class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Cancel" data-href="{{ path('app_client_cancel_reservation', {'id': reservation.idReservation}) }}">
+                        <i class="fas fa-times"></i>
+                      </a>
+                    {% endif %}
+                  </td>
 
-        <!-- Display pagination links -->
-        <ul class="pagination pagination-sm">
-            {{ knp_pagination_render(reservations) }}
-        </ul>
-    {% endif %}
+                  <td>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 
+                        {% if reservation.accessByAdmin == 0 %} 50% {% elseif reservation.accessByAdmin in [2, 3] %} 100% {% else %} 100% {% endif %};
+                        background-color: 
+                        {% if reservation.accessByAdmin == 0 %} orange {% elseif reservation.accessByAdmin ==1 %} green {% else %} red {% endif %};">
+                        </div>
+                    </div>
+                </td>
+                
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
+        <a class="page-link" href="{{ path('app_client_getreser', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
+      </li>
+      {% for page in 1..knp_pagination.pageCount %}
+      <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
+        <a class="page-link" href="{{ path('app_client_getreser', {'page': page }) }}">{{ page }}</a>
+      </li>
+      {% endfor %}
+      <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
+        <a class="page-link" href="{{ path('app_client_getreser', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
+      </li>
+    </ul>
+</nav>
+
+
 </div>
+<!-- Edit Ticket Number Modal -->
+{% for reservation in reservations %}
+<div class="modal fade" id="editModal{{ reservation.idReservation }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ reservation.idReservation }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel{{ reservation.idReservation }}">Edit Ticket Number</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ path('app_client_edit_reservation_tickets', {'id': reservation.idReservation}) }}" method="post">
+                    <div class="form-group">
+                        <label for="ticketsNumber{{ reservation.idReservation }}">New Ticket Number:</label>
+                        <input type="number" class="form-control" id="ticketsNumber{{ reservation.idReservation }}" name="ticketsNumber" value="{{ reservation.ticketsNumber }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+
+
+{% block js %}
+
+<script>
+    const cancelButtons = document.querySelectorAll('.btn-danger');
+  
+    cancelButtons.forEach(button => {
+      button.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+  
+        const confirmCancel = confirm('Are you sure you want to cancel this reservation?');
+        if (confirmCancel) {
+          window.location.href = this.dataset.href; // Redirect if confirmed
+        }
+      });
+    });
+  </script>
+  {% endblock %}
+
+
 {% endblock %}

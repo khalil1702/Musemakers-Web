@@ -39,6 +39,8 @@ public function reservationRequests(Request $request, ReservationRepository $res
     );
     return $this->render('back_office/reservation_requests.html.twig', [
         'reservationRequests' => $reservationRequests,
+        'knp_pagination' => $reservationRequests
+
     ]);
 } 
 
@@ -49,15 +51,15 @@ public function reservationRequests(Request $request, ReservationRepository $res
         // Retrieve all reservations from the repository
         $reservationsQuery = $reservationRepository->findAll();
     
-        // Paginate the reservations
-        $reservations = $paginator->paginate(
+        $knp_pagination = $paginator->paginate(
             $reservationsQuery,
-            $request->query->getInt('page', 1), // Get the current page number
-            5 // Number of items per page
+            $request->query->getInt('page', 1),
+            5
         );
     
         return $this->render('back_office/all_reservations.html.twig', [
-            'reservations' => $reservations,
+            'reservations' => $knp_pagination, //lista
+        'knp_pagination' => $knp_pagination
         ]);
     }
 
@@ -94,16 +96,30 @@ public function getReservations(Request $request, PaginatorInterface $paginator)
     // Fetch all reservations for the user
     $reservationsQuery = $user->getReservations();
 
-    $reservations = $paginator->paginate(
+    $knp_pagination = $paginator->paginate(
         $reservationsQuery,
         $request->query->getInt('page', 1),
         5
     );
 
     return $this->render('client/histo_reser.html.twig', [
-        'reservations' => $reservations,
+        'reservations' => $knp_pagination,
+        'knp_pagination' => $knp_pagination
     ]);
 }
+#[Route('/edit-reservation-tickets/{id}', name: 'app_client_edit_reservation_tickets', methods: ['POST'])]
+public function editReservationTickets(Request $request, Reservation $reservation): Response
+{
+    $newTicketsNumber = $request->request->get('ticketsNumber');
+    
+    // Update the ticketsNumber for the reservation
+    $reservation->setTicketsNumber($newTicketsNumber);
+    $this->entityManager->flush();
+    
+    $this->addFlash('success', 'Tickets number updated successfully.');
+    return $this->redirectToRoute('app_client_getreser');
+}
+
 
     #[Route('/cancel-reservation/{id}', name: 'app_client_cancel_reservation', methods: ['GET'])]
 public function cancelReservation(Reservation $reservation): Response

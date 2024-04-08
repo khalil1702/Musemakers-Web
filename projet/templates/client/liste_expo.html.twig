@@ -18,6 +18,7 @@
                     <div class="card h-100 d-flex flex-column">
                         <a class="card-img-tiles" href="#" data-abc="true">
                             <div class="inner">
+                                
                                 <div class="main-img">
                                     {% if exposition.image %}
                                         <img src="{{ path('user_images', {'imageName': exposition.image}) }}" alt="{{ exposition.nom }}" class="exposition-image" style="width: 100%; height: auto;">
@@ -52,27 +53,47 @@
             <p>No records found</p>
         {% endif %}
     </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_client_getallExpo', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
+          </li>
+          {% for page in 1..knp_pagination.pageCount %}
+          <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
+            <a class="page-link" href="{{ path('app_client_getallExpo', {'page': page }) }}">{{ page }}</a>
+          </li>
+          {% endfor %}
+          <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_client_getallExpo', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
+          </li>
+        </ul>
+    </nav>
 </div>
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
+
+ 
+    {% block javascripts %}
     <script>
+        var searchInputInitialized = false;
+
         function searchExpositions() {
             var input, filter;
             input = document.getElementById('searchInput');
             filter = input.value.toUpperCase();
             
-            // Make an AJAX request to fetch filtered data from the server
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (this.readyState === 4 && this.status === 200) {
-                    // Update the content of 'expositions' div with the filtered data
                     document.getElementById('expositions').innerHTML = this.responseText;
                 }
             };
             xhr.open("GET", "/client/getallExpo?query=" + filter, true);
             xhr.send();
         }
+        
     </script>
 {% endblock %}
+
+
+

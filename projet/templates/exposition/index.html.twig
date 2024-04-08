@@ -59,6 +59,21 @@
         </div>
         {% endfor %}
     </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_exposition_index', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
+          </li>
+          {% for page in 1..knp_pagination.pageCount %}
+          <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
+            <a class="page-link" href="{{ path('app_exposition_index', {'page': page }) }}">{{ page }}</a>
+          </li>
+          {% endfor %}
+          <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_exposition_index', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
+          </li>
+        </ul>
+    </nav>
 </div>
 
 {% endblock %}

@@ -8,8 +8,12 @@
         <div class="about-product text-center mt-2">
             <h4>Edit Exposition</h4>
             {% if exposition.image %}
-                <img class="exposition-image img-fluid" src="{{ path('user_images', {'imageName': exposition.image}) }}" alt="Current Image" width="300">
-            {% endif %}
+            
+            <img id="preview" class="exposition-image img-fluid" src="{{ path('user_images', {'imageName': exposition.image}) }}" alt="Current Image" width="300">
+        {% else %}
+            <img id="preview" class="exposition-image img-fluid"  alt="Current Image" width="300" >
+        {% endif %}
+        
         </div>
         <div class="stats mt-2">
             {{ include('exposition/_form.html.twig', {'button_label': 'Update'}) }}
@@ -20,4 +24,19 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    document.querySelector('input[type="file"]').addEventListener('change', function(event) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.querySelector('#preview').src = e.target.result;
+            document.querySelector('#preview').style.display = 'exposition-image img-fluid';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+    
+    </script>
+    
+    
 {% endblock %}

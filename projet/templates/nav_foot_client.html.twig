@@ -10,6 +10,8 @@
     <link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" crossorigin>
     <link href="{{asset('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap')}}" rel="stylesheet">
     <link href="{{asset('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css')}}" rel="stylesheet">
+    <link href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css')}}" rel="stylesheet">
 
 
     <link href="{{asset('FrontOffice/css/style.css')}}" rel="stylesheet">
@@ -22,18 +24,11 @@
     <link href="{{asset('FrontOffice/css/style-dropdown.css')}}" rel="stylesheet">
     <link href="{{asset('FrontOffice/css/sarra.css')}}" rel="stylesheet">
 
-    <style>
-        /* CSS to position the footer at the bottom */
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #f8f9fa; /* Adjust background color as needed */
-            padding: 20px 0; /* Adjust padding as needed */
-        }
-    </style>
+
     {% endblock %}
 </head>
+<div class="page-container">
+    <div class="content-wrap">
 <body>                        
  <section class="menu menu2 cid-u76D6GfvJg" once="menu" id="menu-5-u76D6GfvJg">
         <section class="top-bar animated-header">
@@ -42,7 +37,7 @@
                   <div class="col-lg-12">
                       <nav class="navbar navbar-expand-lg navbar-light bg-light">
                           <a class="navbar-brand" href="index.html">
-                            <img src="{{asset('FrontOffice/images/logo-bg.png')}}" class="img-fluid" alt="" width="100" height="100">
+                            <img src="{{asset('FrontOffice/images/logo-bg.png')}}" class="img-fluid" alt="" width="80" height="100">
                           </a>
                           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                               aria-expanded="false" aria-label="Toggle navigation">
@@ -120,35 +115,66 @@
       
       
       </style>
-      <section class="footer2 cid-u76D6Gi8zy" id="footer-5-u76D6Gi8zy">
+    </div>
+
+      <footer>
+      <section class="footer">
         <div class="container">
-          <div class="row">
-            <div class="col-12 col-lg-6 center mt-2 mb-3">
-              <p class="mbr-fonts-style copyright mb-0 display-7">
-                © 2024 Galerie d&#x27;Art Moderne. Tous droits réservés.
-              </p>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="copyright mb-0">
+                        <a href="tel:+21670250000"><i class="fas fa-phone"></i> (216) 70 250 000</a> | 
+                        <a href="mailto:musemakers@contact.tn"><i class="fas fa-envelope"></i> musemakers@contact.tn</a>
+                        |                             <i class="fas fa-map-marker-alt"></i> 1, 2 rue André Ampère - 2083 - Pôle Technologique - El Ghazala
+ 
+                    </p>
+                    <ul class="footer-links">
+                      
+                        <li>
+                            <a href="reservations.html">
+                                <i class="fas fa-calendar-alt fa-2x"></i>
+                                Réservations
+                            </a>
+                        </li>
+                        <li>
+                            <a href="expositions.html">
+                                <i class="fas fa-images fa-2x"></i>
+                                Expositions
+                            </a>
+                        </li>
+                        <li>
+                            <a href="reclamations.html">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Réclamations
+                            </a>
+                        </li>
+                        <li>
+                            <a href="oeuvres.html">
+                                <i class="fas fa-paint-brush"></i>
+                                Œuvres
+                            </a>
+                        </li>
+                        <li>
+                            <a href="cours.html">
+                                <i class="fas fa-book"></i>
+                                Cours
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="rights-reserved">
+                      © 2024 Galerie d'Art Moderne. Tous droits réservés.
+                  </p>
+                </div>
             </div>
-            <div class="col-12 col-lg-6 center">
-              <div class="row-links mt-2 mb-3">
-                <ul class="row-links-soc">
-                  <li class="row-links-soc-item mbr-fonts-style display-7">
-                    <a href="#" class="text-white">Accueil</a>
-                  </li>
-                  <li class="row-links-soc-item mbr-fonts-style display-7">
-                    <a href="#" class="text-white">Expositions</a>
-                  </li>
-                  <li class="row-links-soc-item mbr-fonts-style display-7">
-                    <a href="#" class="text-white">Réservations</a>
-                  </li>
-                  <li class="row-links-soc-item mbr-fonts-style display-7">
-                    <a href="#" class="text-white">Contact</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
         </div>
-      </section>
+    </section>
+</footer>
+</div>
+   
+      
+    
+    
+    
 
 
 
@@ -165,6 +191,7 @@
 <script src="{{asset('https://code.jquery.com/jquery-3.3.1.slim.min.js')}}"></script>
 <script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')}}"></script>
 <script src="{{asset('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')}}"></script>
 
 <script src="{{asset('FrontOffice/js/formoid.min.js')}}"></script>
 <script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
