@@ -1,8 +1,19 @@
+
+
 {% extends 'nav_foot_client.html.twig' %}
 
-{% block title %}New Avis{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+{% endblock %}
 
-{% block addavis %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+{% endblock %}
+
+ {% block addavis %}
     <div class="row">
         <div class="col-md-6">
             <h1>Exprimez vous</h1>
@@ -14,4 +25,29 @@
             <img src="{{ imageUrl }}" alt="Image de l'œuvre" class="img-fluid" style="max-width: 200; height: auto;">
         </div>
     </div>
+     <div class="row mt-5">
+    <div class="col-md-12">
+        <h2>Les avis de nos clients</h2>
+        <ul class="list-group">
+            {% for avis in avis %}
+                <li class="list-group-item">
+                     <strong> Client :</strong> {{ avis.user.nomUser }} {{ avis.user.prenomUser }}<br>
+                        <strong>Commentaire :</strong> {{ avis.commentaire }}<br>
+                        <strong>Note :</strong> {{ avis.note|rating }}<br>
+                    <!-- Ajoutez d'autres détails de l'avis si nécessaire -->
+                    {% if userId == avis.user.idUser %}
+            <a href="{{ path('app_avis_edit', {'idAvis': avis.idAvis}) }}" class="btn btn-primary">Modifier avis</a>
+            <form action="{{ path('app_avis_delete', {'idAvis': avis.idAvis}) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet avis?');">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avis.idAvis) }}">
+                <button type="submit" class="btn btn-danger">Supprimer avis</button>
+            </form>
+        {% endif %}
+                </li>
+            {% else %}
+                <li class="list-group-item">Aucun avis disponible pour le moment.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Avis;
 use App\Entity\Oeuvre;
+use App\Entity\User;
 use App\Form\AvisType;
 use App\Repository\AvisRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +20,8 @@ use Symfony\Component\Security\Core\Security;
 //#[Route('/avis')]
 class AvisController extends AbstractController
 {
+
+    
     #[Route('/a', name: 'app_avis_index', methods: ['GET'])]
     public function index(AvisRepository $avisRepository): Response
     {
@@ -27,19 +30,36 @@ class AvisController extends AbstractController
         ]);
     }
 
+    private $entityManager; // Déclarer une propriété pour stocker l'EntityManager
+
+    // Injecter l'EntityManager dans le constructeur
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+
     #[Route('/new/{idOeuvre}', name: 'app_avis_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, $idOeuvre): Response
     {
         $avi = new Avis();
+
+        $userId = 3;
+        $user = $entityManager->getRepository(User::class)->find($userId);
         
         // Récupérer l'œuvre associée à l'avis
         $oeuvre = $entityManager->getRepository(Oeuvre::class)->find($idOeuvre);
         
         // Récupérer l'URL de l'image de l'œuvre
         $imageUrl = $this->generateUrl('user_images', ['imageName' => $oeuvre->getImage()]);
+
+        // Récupérer les avis correspondant à l'œuvre
+        $avis = $this->entityManager->getRepository(Avis::class)->findBy(['oeuvre' => $oeuvre]);
         
         // Pré-remplir le champ de l'oeuvre avec l'ID de l'oeuvre passé dans l'URL
         $avi->setOeuvre($oeuvre);
+        $avi->setUser($user);
+
     
         $form = $this->createForm(AvisType::class, $avi);
         $form->handleRequest($request);
@@ -48,13 +68,15 @@ class AvisController extends AbstractController
             $entityManager->persist($avi);
             $entityManager->flush();
     
-            return $this->redirectToRoute('app_oeuvre_showclient', ['idOeuvre' => $oeuvre->getIdOeuvre()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_avis_new', ['idOeuvre' => $oeuvre->getIdOeuvre()], Response::HTTP_SEE_OTHER);
         }
     
         return $this->renderForm('avis/new.html.twig', [
             'avi' => $avi,
             'form' => $form,
             'imageUrl' => $imageUrl, // Passer l'URL de l'image à la vue
+            'avis' => $avis,
+            'userId' => $userId
         ]);
     }
     
@@ -80,8 +102,8 @@ class AvisController extends AbstractController
         $userId = $avi->getUser()->getIdUser();
 
         // Rediriger vers la page user_avis_history avec l'ID de l'utilisateur réel
-        return $this->redirectToRoute('user_avis_history', ['userId' => $userId], Response::HTTP_SEE_OTHER);
-        }
+        return $this->redirectToRoute('app_avis_new', ['idOeuvre' => $avi->getOeuvre()->getIdOeuvre()], Response::HTTP_SEE_OTHER);
+    }
 
         return $this->renderForm('avis/edit.html.twig', [
             'avi' => $avi,
@@ -101,7 +123,7 @@ class AvisController extends AbstractController
         $userId = $avi->getUser()->getIdUser();
 
         // Rediriger vers la page user_avis_history avec l'ID de l'utilisateur réel
-        return $this->redirectToRoute('user_avis_history', ['userId' => $userId], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_avis_new', ['idOeuvre' => $avi->getOeuvre()->getIdOeuvre()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/user-images/{imageName}', name: 'user_images')]

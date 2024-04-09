@@ -10,6 +10,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\User;
 use App\Entity\Oeuvre;
+use Sbyaute\StarRatingBundle\Form\StarRatingType;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
 class AvisType extends AbstractType
@@ -22,15 +24,12 @@ class AvisType extends AbstractType
                     new Assert\NotBlank(['message' => 'Le commentaire ne peut pas être vide']),
                 ],
             ])
-            ->add('note', Type\IntegerType::class, [
+            ->add('note', StarRatingType::class, [
+                
+                'stars' => 5,
+                //'integer' => true,
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'La note est obligatoire']),
-                    new Assert\Range([
-                        'min' => 0,
-                        'max' => 5,
-                        'minMessage' => 'La note doit être au moins {{ 0 }}',
-                        'maxMessage' => 'La note ne peut pas dépasser {{ 5t }}',
-                    ]),
+                    new Assert\NotBlank(['message' => 'La note est obligatoire']), // Contrainte de validation NotBlank
                 ],
             ])
             ->add('likes', Type\IntegerType::class, [
@@ -42,14 +41,7 @@ class AvisType extends AbstractType
             ->add('favoris', Type\CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'nomUser', // Remplacez 'nom' par la propriété qui contient le nom de l'utilisateur dans votre entité User
-            ])
-            ->add('oeuvre',EntityType::class, [
-                'class' => Oeuvre::class,
-                'choice_label' => 'nomOeuvre', // Remplacez 'nom' par la propriété qui contient le nom de l'utilisateur dans votre entité User
-            ])
+          
         ;
     }
 

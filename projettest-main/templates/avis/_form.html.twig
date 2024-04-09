@@ -1,13 +1,27 @@
+
+
+
 {{ form_start(form) }}
-     {#{{ form_widget(form) }}#}
-    <div class="row">
-        {% for child in form %}
+{% block stylesheets %}
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+   
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+{% endblock %}
+<div class="row">
+    {% for child in form %}
+        {% if child.vars.name == 'note' %}
             <div class="col-md-6">
                 <div class="form-group">
-                    {{ form_label(child) }}
-                    {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
-
-                    {# Affichage des erreurs associées à chaque champ #}
+                    <label>{{ form_label(child) }}</label>
+                   
+                    <div class="rating-wrapper">
+                        {{ form_widget(child, {'attr': {'class': 'form-control rating'}}) }}
+                    </div>
                     {% if child.vars.errors|length > 0 %}
                         <div class="alert alert-danger">
                             {% for error in child.vars.errors %}
@@ -17,7 +31,22 @@
                     {% endif %}
                 </div>
             </div>
-        {% endfor %}
-    </div>
-    <button class="btn">{{ button_label|default('Save') }}</button>
+        {% else %}
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(child) }}
+                    {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
+                    {% if child.vars.errors|length > 0 %}
+                        <div class="alert alert-danger">
+                            {% for error in child.vars.errors %}
+                                <p>{{ error.message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+<button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

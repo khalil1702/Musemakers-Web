@@ -11,11 +11,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use App\Controller\AvisController;
 use App\Entity\Avis;
 
 #[Route('/oeuvreclient')]
 class OeuvreClient extends AbstractController
 {
+
+    #[Route('/getalloeuvres', name: 'app4_oeuvre_index', methods: ['GET'])]
+    public function getall2(OeuvreRepository $oeuvreRepository): Response
+    {
+        $oeuvres = $oeuvreRepository->findAll();
+    
+        return $this->render('oeuvre/affichertousoeuvrs.html.twig', [
+            'oeuvres' => $oeuvres,
+        ]);
+    }
+
 
     #[Route('/getall', name: 'app1_oeuvre_index', methods: ['GET'])]
     public function getall(OeuvreRepository $oeuvreRepository): Response
@@ -26,6 +38,8 @@ class OeuvreClient extends AbstractController
             'oeuvres' => $oeuvres,
         ]);
     }
+
+
 
     
     #[Route('/user-images/{imageName}', name: 'user_images1')]
@@ -45,8 +59,11 @@ class OeuvreClient extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+
+
     #[Route('/{idOeuvre}', name: 'app_oeuvre_showclient', methods: ['GET'])]
     public function show($idOeuvre): Response
+    {
     {
         // Récupérer l'œuvre
         $oeuvre = $this->entityManager->getRepository(Oeuvre::class)->find($idOeuvre);
@@ -59,12 +76,17 @@ class OeuvreClient extends AbstractController
         // Récupérer les avis correspondant à l'œuvre
         $avis = $this->entityManager->getRepository(Avis::class)->findBy(['oeuvre' => $oeuvre]);
 
+      
+
+
         return $this->render('oeuvre/showclient.html.twig', [
             'oeuvre' => $oeuvre,
             'avis' => $avis,
+          
         ]);
     } 
 
    
    
+}
 }

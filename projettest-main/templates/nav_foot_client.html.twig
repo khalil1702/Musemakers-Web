@@ -5,6 +5,10 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
     {% block stylesheets %}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+   <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
     <link rel="preconnect" href="{{asset('https://fonts.googleapis.com')}}">
     <link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" crossorigin>
     <link href="{{asset('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap')}}" rel="stylesheet">
@@ -29,6 +33,7 @@
         }
     </style>
     {% endblock %}
+    
 </head>
 <body>      
 <section class="menu menu2 cid-u76D6GfvJg" once="menu" id="menu-5-u76D6GfvJg" style="margin-top: 50px;">
@@ -52,9 +57,11 @@
                                           <span class="sr-only">(current)</span>
                                       </a>
                                   </li>
+                              
                                   <li class="nav-item">
                                       <a class="nav-link" href="about.html">About</a>
                                   </li>
+                                  
                                   <li class="nav-item">
                                       <a class="nav-link" href="service.html">Service</a>
                                   </li>
@@ -121,6 +128,7 @@
       {% block historiqueavis %} {% endblock %}
       {% block editavis %} {% endblock %}
       {% block affichageoeuvreclient1 %} {% endblock %}
+      {% block affichagetousoeuvreclient %} {% endblock %}
      
       <section class="footer2 cid-u76D6Gi8zy" id="footer-5-u76D6Gi8zy">
         <div class="container">
@@ -178,7 +186,10 @@
 <script src="{{asset('FrontOffice/js/imagesloaded.pkgd.min.js')}}"></script>
 <script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('FrontOffice/js/scroll-gallery.js')}}"></script>
-  
+ 
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+
   <script>
 
     (function(){
