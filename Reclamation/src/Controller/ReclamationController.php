@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\User;
 use App\Entity\Reclamation;
 use App\Form\ReclamationType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTime;
+use Twilio\Rest\Client;
+
 #[Route('/reclamation')]
 class ReclamationController extends AbstractController
 {
@@ -89,18 +91,52 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
     {
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+    
+        require_once __DIR__.'/../../vendor/autoload.php';
 
+
+
+        // Remplacez SID et AuthToken par vos informations Twilio
+        $sid    = "key";
+        $token  = "key";
+        $twilio = new Client($sid, $token);
+
+        $user = $reclamation->getIdu();
+
+         // Récupérer le nom et le prénom de l'utilisateur
+        $nomUser = $user->getNomUser();
+        $prenomUser = $user->getPrenomUser();
+        $descrirec = $reclamation->getDescriRec();
+        $statutrec = $reclamation->getStatutRec();
+    
+
+
+        // Envoi du SMS
+        $message = $twilio->messages
+            ->create("+21627163524", // destinataire
+                array(
+                    "from" => "+18154733136",
+                    "body" => "Cher(e) $nomUser $prenomUser\nLe statut de ta réclamation : $descrirec est : $statutrec"
+                )
+            );
+
+        // Print SID pour vérification
+        print($message->sid);
+            // Redirection après envoi du SMS
             return $this->redirectToRoute('app_reclamation_indexBack', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->renderForm('reclamation/editBack.html.twig', [
+    
+        // Rendre la vue Twig pour l'édition du formulaire
+        return $this->render('reclamation/editBack.html.twig', [
             'reclamation' => $reclamation,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
+      
+    
     #[Route('/{idrec}', name: 'app_reclamation_delete', methods: ['POST'])]
     public function delete(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
     {
