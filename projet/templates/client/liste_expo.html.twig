@@ -1,16 +1,15 @@
 {% extends 'nav_foot_client.html.twig' %} 
-
 {% block title %}Exposition Display{% endblock %}
-
 {% block content %}
 <div class="container mt-100">
-    <!-- Add search input field -->
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <input type="text" id="searchInput" placeholder="Search by name" onkeyup="searchExpositions()">
-        </div>
-    </div>
-
+    <div class="container mt-100 text-center">
+        <div class="container mt-100">
+            <input type="text" id="search-input" onkeyup="search()" class="search-input" placeholder="Rechercher par nom">
+          </div>
+          
+      </div>
+      
+<br>      
     <div id="expositions" class="row">
         {% if expositions|length > 0 %}
             {% for exposition in expositions %}
@@ -18,12 +17,10 @@
                     <div class="card h-100 d-flex flex-column">
                         <a class="card-img-tiles" href="#" data-abc="true">
                             <div class="inner">
-                                
                                 <div class="main-img">
                                     {% if exposition.image %}
                                         <img src="{{ path('user_images', {'imageName': exposition.image}) }}" alt="{{ exposition.nom }}" class="exposition-image" style="width: 100%; height: auto;">
                                     {% else %}
-                                        <!-- Placeholder image or handle the case where the image is not set -->
                                         <img src="placeholder.jpg" alt="Placeholder Image" class="exposition-image" style="width: 100%; height: auto;">
                                     {% endif %}
                                 </div>
@@ -33,7 +30,6 @@
                             <h4 class="card-title">{{ exposition.nom }}</h4>
                             <p class="text-muted">
                                 <br>Theme: {{ exposition.theme }} <br>
-
                                 {% if exposition.dateDebut %}
                                     Date debut  {{ exposition.dateDebut|date('Y-m-d ')}}à  {{ exposition.heureDebut|date('H:i') }} <br>
                                 {% endif %}
@@ -41,7 +37,7 @@
                                     Date fin {{ exposition.dateFin|date('Y-m-d ') }}à  {{ exposition.heureFin|date('H:i') }}
                                 {% endif %}
                             </p>
-                            <div class="mt-auto">  <!-- This ensures that button sticks to the bottom -->
+                            <div class="mt-auto">
                                 <a href="{{ path('app_client_show', {'idExposition': exposition.idExposition}) }}" 
                                    class="btn item-btn btn-primary display-7">Voir Détails</a>
                             </div>
@@ -69,31 +65,52 @@
         </ul>
     </nav>
 </div>
-{% endblock %}
-
-
- 
-    {% block javascripts %}
-    <script>
-        var searchInputInitialized = false;
-
-        function searchExpositions() {
-            var input, filter;
-            input = document.getElementById('searchInput');
-            filter = input.value.toUpperCase();
-            
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (this.readyState === 4 && this.status === 200) {
-                    document.getElementById('expositions').innerHTML = this.responseText;
-                }
-            };
-            xhr.open("GET", "/client/getallExpo?query=" + filter, true);
-            xhr.send();
-        }
+<script>
+    function search() {
         
-    </script>
+        let query = document.getElementById('search-input').value;
+        fetch(`/client/search?q=${query}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            let div = document.getElementById('expositions');
+            div.innerHTML = '';
+
+            data.forEach(exposition => {
+                    
+                let expositionDiv = `
+                    <div class="col-md-4 col-sm-6 mb-30">
+                        <div class="card h-100 d-flex flex-column">
+                            <a class="card-img-tiles" href="#" data-abc="true">
+                                <div class="inner">
+                                    <div class="main-img">
+                                        <img src="/user-images/${exposition.image}" class="exposition-image" onError="handleImageError(this)" style="width: 100%; height: auto;">
+                                    </div>
+                            </a>
+                            <div class="card-body text-center d-flex flex-column">
+                                <h4 class="card-title">${exposition.nom}</h4>
+                                <p class="text-muted">
+                                    <br>Theme: ${exposition.theme} <br>
+                                    Date debut: ${exposition.dateDebut} à ${exposition.heureDebut} <br>
+                                    Date fin: ${exposition.dateFin} à ${exposition.heureFin}
+                                </p>
+                                <div class="mt-auto">
+                                    <a href="${exposition.idExposition}" class="btn item-btn btn-primary display-7">Voir Détails</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                div.innerHTML += expositionDiv;
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
 {% endblock %}
-
-
 

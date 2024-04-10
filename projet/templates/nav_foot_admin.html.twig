@@ -296,6 +296,8 @@
         {% block new_expo %}{% endblock %}
         {% block edit_expo %}{% endblock %}
         {% block show_expo %}{% endblock %}
+        {% block stat %}{% endblock %}
+        {% block stat1 %}{% endblock %}
 
             
     
@@ -337,6 +339,8 @@
     <!-- Custom js for this page -->
     <script {{asset('BackOffice/js/dashboard.js')}}></script>
     <script src={{asset('BackOffice/js/todolist.js')}}></script>
+    <script src={{asset('BackOffice/js/todolist.js')}}></script>
+    <script src="{{asset('https://cdn.jsdelivr.net/npm/chart.js')}}"></script>
     <!-- End custom js for this page -->
 
     {% endblock %}

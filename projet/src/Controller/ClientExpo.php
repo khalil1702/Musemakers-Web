@@ -34,20 +34,14 @@ class ClientExpo extends AbstractController
 
 
 //hethi  lel lista
+
 #[Route('/getallExpo', name: 'app_client_getallExpo', methods: ['GET'])]
-public function getallExpoClient(Request $request, ExpositionRepository $expositionRepository, PaginatorInterface $paginator): Response
-{
-    $searchQuery = $request->query->get('query');
-
-    if ($searchQuery) {
-        $expositions = $expositionRepository->searchByName($searchQuery);
-    } else {
+    public function getallExpoClient(Request $request,ExpositionRepository $expositionRepository,PaginatorInterface $paginator): Response
+    {
         $expositions = $expositionRepository->findAll();
-    }
-
-    // Pagination logic
+        // Pagination logic
     $currentPage = $request->query->getInt('page', 1); // Get the current page number (default to 1)
-    $perPage = 5; // Number of expositions per page (adjust as needed)
+    $perPage = 6; // Number of expositions per page (adjust as needed)
 
     $paginatedExpositions = $paginator->paginate(
         $expositions,
@@ -55,26 +49,52 @@ public function getallExpoClient(Request $request, ExpositionRepository $exposit
         $perPage
     );
 
-    // Convert the paginated expositions to HTML using Twig
-    $html = $this->renderView('client/liste_expo.html.twig', [
-        'expositions' => $paginatedExpositions,
-        'knp_pagination' => $paginatedExpositions, // Pass the pagination object to Twig
-    ]);
+        return $this->render('client/liste_expo.html.twig', [
+            'expositions' => $paginatedExpositions,
+            'knp_pagination' => $paginatedExpositions, 
+        ]);
+    }
+    
 
-    // Return the HTML response
-    return new Response($html);
+    #[Route('/search', name: 'exposition_search', methods: ['GET'])]
+    public function search(Request $request, ExpositionRepository $expositionRepository): Response
+    {
+        $query = $request->query->get('q');
+        
+    
+        $expositions = $expositionRepository->searchByName($query);
+    
+        // Serialize the result to JSON and return the response
+        $jsonData = $this->serializeExpositions($expositions);
+    
+        return new JsonResponse($jsonData);
+    }
+    private function serializeExpositions($expositions)
+{
+    $jsonData = [];
+
+    foreach ($expositions as $exposition) {
+        $jsonData[] = [
+            'idExposition' => $exposition->getIdExposition(),
+            'nom' => $exposition->getNom(),
+            'theme' => $exposition->getTheme(),
+            'image' => $exposition->getImage(),
+
+            'dateDebut' => $exposition->getDateDebut()->format('Y-m-d'), // Format dateDebut
+            'dateFin' => $exposition->getDateFin()->format('Y-m-d'), // Format dateFin
+            'heureDebut' => $exposition->getHeureDebut()->format('H:i'), // Format heureDebut
+            'heureFin' => $exposition->getHeureFin()->format('H:i'),
+        ];
+    }
+
+    return $jsonData;
 }
-
-
-
     
-   
-    
-
 
     #[Route('/user-images/{imageName}', name: 'user_images')]
     public function getUserImage(string $imageName): Response
     {
+
         $imagePath = 'C:\xampp\htdocs\user_images\\' . $imageName;
         
         // Return the image as a response

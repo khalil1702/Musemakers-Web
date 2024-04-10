@@ -1,0 +1,64 @@
+
+{% extends 'nav_foot_admin.html.twig' %}
+{% block stat %}
+
+<div class="col-md-5 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Statistique Générale</h4>
+            <canvas id="traffic-chart"></canvas>
+            <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Récupérer les données transmises depuis le contrôleur
+        var stats = {{ stats | json_encode | raw }};
+
+        // Extraire les données pour le graphique
+        var labels = Object.keys(stats);
+        var data = Object.values(stats);
+
+        // Configuration du graphique
+        var ctx = document.getElementById('traffic-chart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Nombre de réservations',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Afficher la légende
+        document.getElementById('traffic-chart-legend').innerHTML = myChart.generateLegend();
+    });
+</script>
+{% endblock %}

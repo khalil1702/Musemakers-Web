@@ -42,6 +42,9 @@ public function reservationRequests(Request $request, ReservationRepository $res
         'knp_pagination' => $reservationRequests
 
     ]);
+
+
+
 } 
 
 
@@ -135,8 +138,28 @@ public function cancelReservation(Reservation $reservation): Response
     return $this->redirectToRoute('app_client_getreser');
 }
 
+#[Route('/statistics', name: 'admin_statistics')]
+    public function statistics(ReservationRepository $reservationRepository): Response
+    {
+        // Récupérer les données pour le graphique
+        $stats = $reservationRepository->getReservationStats();
 
+        // Renvoyer les données au template Twig
+        return $this->render('back_office/statistics.html.twig', [
+            'stats' => $stats
+        ]);
+    }
+    #[Route('/top-reserved-expositions', name: 'admin_top_reserved_expositions')]
+    public function topReservedExpositions(ReservationRepository $reservationRepository): Response
+    {
+        // Récupérer les données pour les expositions les plus réservées
+        $topReservedExpositions = $reservationRepository->getTopReservedExpositions();
 
+        // Renvoyer les données au template Twig
+        return $this->render('back_office/stat1.html.twig', [
+            'topReservedExpositions' => $topReservedExpositions
+        ]);
+    }
     
 
   

@@ -22,7 +22,57 @@ class ReservationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Reservation::class);
     }
+    public function getReservationStats(): array
+    {
+        // Récupérer les statistiques des réservations
+        $stats = [];
+
+        // Compter le nombre de réservations pour chaque statut
+        $stats['en_cours'] = $this->createQueryBuilder('r')
+            ->select('COUNT(r.idReservation)')
+            ->andWhere('r.accessByAdmin = 0')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $stats['acceptees'] = $this->createQueryBuilder('r')
+            ->select('COUNT(r.idReservation)')
+            ->andWhere('r.accessByAdmin = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $stats['annulees'] = $this->createQueryBuilder('r')
+            ->select('COUNT(r.idReservation)')
+            ->andWhere('r.accessByAdmin = 2')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $stats['refusees'] = $this->createQueryBuilder('r')
+            ->select('COUNT(r.idReservation)')
+            ->andWhere('r.accessByAdmin = 3')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $stats;
+    }
+  
+    public function getTopReservedExpositions(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r.exposition', 'COUNT(r.idReservation) as reservationsCount')
+            ->join('r.exposition', 'exposition') // Join with the Exposition entity
+            ->andWhere('r.accessByAdmin = 1')
+            ->groupBy('exposition') // Group by the Exposition entity
+            ->orderBy('reservationsCount', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
     
+    
+    
+
+
+
    
  
 }

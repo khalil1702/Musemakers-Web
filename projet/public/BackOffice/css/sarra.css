@@ -34,6 +34,16 @@
 
   /*l expositions lel admin */
 
+
+  .search-input {
+    width: 200px; 
+   
+       font-size: 14px; 
+    
+  }
+  
+  
+
 body {
   background-color: #eee
 }
