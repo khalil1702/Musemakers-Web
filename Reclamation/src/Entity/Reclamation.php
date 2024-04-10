@@ -25,8 +25,8 @@ class Reclamation
     private \DateTime $daterec;
 
     #[ORM\Column(name: "CategorieRec", type: "string", length: 255)]
-#[Assert\NotBlank(message:"Veuillez choisir une catégorie")]
-private ?string $categorierec = null;
+    #[Assert\NotBlank(message:"Veuillez choisir une catégorie")]
+    private ?string $categorierec = null;
 
      
     

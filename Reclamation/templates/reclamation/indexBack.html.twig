@@ -28,11 +28,11 @@
                     <td>{{ reclamation.categorierec }}</td>
                     <td>
                         {% if reclamation.statutrec == 'En Cours' %}
-                            <label class="badge badge-warning">{{ reclamation.statutrec }}</label>
+                            <span class="badge badge-warning">{{ reclamation.statutrec }}</span>
                         {% elseif reclamation.statutrec == 'Fermée' %}
-                            <label class="badge badge-danger">{{ reclamation.statutrec }}</label>
+                            <span class="badge badge-danger">{{ reclamation.statutrec }}</span>
                         {% elseif reclamation.statutrec == 'Resolue' %}
-                            <label class="badge badge-success">{{ reclamation.statutrec }}</label>
+                            <span class="badge badge-success">{{ reclamation.statutrec }}</span>
                         {% endif %}
                     </td>
                     
@@ -49,4 +49,118 @@
             </tbody>
         </table>
     </div>
+    <!-- Affichage de la pie chart pour les statistiques des réclamations -->
+    <div class="card mt-4">
+        <div class="card-body">
+            <h2 class="card-title">Statistiques des statut des réclamations</h2>
+            <canvas id="statutChart" width="200" height="200"></canvas>
+        </div>
+    </div>
+
+    <!-- JavaScript pour afficher la pie chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var statutData = {
+                labels: [
+                    {% for statut, count in statistiques.statutrec %}
+                        '{{ statut }}',
+                    {% endfor %}
+                ],
+                datasets: [{
+                    data: [
+                        {% for statut, count in statistiques.statutrec %}
+                            {{ count }},
+                        {% endfor %}
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.6)', // Bleu pour Resolue
+                        'rgba(255, 99, 132, 0.6)', // Rouge pour Fermée
+                        'rgba(255, 206, 86, 0.6)', // Jaune pour En Cours
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        
+                        
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            var statutCtx = document.getElementById('statutChart').getContext('2d');
+            var statutChart = new Chart(statutCtx, {
+                type: 'pie',
+                data: statutData,
+            });
+        });
+    </script>
+
+
+<!-- Affichage de l'histogramme pour les statistiques des catégories de réclamations -->
+<div class="card mt-4">
+    <div class="card-body">
+        <h2 class="card-title">Statistiques des catégories de réclamations</h2>
+        <canvas id="categorieChart" width="200" height="200"></canvas>
+    </div>
+</div>
+
+<!-- JavaScript pour afficher l'histogramme des catégories de réclamations -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var categorieData = {
+            labels: [
+                {% for categorie, count in statistiques.categorierec %}
+                    '{{ categorie }}',
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Nombre de réclamations par catégorie',
+                data: [
+                    {% for categorie, count in statistiques.categorierec %}
+                        {{ count }},
+                    {% endfor %}
+                ],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.6)',  // Bleu ciel
+                    'rgba(255, 99, 132, 0.6)',  // rouge
+                    'rgba(255, 206, 86, 0.6)'      // Jaune
+                ], // Couleur des barres
+                borderColor: [
+                    'rgba(173, 216, 230, 1)',    // Bleu ciel
+                    'rgba(255, 182, 193, 1)',    // Rose
+                    'rgba(255, 255, 0, 1)'       // Jaune
+                ], // Couleur de la bordure des barres
+                borderWidth: 1
+            }]
+        };
+
+        var categorieCtx = document.getElementById('categorieChart').getContext('2d');
+        var categorieChart = new Chart(categorieCtx, {
+            type: 'bar', // Utilisation d'un histogramme (bar chart)
+            data: categorieData,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
+<!-- Affichage des statistiques -->
+<div class="card mt-4">
+    <div class="card-body">
+        <h2 class="card-title" style="color: red;">Consignes Pour Améliorer Les Statistiques : </h2>
+        <ul>
+            <li>Minimiser les incidents techniques : Ils représentent une grande partie des réclamations.</li>
+            <li>Optimiser le service à la clientèle : Même si les plaintes sont moins nombreuses, l'optimisation est cruciale.</li>
+            <li>Évaluer les produits : Malgré le faible nombre de plaintes, une réévaluation régulière est bénéfique.</li>
+        </ul>
+    </div>
+</div>
 {% endblock %}
