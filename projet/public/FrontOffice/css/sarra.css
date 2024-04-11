@@ -1589,4 +1589,42 @@ p {
     }
 }
 
+
+/* l modal mtae view pdf*/
+.modal-content {
+    width: 150%; 
+    height: 150%; 
+    
+  }
+  #pdfFrame {
+    width: 100%;
+    height: 100%;
+  }
+   
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 150%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+   
+
+
 /* FIN historique client */

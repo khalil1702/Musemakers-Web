@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
-
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 #[Route('/admin')]
 class AdminReser extends AbstractController
@@ -164,10 +164,43 @@ public function downloadPdf(int $reservationId): Response
         // Render the HTML as PDF
         $dompdf->render();
 
-        // Output the generated PDF (inline or attachment)
+        // Set the response headers to force download
+        $response = new Response($dompdf->output());
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->headers->set('Content-Disposition', $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'reservation.pdf'));
+
+        return $response;
+    } else {
+        // Handle unauthorized access
+        throw $this->createNotFoundException('Reservation not found or unauthorized access.');
+    }}
+
+    #[Route('/view-pdf/{reservationId}', name: 'app_view_pdf', methods: ['GET'])]
+public function viewPdf(int $reservationId): Response
+{
+    // Get the reservation by ID
+    $reservation = $this->entityManager->getRepository(Reservation::class)->find($reservationId);
+
+    // Check if the reservation belongs to the user with ID 6
+    if ($reservation && $reservation->getUser()->getIdUser() === 6) {
+        // Generate PDF content
+        $pdfContent = $this->renderView('client/pdf_reservation.html.twig', ['reservation' => $reservation]);
+
+        // Create PDF
+        $options = new Options();
+        $options->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($pdfContent);
+
+        // (Optional) Set paper size and orientation
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF (inline)
         return new Response($dompdf->output(), Response::HTTP_OK, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="reservation.pdf"',
         ]);
     } else {
         // Handle unauthorized access

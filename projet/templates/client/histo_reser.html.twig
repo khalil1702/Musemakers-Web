@@ -71,7 +71,8 @@
                 </td>
                 <td>
                   <a href="{{ path('app_download_pdf', {'reservationId': reservation.idReservation}) }}" class="btn btn-sm btn-primary">Download PDF</a>
-              </td>
+                  <button type="button" class="btn btn-sm btn-primary" onclick="openPdfModal('{{ path('app_view_pdf', {'reservationId': reservation.idReservation}) }}')">View PDF</button>
+                </td>
               
               </tr>
               {% endfor %}
@@ -124,6 +125,23 @@
     </div>
 </div>
 {% endfor %}
+<!-- Modal -->
+<div id="pdfModal" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reservation PDF</h5>
+        <button type="button" class="close" onclick="closePdfModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <iframe id="pdfFrame" src="" frameborder="0" style="width:100%;height:400px;"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closePdfModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -143,6 +161,22 @@
         }
       });
     });
+  </script>
+ 
+  <script>
+    function openPdfModal(pdfUrl) {
+      var modal = document.getElementById('pdfModal');
+      var pdfFrame = document.getElementById('pdfFrame');
+      pdfFrame.src = pdfUrl;
+      modal.style.display = 'block';
+    }
+  
+    function closePdfModal() {
+      var modal = document.getElementById('pdfModal');
+      var pdfFrame = document.getElementById('pdfFrame');
+      pdfFrame.src = '';
+      modal.style.display = 'none';
+    }
   </script>
   {% endblock %}
 
