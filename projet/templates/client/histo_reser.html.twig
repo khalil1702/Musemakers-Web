@@ -69,7 +69,10 @@
                         </div>
                     </div>
                 </td>
-                <td></td>
+                <td>
+                  <a href="{{ path('app_download_pdf', {'reservationId': reservation.idReservation}) }}" class="btn btn-sm btn-primary">Download PDF</a>
+              </td>
+              
               </tr>
               {% endfor %}
             </tbody>

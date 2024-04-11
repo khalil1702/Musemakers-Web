@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Reservation Details</h2>
+    <table>
+        <tr>
+            <th>Exposition</th>
+            <td>{{ reservation.exposition.nom }}</td>
+        </tr>
+        <tr>
+            <th>Number of Tickets</th>
+            <td>{{ reservation.ticketsNumber }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>
+                {% if reservation.accessByAdmin == 0 %}
+                    En cours
+                {% elseif reservation.accessByAdmin == 1 %}
+                    Accepté
+                {% elseif reservation.accessByAdmin == 2 %}
+                    Refusé
+                {% elseif reservation.accessByAdmin == 3 %}
+                    Annulé
+                {% else %}
+                    Unknown
+                {% endif %}
+            </td>
+        </tr>
+        <!-- Add more details as needed -->
+    </table>
+</body>
+</html>

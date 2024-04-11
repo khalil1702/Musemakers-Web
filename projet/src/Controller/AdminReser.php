@@ -10,6 +10,9 @@ use App\Form\ExpositionType;
 use App\Repository\ExpositionRepository;
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -137,6 +140,41 @@ public function cancelReservation(Reservation $reservation): Response
     $this->addFlash('success', 'Reservation cancelled.');
     return $this->redirectToRoute('app_client_getreser');
 }
+
+#[Route('/download-pdf/{reservationId}', name: 'app_download_pdf', methods: ['GET'])]
+public function downloadPdf(int $reservationId): Response
+{
+    // Get the reservation by ID
+    $reservation = $this->entityManager->getRepository(Reservation::class)->find($reservationId);
+
+    // Check if the reservation belongs to the user with ID 6
+    if ($reservation && $reservation->getUser()->getIdUser() === 6) {
+        // Generate PDF content
+        $pdfContent = $this->renderView('client/pdf_reservation.html.twig', ['reservation' => $reservation]);
+
+        // Create PDF
+        $options = new Options();
+        $options->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($pdfContent);
+
+        // (Optional) Set paper size and orientation
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF (inline or attachment)
+        return new Response($dompdf->output(), Response::HTTP_OK, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="reservation.pdf"',
+        ]);
+    } else {
+        // Handle unauthorized access
+        throw $this->createNotFoundException('Reservation not found or unauthorized access.');
+    }
+}
+
 
 #[Route('/statistics', name: 'admin_statistics')]
     public function statistics(ReservationRepository $reservationRepository): Response
