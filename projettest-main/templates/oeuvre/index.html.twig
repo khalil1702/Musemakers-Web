@@ -6,43 +6,99 @@
     
 
 
-    <table class="table">
-        <thead>
-            <tr>
-               
-                <th>NomOeuvre</th>
-                <th>CategorieOeuvre</th>
-                <th>PrixOeuvre</th>
-                <th>Datecreation</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for oeuvre in oeuvres %}
-            <tr>
-                <td>
-    <a href="{{ path('app_oeuvre_avis', {'idOeuvre': oeuvre.idOeuvre}) }}">{{ oeuvre.nomOeuvre }}</a>
-</td>
+  {% block stylesheets %}
+   
+    <style>
+        .oeuvre-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
 
-                <td>{{ oeuvre.categorieOeuvre }}</td>
-                <td>{{ oeuvre.prixOeuvre }}</td>
-                <td>{{ oeuvre.datecreation ? oeuvre.datecreation|date('Y-m-d') : '' }}</td>
-                <td>{{ oeuvre.description }}</td>
-                <td><img src="{{ path('user_images', {'imageName': oeuvre.image}) }}" alt="{{ oeuvre.nomOeuvre }}" class="oeuvre-image" style="width: 300px; height: 200px;"></td>
-                <td>
-                    <a href="{{ path('app_oeuvre_show', {'idOeuvre': oeuvre.idOeuvre}) }}">show</a>
-                    <a href="{{ path('app_oeuvre_edit', {'idOeuvre': oeuvre.idOeuvre}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        .oeuvre-card {
+            flex: 0 0 400px; /* Largeur fixe de chaque carte */
+            margin-right: 10px; /* Espacement entre les cartes */
+            scroll-snap-align: start;
+            background-color: transparent;
+            width: 400px;
+            height: 400px;
+            perspective: 1000px;
+        }
 
-    <a href="{{ path('app_oeuvre_new') }}">Create new</a>
+        .oeuvre-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            background-color: #2980b9; /* Couleur de fond pour la carte arrière */
+            color: white; /* Couleur du texte pour la carte arrière */
+        }
+
+        .oeuvre-card:hover .oeuvre-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .oeuvre-card-front, .oeuvre-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .oeuvre-card-front {
+            background-color: #bbb;
+            color: black;
+        }
+
+    .oeuvre-card-back {
+    background-color: #E0E0E0; /* Couleur fumée */
+    color: #333333;/* Couleur du texte */
+    transform: rotateY(180deg);
+}
+
+        .oeuvre-card img {
+            height: 300px; /* Hauteur fixe de l'image */
+            object-fit: cover; /* Ajuster l'image pour remplir le conteneur tout en préservant son aspect */
+             position: absolute; /* Position absolue pour utiliser les propriétés top, bottom, left, right */
+              top: 50%; /* Place le haut de l'image au milieu de la carte */
+            left: 50%; /* Place la gauche de l'image au milieu de la carte */
+             transform: translate(-50%, -50%); /* Déplace l'image de moitié de sa taille vers le haut et vers la gauche pour la centrer *
+        }
+    </style>
 {% endblock %}
+
+<a href="{{ path('app_oeuvre_new') }}" class="btn btn-primary mt-3">Ajouter Nouveau</a>
+
+<div class="oeuvre-carousel">
+        {% for oeuvre in oeuvres %}
+            <div class="oeuvre-card-container"> <!-- Div supplémentaire pour chaque carte et bouton -->
+                <div class="oeuvre-card">
+                    <div class="oeuvre-card-inner">
+                        <div class="oeuvre-card-front">
+                            <img src="{{ path('user_images', {'imageName': oeuvre.image}) }}" alt="{{ oeuvre.nomOeuvre }}">
+                        </div>
+                        <div class="oeuvre-card-back">
+                            <h1>{{ oeuvre.nomOeuvre }}</h1>
+                            <p>DESCRIPTION: {{ oeuvre.description }}</p>
+                            <p>PRIX: {{ oeuvre.prixOeuvre }}</p>
+                            <p>CATEGORIE: {{ oeuvre.categorieOeuvre }}</p> 
+                            <p>Date Creation: {{  oeuvre.datecreation ? oeuvre.datecreation|date('Y-m-d') : '' }}</p> 
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ path('app_oeuvre_edit', {'idOeuvre': oeuvre.idOeuvre}) }}" class="btn btn-primary mt-3">modifier</a>
+                <a href="{{ path('app_oeuvre_avis', {'idOeuvre': oeuvre.idOeuvre}) }}" class="btn btn-primary mt-3"> voir avis </a>
+                 
+                {{ include('oeuvre/_delete_form.html.twig') }}
+            </div>
+        {% endfor %}
+    </div>
+
+    
+{% endblock %}
+
