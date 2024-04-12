@@ -1,0 +1,130 @@
+{% block stylesheets %}
+    <style>
+        .form-control {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+{% endblock %}
+<div id="main-wrapper" class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card border-0">
+                <div class="card-body p-5">
+                    <h3 class="h4 font-weight-bold text-theme">Login</h3>
+                    <p class="text-muted mt-2 mb-5">Welcome back! Enter your email address and password to access the admin panel.</p>
+
+                    <form method="post">
+                        {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        <div class="form-group">
+                            <label for="inputEmail">Email address</label>
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="inputPassword">Password</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <button type="submit" class="btn btn-theme">Login</button>
+                        <a href="#l" class="forgot-link float-right text-primary">Forgot password?</a>
+                    </form>
+                </div>
+                <!-- end card-body -->
+            </div>
+            <!-- end card -->
+
+            <p class="text-muted text-center mt-3 mb-0">Don't have an account? <a href="" class="text-primary ml-1">Register</a></p>
+
+            <!-- end row -->
+        </div>
+        <!-- end col -->
+
+        <div class="col-lg-6 d-none d-lg-inline-block">
+                            <div class="account-block rounded-right">
+                                <div class="overlay rounded-right"></div>
+                                <div class="account-testimonial">
+                                    <h4 class="text-white mb-4">This  beautiful theme yours!</h4>
+                                    <p class="lead text-white">"Best investment i made for a long time. Can only recommend it for other users."</p>
+                                    <p>- Admin User</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+</div>
+
+<style>
+    /* Custom CSS styles */
+    body {
+        margin-top: 20px;
+        background: #f6f9fc;
+    }
+    
+
+    .account-block {
+          padding: 0;
+    background-image: url(https://bootdey.com/img/Content/bg1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    position: relative;
+    }
+
+    .account-block .overlay {
+          -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .account-block .account-testimonial {
+         text-align: center;
+    color: #fff;
+    position: absolute;
+    margin: 0 auto;
+    padding: 0 1.75rem;
+    bottom: 3rem;
+    left: 0;
+    right: 0;
+    }
+
+    .text-theme {
+        color: #5369f8 !important;
+    }
+
+    .btn-theme {
+        background-color: #5369f8;
+        border-color: #5369f8;
+        color: #fff;
+    }
+</style>

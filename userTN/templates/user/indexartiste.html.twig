@@ -1,0 +1,58 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Artiste index{% endblock %}
+
+{% block body %}
+    <h1>Artiste*
+     index</h1>
+   
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>NomUser</th>
+                <th>PrenomUser</th>
+                <th>Email</th>
+                <th>Mdp</th>
+                <th>NumTel</th>
+                <th>DateDeNaissance</th>
+                <th>Cartepro</th>
+                <th>Status</th>
+                <th>Sexe</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            {% if user.role == 'ROLE_ARTISTE' %}
+                <tr>
+                    <td>{{ user.nomUser }}</td>
+                    <td>{{ user.prenomUser }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.mdp }}</td>
+                    <td>{{ user.numTel }}</td>
+                    <td>{{ user.dateDeNaissance ? user.dateDeNaissance|date('Y-m-d') : '' }}</td>
+                    <td>{{ user.cartepro }}</td>
+                    <td>{{ user.status }}</td>
+                    <td>{{ user.sexe }}</td>
+    <td><img src="{{ path('user_images', {'imageName': user.image}) }}" alt="User image"></td>
+<td>
+    <a href="{{ path('app_user_show', {'idUser': user.idUser}) }}" class="btn btn-primary">Show</a>
+    <a href="{{ path('app_user_edit', {'idUser': user.idUser}) }}" class="btn btn-secondary">Edit</a>
+</td>
+
+                </tr>
+            {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="11">No records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+<a href="{{ path('app_user_new') }}" class="btn btn-success">Create new</a>
+
+{% endblock %}

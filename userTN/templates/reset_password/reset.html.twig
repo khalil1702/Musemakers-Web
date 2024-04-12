@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Change Password{% endblock %}
+
+{% block body %}
+    <h1>Change Password</h1>
+    {{ form_start(changePasswordForm) }}
+        {{ form_row(changePasswordForm.plainPassword.first, {'label': 'New password'}) }}
+        {{ form_row(changePasswordForm.plainPassword.second, {'label': 'Repeat Password'}) }}
+        <button class="btn btn-primary">Change password</button>
+    {{ form_end(changePasswordForm) }}
+{% endblock %}
