@@ -55,41 +55,19 @@ class ClientExpo extends AbstractController
         ]);
     }
     
-
     #[Route('/search', name: 'exposition_search', methods: ['GET'])]
+
     public function search(Request $request, ExpositionRepository $expositionRepository): Response
     {
         $query = $request->query->get('q');
-        
     
         $expositions = $expositionRepository->searchByName($query);
-    
-        // Serialize the result to JSON and return the response
-        $jsonData = $this->serializeExpositions($expositions);
-    
-        return new JsonResponse($jsonData);
+
+        return $this->render('client/search_expo.html.twig', [
+            'expositions' => $expositions,
+        ]);
     }
-    private function serializeExpositions($expositions)
-{
-    $jsonData = [];
-
-    foreach ($expositions as $exposition) {
-        $jsonData[] = [
-            'idExposition' => $exposition->getIdExposition(),
-            'nom' => $exposition->getNom(),
-            'theme' => $exposition->getTheme(),
-            'image' => $exposition->getImage(),
-
-            'dateDebut' => $exposition->getDateDebut()->format('Y-m-d'), // Format dateDebut
-            'dateFin' => $exposition->getDateFin()->format('Y-m-d'), // Format dateFin
-            'heureDebut' => $exposition->getHeureDebut()->format('H:i'), // Format heureDebut
-            'heureFin' => $exposition->getHeureFin()->format('H:i'),
-        ];
-    }
-
-    return $jsonData;
-}
-    
+  
 
     #[Route('/user-images/{imageName}', name: 'user_images')]
     public function getUserImage(string $imageName): Response

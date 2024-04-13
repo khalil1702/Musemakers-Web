@@ -3,11 +3,35 @@
 {% block content %}
 <div class="container mt-100">
     <div class="container mt-100 text-center">
-        <div class="container mt-100">
-            <input type="text" id="search-input" onkeyup="search()" class="search-input" placeholder="Rechercher par nom">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <input type="text" id="search-input" onkeyup="search()" class="form-control form-control-sm" placeholder="Rechercher par nom" style="font-size: 0.8rem;">
+              </div>
+              
+              
+              
+          <div class="col-md-3">
+            <!-- Menu déroulant compact de tri -->
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="themeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded=false>
+                Choisir un thème
+              </button>
+              <div class="dropdown-menu" aria-labelledby="themeDropdown">
+                <a class="dropdown-item" href="#">Peinture à l'huile</a>
+                <a class="dropdown-item" href="#">Photographie contemporaine</a>
+                <a class="dropdown-item" href="#">Sculptures abstraites</a>
+                <a class="dropdown-item" href="#">Art numérique</a>
+                <a class="dropdown-item" href="#">Art moderne</a>
+                <a class="dropdown-item" href="#">Street Art</a>
+                <a class="dropdown-item" href="#">Portraits contemporains</a>
+                <a class="dropdown-item" href="#">Art fantastique</a>
+              </div>
+            </div>
           </div>
-          
+        </div>
       </div>
+      
+
       
 <br>      
     <div id="expositions" class="row">
@@ -67,7 +91,6 @@
 </div>
 <script>
     function search() {
-        
         let query = document.getElementById('search-input').value;
         fetch(`/client/search?q=${query}`, {
             method: 'GET',
@@ -76,41 +99,14 @@
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
-        .then(response => response.json())
+        .then(response => response.text())
         .then(data => {
             let div = document.getElementById('expositions');
-            div.innerHTML = '';
-
-            data.forEach(exposition => {
-                    
-                let expositionDiv = `
-                    <div class="col-md-4 col-sm-6 mb-30">
-                        <div class="card h-100 d-flex flex-column">
-                            <a class="card-img-tiles" href="#" data-abc="true">
-                                <div class="inner">
-                                    <div class="main-img">
-                                        <img src="/user-images/${exposition.image}" class="exposition-image" onError="handleImageError(this)" style="width: 100%; height: auto;">
-                                    </div>
-                            </a>
-                            <div class="card-body text-center d-flex flex-column">
-                                <h4 class="card-title">${exposition.nom}</h4>
-                                <p class="text-muted">
-                                    <br>Theme: ${exposition.theme} <br>
-                                    Date debut: ${exposition.dateDebut} à ${exposition.heureDebut} <br>
-                                    Date fin: ${exposition.dateFin} à ${exposition.heureFin}
-                                </p>
-                                <div class="mt-auto">
-                                    <a href="${exposition.idExposition}" class="btn item-btn btn-primary display-7">Voir Détails</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                div.innerHTML += expositionDiv;
-            });
+            div.innerHTML = data;
         })
         .catch(error => console.error('Error:', error));
     }
-</script>
+    
+</script>    
 {% endblock %}
 

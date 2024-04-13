@@ -65,10 +65,17 @@
                 var ticketsInput = document.getElementById('ticketNumber');
                 var errorLabel = document.getElementById('ticketsError');
 
-                // Vérifier si le nombre de tickets est négatif ou vide
+                // Vérifier si le nombre de tickets est négatif, vide ou supérieur à 200
                 if (ticketsNumber <= 0 || ticketsNumber === '') {
                     alert("Le nombre de tickets doit être supérieur à zéro.");
                     errorLabel.textContent = "Le nombre de tickets doit être supérieur à zéro.";
+                    errorLabel.style.color = 'red';
+                    ticketsInput.style.borderColor = 'red';
+                    event.preventDefault(); // Empêcher la soumission du formulaire
+                    return;
+                } else if (ticketsNumber > 200) {
+                    alert("Nombre trop grand ! Veuillez saisir un nombre inférieur ou égal à 200.");
+                    errorLabel.textContent = "Nombre trop grand ! Veuillez saisir un nombre inférieur ou égal à 200.";
                     errorLabel.style.color = 'red';
                     ticketsInput.style.borderColor = 'red';
                     event.preventDefault(); // Empêcher la soumission du formulaire
@@ -78,8 +85,12 @@
                     errorLabel.textContent = '';
                     errorLabel.style.color = ''; // Réinitialiser la couleur du texte
                     ticketsInput.style.borderColor = ''; // Réinitialiser la couleur de la bordure
+
+                    alert("Réservation avec succès !"); // Vous pouvez personnaliser ce message selon vos besoins
+
                 }
             });
         }
     </script>
+    
 {% endblock %}

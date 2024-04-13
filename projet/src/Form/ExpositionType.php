@@ -75,6 +75,9 @@ class ExpositionType extends AbstractType
                     new Assert\NotBlank(['message' => 'Le thème de l\'exposition ne peut pas être vide']),
                 ],
                 'required' => false,
+                'attr' => [
+                    'style' => 'color: black;',
+                ],
             ])
 
             ->add('image', FileType::class, [
@@ -154,4 +157,5 @@ class ExpositionType extends AbstractType
 
 
 }}
+
 

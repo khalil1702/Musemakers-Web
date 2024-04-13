@@ -5,12 +5,18 @@
 {% block index_expo %}
 
 <div class="container mt-100">
+
+
     <div class="row mb-3">
-        
-        <div class="col-12">
+        <div class="col-6">
+            <!-- Search input field -->
+            <input type="text" class="form-control" id="searchInput" placeholder="Rechercher expositions...">
+        </div>
+        <div class="col-6 text-end">
             <a href="{{ path('app_exposition_new') }}" class="btn btn-primary">Ajouter exposition</a>
         </div>
     </div>
+    
     <div class="row d-flex">
         {% for exposition in expositions %}
         <div class="col-md-4 col-sm-6 d-flex">
@@ -29,28 +35,23 @@
                 <div class="card-body text-center">
                     <h4 class="card-title">{{ exposition.nom }}</h4>
                     <p class="text-muted">
-                        <br>Theme: {{ exposition.theme }}
-
-                        {% if exposition.dateDebut %}
-                            {{ exposition.dateDebut|date('Y-m-d ') }}
-                        {% endif %}
-                        {% if exposition.dateFin %}
-                            - {{ exposition.dateFin|date('Y-m-d ') }}
-                        {% endif %}
                         {% if exposition.theme %}
+                        <br>Theme: {{ exposition.theme }}
+                        {% endif %}
+                        {% if exposition.dateDebut and exposition.heureDebut %}
+                        <br>Date de début: {{ exposition.dateDebut|date('Y-m-d') }} à {{ exposition.heureDebut|date('H:i') }}
+                    {% endif %}
+                    {% if exposition.dateFin and exposition.heureFin %}
+                        <br>Date de fin: {{ exposition.dateFin|date('Y-m-d') }} à {{ exposition.heureFin|date('H:i') }}
+                    {% endif %}
+                    
             
-        {% endif %}
-        {% if exposition.heureDebut %}
-            <br>Heure Debut: {{ exposition.heureDebut|date('H:i') }}
-        {% endif %}
-        {% if exposition.heureFin %}
-            Heure Fin: {{ exposition.heureFin|date('H:i') }}
-        {% endif %}
+       
                         
                     </p>
                     <div>
-                        <a class="btn btn-outline-primary btn-sm" href="{{ path('app_exposition_show', {'idExposition': exposition.idExposition}) }}">Show</a>
-                        <a class="btn btn-outline-primary btn-sm" href="{{ path('app_exposition_edit', {'idExposition': exposition.idExposition}) }}">Edit</a>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ path('app_exposition_show', {'idExposition': exposition.idExposition}) }}">Détails</a>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ path('app_exposition_edit', {'idExposition': exposition.idExposition}) }}">Modifier</a>
                     </div>
                 </div>
             </div>

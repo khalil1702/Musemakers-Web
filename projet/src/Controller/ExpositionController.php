@@ -32,7 +32,7 @@ public function index(Request $request, ExpositionRepository $expositionReposito
 
     // Pagination logic
     $currentPage = $request->query->getInt('page', 1); // Get the current page number (default to 1)
-    $perPage = 5; // Number of expositions per page (adjust as needed)
+    $perPage = 6; // Number of expositions per page (adjust as needed)
 
     $paginatedExpositions = $paginator->paginate(
         $expositions,

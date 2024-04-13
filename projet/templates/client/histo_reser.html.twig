@@ -1,8 +1,25 @@
 {% extends 'nav_foot_client.html.twig' %}
 
 {% block myReservations %}
-<div class="container mt-7">
-  <h2 class="mb-5 text-center">Mes Reservations</h2>
+  <div class="container mt-7">
+  
+  
+    <div class="row mb-3 justify-content-center">
+     
+     
+    <!-- Menu déroulant compact de tri -->
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded=false>
+        trier par date
+      </button>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="sortDropdown">
+        <a class="dropdown-item" href="#">Plus ancien en premier</a>
+        <a class="dropdown-item" href="#">Plus récent en premier</a>
+      </div>
+    </div>
+  
+       
+  </div>
 
   <div class="row">
     <div class="col">
@@ -53,12 +70,17 @@
                   </span>
                 </td>
                 <td class="text-end px-1">
-                    {% if reservation.accessByAdmin in [0, 1] %}
-                      <a href="#" class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Cancel" data-href="{{ path('app_client_cancel_reservation', {'id': reservation.idReservation}) }}">
-                        <i class="fas fa-times"></i>
-                      </a>
-                    {% endif %}
-                  </td>
+                  {% if reservation.accessByAdmin in [0, 1] %}
+                    <a href="#" class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Cancel" data-href="{{ path('app_client_cancel_reservation', {'id': reservation.idReservation}) }}">
+                      <i class="fas fa-times"></i>
+                    </a>
+                    {% else  %}
+                    <a href="#" class="btn btn-sm btn-light disabled" data-original-title="Cancel">
+                      <i class="fas fa-times"></i>
+                    </a>
+                  {% endif %}
+                </td>
+
 
                   <td>
                     <div class="progress">
@@ -69,10 +91,17 @@
                         </div>
                     </div>
                 </td>
+                {% if reservation.accessByAdmin == 1 %}
                 <td>
-                  <a href="{{ path('app_download_pdf', {'reservationId': reservation.idReservation}) }}" class="btn btn-sm btn-primary">Download PDF</a>
-                  <button type="button" class="btn btn-sm btn-primary" onclick="openPdfModal('{{ path('app_view_pdf', {'reservationId': reservation.idReservation}) }}')">View PDF</button>
+                  <a href="{{ path('app_download_pdf', {'reservationId': reservation.idReservation}) }}" class="btn btn-sm btn-info"><i class="fas fa-download"></i> PDF</a>
+                  <button type="button" class="btn btn-sm btn-info" onclick="openPdfModal('{{ path('app_view_pdf', {'reservationId': reservation.idReservation}) }}')"><i class="fas fa-eye"></i> PDF</button>
                 </td>
+                {% else %}
+                <td>
+                  <a href="#" class="btn btn-sm disabled" style="background-color: #e9ecef; border-color: #e9ecef; color: #6c757d;"><i class="fas fa-download"></i> PDF</a>
+                  <a href="#" class="btn btn-sm disabled" style="background-color: #e9ecef; border-color: #e9ecef; color: #6c757d;"><i class="fas fa-eye"></i> PDF</a>
+                </td>
+                {% endif %}
               
               </tr>
               {% endfor %}
@@ -113,10 +142,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ path('app_client_edit_reservation_tickets', {'id': reservation.idReservation}) }}" method="post">
+                <form id="editForm{{ reservation.idReservation }}" action="{{ path('app_client_edit_reservation_tickets', {'id': reservation.idReservation}) }}" method="post">
                     <div class="form-group">
                         <label for="ticketsNumber{{ reservation.idReservation }}">New Ticket Number:</label>
                         <input type="number" class="form-control" id="ticketsNumber{{ reservation.idReservation }}" name="ticketsNumber" value="{{ reservation.ticketsNumber }}">
+                        <label id="ticketsError{{ reservation.idReservation }}" style="color: red;"></label>
                     </div>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
@@ -124,7 +154,31 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Gérer la soumission du formulaire de modification de réservation
+    document.getElementById('editForm{{ reservation.idReservation }}').addEventListener('submit', function(event) {
+        var ticketsNumber = document.getElementById('ticketsNumber{{ reservation.idReservation }}').value;
+        var ticketsInput = document.getElementById('ticketsNumber{{ reservation.idReservation }}');
+        var errorLabel = document.getElementById('ticketsError{{ reservation.idReservation }}');
+
+        // Vérifier si le nombre de tickets est supérieur à 200
+        if (ticketsNumber > 200) {
+            errorLabel.textContent = "Nombre trop grand ! Veuillez saisir un nombre inférieur ou égal à 200.";
+            errorLabel.style.color = 'red';
+            ticketsInput.style.borderColor = 'red';
+            event.preventDefault(); // Empêcher la soumission du formulaire
+        } else {
+            // Réinitialiser le label et le style du champ
+            errorLabel.textContent = '';
+            errorLabel.style.color = ''; // Réinitialiser la couleur du texte
+            ticketsInput.style.borderColor = ''; // Réinitialiser la couleur de la bordure
+        }
+    });
+</script>
 {% endfor %}
+
+
 <!-- Modal -->
 <div id="pdfModal" class="modal">
   <div class="modal-dialog">
