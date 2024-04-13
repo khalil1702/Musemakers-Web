@@ -1,0 +1,34 @@
+{% block title %}Résultats de la recherche{% endblock %}
+
+{% block content %}
+    <div class="container mt-100">
+        {% if reclamations|length > 0 %}
+            {% for reclamation in reclamations %}
+                <div class="col-md-4 col-sm-6 mb-30">
+                    <div class="card h-100 d-flex flex-column">
+                        <div class="card-body text-center d-flex flex-column">
+                            <h4 class="card-title">{{ reclamation.idU.prenomUser }} {{ reclamation.idU.nomUser }}</h4>
+                            <p class="text-muted">
+                                <br>Description: {{ reclamation.descrirec }} <br>
+                                Catégorie: {{ reclamation.categorierec }} <br>
+                                Statut: {% if reclamation.statutrec == 'En Cours' %}
+                                            <span class="badge badge-warning">{{ reclamation.statutrec }}</span>
+                                        {% elseif reclamation.statutrec == 'Fermée' %}
+                                            <span class="badge badge-danger">{{ reclamation.statutrec }}</span>
+                                        {% elseif reclamation.statutrec == 'Resolue' %}
+                                            <span class="badge badge-success">{{ reclamation.statutrec }}</span>
+                                        {% endif %}<br>
+                                Date: {{ reclamation.daterec ? reclamation.daterec|date('Y-m-d') : '' }}
+                            </p>
+                            <div class="mt-auto">
+                                <a href="{{ path('app_reclamation_show', {'idrec': reclamation.idrec}) }}" class="btn item-btn btn-primary display-7">Voir Détails</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Aucun résultat trouvé pour votre recherche.</p>
+        {% endif %}
+    </div>
+{% endblock %}

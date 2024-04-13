@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Reclamation;
 use App\Form\ReclamationType;
+use App\Form\CommentaireType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTime;
 use Twilio\Rest\Client;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\JsonCommentaire;
+use App\Repository\ReclamationRepository;
+
 
 #[Route('/reclamation')]
 class ReclamationController extends AbstractController
@@ -71,26 +74,31 @@ class ReclamationController extends AbstractController
         ]);
     }
     #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $entityManager): Response
-{
-    $reclamation = new Reclamation();
-    $reclamation->setStatutrec('En Cours'); // Utilisation de la méthode setStatutrec
-    $reclamation->setDaterec(new DateTime()); // Définition de la date par défaut
-    $form = $this->createForm(ReclamationType::class, $reclamation);
-    $form->handleRequest($request);
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $reclamation = new Reclamation();
+        $reclamation->setStatutrec('En Cours');
+        $reclamation->setDaterec(new DateTime());
+        $form = $this->createForm(ReclamationType::class, $reclamation);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $entityManager->persist($reclamation);
-        $entityManager->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Filtrer les mots inappropriés dans la description
+            $inappropriateWords = ['bad', 'stupid', 'malade','psycho','putin','con','conne']; // Liste de mots inappropriés
+            $descrirecFiltered = $this->filterInappropriateWords($reclamation->getDescriRec(), $inappropriateWords);
+            $reclamation->setDescriRec($descrirecFiltered);
 
-        return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
+            $entityManager->persist($reclamation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    return $this->renderForm('reclamation/new.html.twig', [
-        'reclamation' => $reclamation,
-        'form' => $form,
-    ]);
-}
+        return $this->renderForm('reclamation/new.html.twig', [
+            'reclamation' => $reclamation,
+            'form' => $form,
+        ]);
+    }
     
 
     #[Route('/{idrec}', name: 'app_reclamation_show', methods: ['GET'])]
@@ -108,6 +116,11 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Filtrer les mots inappropriés dans la description
+            $inappropriateWords = ['bad', 'stupid', 'malade','psycho','putin','con','conne']; 
+            $descrirecFiltered = $this->filterInappropriateWords($reclamation->getDescriRec(), $inappropriateWords);
+            $reclamation->setDescriRec($descrirecFiltered);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
@@ -151,7 +164,7 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
             ->create("+21627163524", // destinataire
                 array(
                     "from" => "+18154733136",
-                    "body" => "Cher(e) $nomUser $prenomUser\nLe statutrec de ta réclamation : $descrirec est : $statutrec"
+                    "body" => "Cher(e) $nomUser $prenomUser\nLe statut de ta réclamation : $descrirec est : $statutrec"
                 )
             );
 
@@ -179,5 +192,12 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
 
         return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
     }
+    private function filterInappropriateWords($text, $inappropriateWords) {
+        foreach ($inappropriateWords as $word) {
+            $text = preg_replace("/\b$word\b/i", str_repeat('*', mb_strlen($word)), $text);
+        }
+        return $text;
+    }
     
+   
 }

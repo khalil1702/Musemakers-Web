@@ -1,0 +1,15 @@
+{# templates/reclamation/details.html.twig #}
+
+<h1>Détails de la réclamation</h1>
+<p>{{ reclamation.descrirec }}</p>
+
+<h2>Commentaires</h2>
+{% if reclamation.commentaires|length > 0 %}
+    <ul>
+        {% for commentaire in reclamation.commentaires %}
+            <li>{{ commentaire.contenucom }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucun commentaire pour le moment.</p>
+{% endif %}
