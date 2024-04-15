@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,17 +17,21 @@ class User2Type extends AbstractType
             ->add('nomUser')
             ->add('prenomUser')
             ->add('email')
-            ->add('mdp')
             ->add('numTel')
             ->add('dateDeNaissance')
-            ->add('cartepro')
-            ->add('role')
-            ->add('status')
-            ->add('sexe')
+            ->add('sexe', ChoiceType::class, [
+                'choices' => [
+                    'Homme' => 'homme',
+                    'Femme' => 'femme',
+                ],
+                'expanded' => true, // Afficher comme des boutons radio
+                'multiple' => false, // Sélection unique
+                'required' => true, // Rendre la sélection obligatoire si nécessaire
+            ])
             ->add('image', FileType::class, [
                 'label' => 'Image',
-                'required' => false, // make it optional
-                'data_class' => null, // This is important, it prevents Symfony from trying to convert the uploaded file into an Exposition object
+                'required' => false,
+                'data_class' => null,
             ])
         ;
     }

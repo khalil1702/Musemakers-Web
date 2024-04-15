@@ -22,9 +22,6 @@ class EditType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email',
             ])
-            ->add('mdp', PasswordType::class, [
-                'label' => 'Mot de passe',
-            ])
             ->add('numTel', TextType::class, [
                 'label' => 'Numéro de téléphone',
             ]);

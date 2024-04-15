@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
 {% block title %}User{% endblock %}
 
@@ -35,17 +35,10 @@
                 <th>DateDeNaissance</th>
                 <td>{{ user.dateDeNaissance ? user.dateDeNaissance|date('Y-m-d') : '' }}</td>
             </tr>
-            <tr>
-                <th>Cartepro</th>
-                <td>{{ user.cartepro }}</td>
-            </tr>
+          
             <tr>
                 <th>Role</th>
                 <td>{{ user.role }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ user.status }}</td>
             </tr>
             <tr>
                 <th>Sexe</th>

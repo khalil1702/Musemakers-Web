@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+    <link rel="preconnect" href="{{asset('https://fonts.googleapis.com')}}">
+    <link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" crossorigin>
+    <link href="{{asset('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap')}}" rel="stylesheet">
+    <link href="{{asset('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css')}}" rel="stylesheet">
+    <link href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css')}}" rel="stylesheet">
+   
+    
+
+
+    <link href="{{asset('FrontOffice/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/styles.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/additional.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/animate.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/bootstrap-grid.min.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/bootstrap-reboot.min.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/jarallax.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/style-dropdown.css')}}" rel="stylesheet">
+    <link href="{{asset('FrontOffice/css/sarra.css')}}" rel="stylesheet">
+
+
+    {% endblock %}
+</head>
+<div class="page-container">
+    <div class="content-wrap">
+<body>                        
+ <section class="menu menu2 cid-u76D6GfvJg" once="menu" id="menu-5-u76D6GfvJg">
+        <section class="top-bar animated-header">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                          <a class="navbar-brand" href="index.html">
+                            <img src="{{asset('FrontOffice/images/logo-bg.png')}}" class="img-fluid" alt="" width="80" height="100">
+                          </a>
+                          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                              aria-expanded="false" aria-label="Toggle navigation">
+                              <span class="navbar-toggler-icon"></span>
+                          </button>
+      
+                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                              <ul class="navbar-nav ml-auto">
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="service.html">Accueil</a>
+                                          <span class="sr-only">(current)</span>
+                                      </a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link"  href="service.html"">Expositions</a>
+                                </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link"  href="service.html">Reservations</a>
+                                </li>
+                                
+                                
+                                  <li class="nav-item">
+                                      <a class="nav-link" href="service.html">Service</a>
+                                  </li>
+                                  <li class="nav-item dropdown">
+                                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                          aria-expanded="false">
+                                          Pages
+                                      </a>
+                                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                          <a class="dropdown-item" href="404.html">404 Page</a>
+                                          <a class="dropdown-item" href="gallery.html">Gallery</a>
+                                          <a class="dropdown-item" href="single-post.html">Single Post</a>
+                                      </div>
+                                  </li>
+                                
+                                  <li class="nav-item">
+                                      <a class="nav-link" href="contact.html">Contact</a>
+                                  </li>
+                                    <li class="nav-item dropdown">
+                                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                          aria-expanded="false">
+                                          Profile
+                                      </a>
+                                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                          <a class="dropdown-item" href="blog-fullwidth.html">modifier votre profile</a>
+                                          <a class="dropdown-item" href="blog-left-sidebar.html">changer de mot de passe</a>
+                                          <a class="dropdown-item" href="{{ path('app_logout') }}">Se deconnecter </a>
+                                      </div>
+                                  </li>
+                              </ul>
+                          </div>
+                      </nav>
+                  </div>
+              </div>
+          </div>
+      </section>
+      </section>
+     
+
+
+
+      {% block editProfile %}{% endblock %}
+
+      {% block content %}{% endblock %}
+      {% block myReservations %}{% endblock %}
+      {% block listeExposition %}{% endblock %}
+
+
+
+      
+  
+      
+                
+      
+      
+      
+      
+      </style>
+    </div>
+
+      <footer>
+      <section class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="copyright mb-0">
+                        <a href="tel:+21670250000"><i class="fas fa-phone"></i> (216) 70 250 000</a> | 
+                        <a href="mailto:musemakers@contact.tn"><i class="fas fa-envelope"></i> musemakers@contact.tn</a>
+                        |                             <i class="fas fa-map-marker-alt"></i> 1, 2 rue André Ampère - 2083 - Pôle Technologique - El Ghazala
+ 
+                    </p>
+                   
+                    <p class="rights-reserved">
+                      © 2024 Galerie d'Art Moderne. Tous droits réservés.
+                  </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</footer>
+</div>
+   
+      
+    
+    
+    
+
+
+
+
+
+
+
+
+    
+
+
+
+    {% block javascripts %}
+<script src="{{asset('https://code.jquery.com/jquery-3.3.1.slim.min.js')}}"></script>
+<script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')}}"></script>
+<script src="{{asset('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')}}"></script>
+
+<script src="{{asset('FrontOffice/js/formoid.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/script.js')}}"></script>
+<script src="{{asset('FrontOffice/js/navbar-dropdown.js')}}"></script>
+<script src="{{asset('FrontOffice/js/smooth-scroll.js')}}"></script>
+<script src="{{asset('FrontOffice/js/jarallax.js')}}"></script>
+<script src="{{asset('FrontOffice/js/index.js')}}"></script>
+<script src="{{asset('FrontOffice/js/imagesloaded.pkgd.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('FrontOffice/js/scroll-gallery.js')}}"></script>
+  
+  <script>
+
+    (function(){
+      var animationInput = document.createElement('input');
+      animationInput.setAttribute('name', 'animation');
+      animationInput.setAttribute('type', 'hidden');
+      document.body.append(animationInput);
+    })();
+
+  </script>
+
+{% endblock %}
+</body>
+</html>

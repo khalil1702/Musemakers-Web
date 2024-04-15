@@ -1,0 +1,62 @@
+{% block title %}New User{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Create new User</h1>
+
+        {{ form_start(form, {'attr': {'class': 'form'}}) }}
+           <div class="form-group"> 
+    {{ form_label(form.nomUser, null, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.nomUser, {'attr': {'class': form.nomUser.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'}}) }}
+    {% for error in form.nomUser.vars.errors %}
+        <div class="invalid-feedback">{{ error.message }}</div>
+    {% endfor %}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.prenomUser, null, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.prenomUser, {'attr': {'class': form.prenomUser.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'}}) }}
+    {% for error in form.prenomUser.vars.errors %}
+        <div class="invalid-feedback">{{ error.message }}</div>
+    {% endfor %}
+</div>
+
+            <div class="form-group">
+                {{ form_label(form.email, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            </div>
+          <div class="form-group">
+    {{ form_label(form.mdp, null, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.mdp, {'attr': {'class': form.mdp.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'}}) }}
+    {% for error in form.mdp.vars.errors %}
+        <div class="invalid-feedback">{{ error.message }}</div>
+    {% endfor %}
+</div>
+
+            <div class="form-group">
+                {{ form_label(form.numTel, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.numTel, {'attr': {'class': 'form-control'}}) }}
+            </div>
+             <div class="form-group">
+                {{ form_label(form.role, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.role, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            
+            <div class="form-group">
+                {{ form_label(form.dateDeNaissance, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.dateDeNaissance, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.sexe, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.sexe, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.image, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            {# Ajoutez d'autres champs de formulaire de la même manière #}
+            <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
+    </div>
+    <a href="{{ path('app_user_index') }}" class="btn btn-secondary">Back to list</a>
+{% endblock %}

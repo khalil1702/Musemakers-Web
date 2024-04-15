@@ -17,6 +17,8 @@ security:
             custom_authenticator: App\Security\LoginformauthentificatorAuthenticator
             logout:
                 path: app_logout
+                target: app_login
+
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800

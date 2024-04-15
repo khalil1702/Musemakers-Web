@@ -34,6 +34,8 @@ public function buildForm(FormBuilderInterface $builder, array $options): void
             'choices'  => [
                 'Artiste' => 'ROLE_ARTISTE',
                 'Client' => 'ROLE_USER',
+                'Admin' => 'ROLE_ADMIN',
+
             ],
             'expanded' => true,
             'multiple' => false,

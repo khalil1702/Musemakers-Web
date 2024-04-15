@@ -1,17 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends 'navfootclient.html.twig' %}
 
 {% block title %}Edit Profile{% endblock %}
 
-{% block body %}
-    <h1>Edit Profile</h1>
+{% block editProfile %}
+    <div class="container">
+        <h1>Edit Profile</h1>
 
-    {{ form_start(form) }}
-        {{ form_row(form.nomUser) }}
-        {{ form_row(form.prenomUser) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.mdp) }}
-        {{ form_row(form.numTel) }}
+        {{ form_start(form, {'attr': {'class': 'form'}}) }}
+            <div class="form-group">
+                {{ form_label(form.nomUser, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.nomUser, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.prenomUser, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.prenomUser, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.numTel, 'Numéro de téléphone', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.numTel, {'attr': {'class': 'form-control'}}) }}
+            </div>
 
-        <button type="submit" class="btn btn-primary">Save changes</button>
-    {{ form_end(form) }}
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
