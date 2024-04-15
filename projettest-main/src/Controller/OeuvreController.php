@@ -18,6 +18,19 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 #[Route('/o')]
 class OeuvreController extends AbstractController
 {
+     
+    #[Route('/rechercheoeuvre', name: 'oeuvre_search1', methods: ['GET'])]
+
+    public function search(Request $request, OeuvreRepository $oeuvreRepository): Response
+    {
+        $query = $request->query->get('q');
+    
+        $oeuvres = $oeuvreRepository->searchByName($query);
+
+        return $this->render('oeuvre/search_results.html.twig', [
+            'oeuvres' => $oeuvres,
+        ]);
+    }
   
 
      #[Route('/afficher', name: 'app_oeuvre_index', methods: ['GET'])]
