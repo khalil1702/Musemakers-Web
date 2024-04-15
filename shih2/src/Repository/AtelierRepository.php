@@ -20,6 +20,10 @@ class AtelierRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Atelier::class); // Utilisez Atelier::class pour le type d'entité
     }
+   
+ 
+    
+    
 
     // Ajoutez des méthodes personnalisées si nécessaire
 }

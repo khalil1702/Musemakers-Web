@@ -14,12 +14,26 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/cours')]
 class CoursController extends AbstractController
 {
-    #[Route('/', name: 'app_cours_index', methods: ['GET'])]
-    public function index(CoursRepository $coursRepository): Response
+    #[Route('/', name: 'app_cours_index', methods: ['GET', 'POST'])]
+    public function index(CoursRepository $coursRepository, Request $request): Response
     {
+  // Récupérer les paramètres de tri et de recherche depuis la requête
+  $sortBy = $request->query->get('sort_by', 'default_field'); // Champ de tri par défaut
+  $searchTerm = $request->query->get('search', '');
+
+  // Utiliser ces paramètres pour récupérer les cours correspondants depuis le repository
+  $cours = $coursRepository->findFilteredAndSorted($sortBy, $searchTerm);
+
+  return $this->render('cours/index.html.twig', [
+      'cours' => $cours,
+      'searchTerm' => $searchTerm,
+      'sortBy' => $sortBy,
+  ]);
         return $this->render('cours/index.html.twig', [
-            'cours' => $coursRepository->findAll(),
+            'cours' => $cours,
+            'searchTerm' => $searchTerm,
         ]);
+    
     }
     #[Route('/front', name: 'app_cours_index1', methods: ['GET'])]
     public function index2(CoursRepository $coursRepository): Response

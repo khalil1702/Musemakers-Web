@@ -9,14 +9,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/atelier')]
 class AtelierController extends AbstractController
 {
     #[Route('/', name: 'app_atelier_index', methods: ['GET'])]
-    public function index(AtelierRepository $atelierRepository): Response
-    {
+    public function index(AtelierRepository $atelierRepository ,Request $request): Response
+    {   
         return $this->render('atelier/index.html.twig', [
             'ateliers' => $atelierRepository->findAll(),
         ]);

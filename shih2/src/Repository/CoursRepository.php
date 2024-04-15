@@ -20,6 +20,23 @@ class CoursRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Cours::class); // Utilisez Cours::class pour le type d'entité
     }
+    
 
-    // Ajoutez des méthodes personnalisées si nécessaire
+    public function findFilteredAndSorted($sortBy, $searchTerm)
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->andWhere('c.titreCours LIKE :searchTerm')
+            ->setParameter('searchTerm', '%'.$searchTerm.'%');
+    
+        if ($sortBy === 'default_field') {
+            // Utiliser un champ de tri par défaut
+            $sortBy = 'idCours'; // Par exemple, trier par ID
+        }
+    
+        return $queryBuilder
+            ->orderBy('c.'.$sortBy, 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+    
 }
