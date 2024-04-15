@@ -26,9 +26,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_atelier_index') }}">back to list</a>
+<a href="{{ path('app_atelier_index') }}" class="btn btn-secondary">Back to list</a>
 
-    <a href="{{ path('app_atelier_edit', {'idAtelier': atelier.idAtelier}) }}">edit</a>
+<a href="{{ path('app_atelier_edit', {'idAtelier': atelier.idAtelier}) }}" class="btn btn-primary btn-sm">Edit</a>
 
     {{ include('atelier/_delete_form.html.twig') }}
 {% endblock %}

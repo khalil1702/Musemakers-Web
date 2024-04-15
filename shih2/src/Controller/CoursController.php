@@ -29,6 +29,7 @@ class CoursController extends AbstractController
       'searchTerm' => $searchTerm,
       'sortBy' => $sortBy,
   ]);
+  
         return $this->render('cours/index.html.twig', [
             'cours' => $cours,
             'searchTerm' => $searchTerm,

@@ -86,8 +86,8 @@
             <h1 class="form-title">Create new Cours</h1>
 
             {{ include('cours/_form.html.twig') }}
+<a href="{{ path('app_cours_index') }}" class="back-link btn btn-secondary">Back to list</a>
 
-            <a href="{{ path('app_cours_index') }}" class="back-link">Back to list</a>
         </div>
     </div>
 {% endblock %}
