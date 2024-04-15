@@ -1,0 +1,39 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Atelier index{% endblock %}
+
+{% block body %}
+    <h1>Atelier index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdAtelier</th>
+                <th>DatedebutAtelier</th>
+                <th>DatefinAtelier</th>
+                <th>LienAtelier</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for atelier in ateliers %}
+            <tr>
+                <td>{{ atelier.idAtelier }}</td>
+                <td>{{ atelier.datedebutAtelier ? atelier.datedebutAtelier|date('Y-m-d') : '' }}</td>
+                <td>{{ atelier.datefinAtelier ? atelier.datefinAtelier|date('Y-m-d') : '' }}</td>
+                <td>{{ atelier.lienAtelier }}</td>
+                <td>
+                    <a href="{{ path('app_atelier_show', {'idAtelier': atelier.idAtelier}) }}">show</a>
+                    <a href="{{ path('app_atelier_edit', {'idAtelier': atelier.idAtelier}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_atelier_new') }}">Create new</a>
+{% endblock %}

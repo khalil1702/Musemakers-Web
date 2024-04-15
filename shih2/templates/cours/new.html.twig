@@ -1,0 +1,93 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}New Cours{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* Style for page container */
+        .page-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 100% of viewport height */
+        }
+
+        /* Style for form container */
+        .form-container {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+            margin-top: 50px; /* Adjust this value as needed */
+        }
+
+        /* Style for form title */
+        .form-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Style for form fields */
+        .form-control {
+            margin-bottom: 15px;
+        }
+
+        .form-control label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-control input[type="text"],
+        .form-control input[type="email"],
+        .form-control textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Style for submit button */
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Style for back link */
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="page-container">
+        <div class="form-container">
+            <h1 class="form-title">Create new Cours</h1>
+
+            {{ include('cours/_form.html.twig') }}
+
+            <a href="{{ path('app_cours_index') }}" class="back-link">Back to list</a>
+        </div>
+    </div>
+{% endblock %}

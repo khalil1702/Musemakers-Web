@@ -1,0 +1,84 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Edit Cours{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* Style for container */
+        .container {
+            margin-top: 50px;
+            padding: 0 20px;
+        }
+
+        /* Style for page title */
+        .page-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Style for form container */
+        .form-container {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        /* Style for submit button */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        /* Style for delete button */
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="page-title">Edit Cours</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-container">
+                    {{ include('cours/_form.html.twig', {'button_label': 'Update'}) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <a href="{{ path('app_cours_index') }}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="form-container">
+                    {{ include('cours/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

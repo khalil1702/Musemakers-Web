@@ -1,0 +1,54 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Cours{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* Style for the button */
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1>Cours</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>TitreCours</th>
+                <td>{{ cour.titreCours }}</td>
+            </tr>
+            <tr>
+                <th>DescriCours</th>
+                <td>{{ cour.descriCours }}</td>
+            </tr>
+            <tr>
+                <th>DatedebutCours</th>
+                <td>{{ cour.datedebutCours ? cour.datedebutCours|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DatefinCours</th>
+                <td>{{ cour.datefinCours ? cour.datefinCours|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_cours_index') }}" class="btn">Back to list</a>
+
+    <a href="{{ path('app_cours_edit', {'idCours': cour.idCours}) }}" class="btn">Edit</a>
+
+    {{ include('cours/_delete_form.html.twig') }}
+{% endblock %}

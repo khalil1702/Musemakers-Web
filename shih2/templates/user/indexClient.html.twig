@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Client index{% endblock %}
+
+{% block body %}
+    <h1>Client index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>NomUser</th>
+                <th>PrenomUser</th>
+                <th>Email</th>
+                <th>NumTel</th>
+                <th>DateDeNaissance</th>
+                <th>Sexe</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            {% if user.role == 'Client' %}
+                <tr>
+                    <td>{{ user.nomUser }}</td>
+                    <td>{{ user.prenomUser }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.numTel }}</td>
+                    <td>{{ user.dateDeNaissance ? user.dateDeNaissance|date('Y-m-d') : '' }}</td>
+                    <td>{{ user.sexe }}</td>
+                    <td>{{ user.image }}</td>
+                    <td>
+                        <a href="{{ path('app_user_show', {'idUser': user.idUser}) }}">show</a>
+                        <a href="{{ path('app_user_edit', {'idUser': user.idUser}) }}">edit</a>
+                    </td>
+                </tr>
+            {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="8">No records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_new') }}">Create new</a>
+{% endblock %}
