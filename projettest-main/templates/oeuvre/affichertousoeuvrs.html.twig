@@ -1,26 +1,30 @@
 {% extends 'nav_foot_client.html.twig' %}
 
+    
 {% block affichagetousoeuvreclient %}
 
 {% block stylesheets %}
+   
     {{ parent() }}
+     <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+
     <style>
-        .oeuvre-carousel {
+      .oeuvre-carousel {
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
         }
+    .oeuvre-card {
+    flex: 0 0 auto; /* Chaque carte garde sa largeur sans grandir ou rétrécir */
+    margin-right: 10px; /* Espacement entre les cartes */
+    scroll-snap-align: start;
+    background-color: transparent;
+    width: 400px;
+    height: 400px;
+    perspective: 1000px;
+}
 
-        .oeuvre-card {
-            flex: 0 0 400px; /* Largeur fixe de chaque carte */
-            margin-right: 10px; /* Espacement entre les cartes */
-            scroll-snap-align: start;
-            background-color: transparent;
-            width: 400px;
-            height: 400px;
-            perspective: 1000px;
-        }
 
         .oeuvre-card-inner {
             position: relative;
@@ -70,6 +74,7 @@
     </style>
 {% endblock %}
 
+ 
  <div class="col-md-3">
     <input type="text" id="search-input" onkeyup="search()" class="form-control form-control-sm" placeholder="Rechercher par nom" style="font-size: 0.8rem;">
 </div>
@@ -91,10 +96,16 @@
                                 <p>PRIX: {{ oeuvre.prixOeuvre }}</p>
                                 <p>CATEGORIE: {{ oeuvre.categorieOeuvre }}</p> 
                                 <p>Date Creation: {{ oeuvre.datecreation ? oeuvre.datecreation|date('Y-m-d') : '' }}</p> 
+                                 
+                                  <p>  {{ averageRatings[oeuvre.idOeuvre]|rating }}</p>
+   
+   
+
                             </div>
                         </div>
                     </div>
-                    <a href="{{ path('app_avis_new', {'idOeuvre': oeuvre.idOeuvre}) }}" class="btn btn-primary mt-3">Donner votre avis</a>
+                    
+                <div>    <a href="{{ path('app_avis_new', {'idOeuvre': oeuvre.idOeuvre}) }}" class="btn btn-primary mt-3"> votre avis</a> </div>
                 </div>
             {% endfor %}
  
@@ -103,7 +114,23 @@
         {% endif %}
     {% endif %}
 </div>
+
+
+     
+       
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+  
+{% endblock %}
+ 
+     
 <script>
+    
+  
+
+    // Fonction de recherche AJAX
     function search() {
         let query = document.getElementById('search-input').value;
         fetch(`/oeuvreclient/search?q=${query}`, {
@@ -117,10 +144,11 @@
         .then(data => {
             let div = document.getElementById('oeuvres');
             div.innerHTML = data;
+            // Réinitialiser le plugin StarRating après la mise à jour du contenu
+            $('.rating').rating();
         })
         .catch(error => console.error('Error:', error));
     }
-    
-</script> 
+</script>
 
 {% endblock %}

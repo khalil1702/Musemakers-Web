@@ -48,9 +48,13 @@ class OeuvreType extends AbstractType
                 'widget' => 'single_text',
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'La date de création de l\'oeuvre ne peut pas être vide']),
-                   
+                    new Assert\LessThanOrEqual([
+                        'value' => new \DateTime(),
+                        'message' => 'La date de création de l\'oeuvre ne peut pas être dans le futur',
+                    ]),
                 ],
             ])
+            
             ->add('description', Type\TextareaType::class, [
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'La description de l\'oeuvre ne peut pas être vide']),

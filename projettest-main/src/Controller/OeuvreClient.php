@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Oeuvre;
 use App\Form\OeuvreType;
 use App\Repository\OeuvreRepository;
+use App\Repository\AvisRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,7 @@ use App\Entity\Avis;
 class OeuvreClient extends AbstractController
 {
      
-    #[Route('/search', name: 'oeuvre_search', methods: ['GET'])]
+     #[Route('/search', name: 'oeuvre_search', methods: ['GET'])]
 
     public function search(Request $request, OeuvreRepository $oeuvreRepository): Response
     {
@@ -33,12 +34,40 @@ class OeuvreClient extends AbstractController
   
 
     #[Route('/getalloeuvres', name: 'app4_oeuvre_index', methods: ['GET'])]
-    public function getall2(OeuvreRepository $oeuvreRepository): Response
+    public function getall2(OeuvreRepository $oeuvreRepository,  AvisRepository $avisRepository): Response
     {
         $oeuvres = $oeuvreRepository->findAll();
+
+        // Récupérer toutes les œuvres
+    $oeuvres = $oeuvreRepository->findAll();
+    
+    // Tableau pour stocker les moyennes de notes des œuvres
+    $averageRatings = [];
+    
+    // Parcourir chaque œuvre pour calculer la moyenne des notes
+    foreach ($oeuvres as $oeuvre) {
+        // Récupérer les avis correspondant à l'œuvre
+        $avis = $avisRepository->findBy(['oeuvre' => $oeuvre->getIdOeuvre()]);
+        
+        // Initialiser la somme des notes et le nombre d'avis
+        $totalRating = 0;
+        $numberOfRatings = count($avis);
+        
+        // Calculer la somme des notes
+        foreach ($avis as $avi) {
+            $totalRating += $avi->getNote();
+        }
+        
+        // Calculer la moyenne des notes
+        $averageRating = $numberOfRatings > 0 ? $totalRating / $numberOfRatings : 0;
+        
+        // Ajouter la moyenne des notes à chaque œuvre
+        $averageRatings[$oeuvre->getIdOeuvre()] = $averageRating;
+    }
     
         return $this->render('oeuvre/affichertousoeuvrs.html.twig', [
             'oeuvres' => $oeuvres,
+            'averageRatings' => $averageRatings,
         ]);
     }
 
