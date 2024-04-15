@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Ateliertype extends AbstractType
+class AtelierType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

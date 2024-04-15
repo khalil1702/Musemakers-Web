@@ -1,4 +1,4 @@
-{% extends 'base2.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Cours index{% endblock %}
 
@@ -25,9 +25,8 @@
                 <td>{{ cour.datedebutCours ? cour.datedebutCours|date('Y-m-d') : '' }}</td>
                 <td>{{ cour.datefinCours ? cour.datefinCours|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_cours_show', {'idCours': cour.idCours}) }}" class="btn btn-info">show</a>
-<a href="{{ path('app_cours_edit', {'idCours': cour.idCours}) }}" class="btn btn-primary">edit</a>
-
+                    <a href="{{ path('app_cours_show', {'idCours': cour.idCours}) }}">show</a>
+                   
                 </td>
             </tr>
         {% else %}
@@ -38,4 +37,5 @@
         </tbody>
     </table>
 
-<a href="{{ path('app_cours_new') }}" class="btn btn-success">Créer un nouveau</a>{% endblock %}
+    
+{% endblock %}

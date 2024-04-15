@@ -1,4 +1,4 @@
-{% extends 'base2.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Atelier index{% endblock %}
 
@@ -22,10 +22,11 @@
                 <td>{{ atelier.datedebutAtelier ? atelier.datedebutAtelier|date('Y-m-d') : '' }}</td>
                 <td>{{ atelier.datefinAtelier ? atelier.datefinAtelier|date('Y-m-d') : '' }}</td>
                 <td>{{ atelier.lienAtelier }}</td>
-              <td>
-    <a href="{{ path('app_atelier_show', {'idAtelier': atelier.idAtelier}) }}" class="btn btn-info">show</a>
-    <a href="{{ path('app_atelier_edit', {'idAtelier': atelier.idAtelier}) }}" class="btn btn-primary">edit</a>
-</td>
+                <td>
+                    <a href="{{ path('app_atelier_show', {'idAtelier': atelier.idAtelier}) }}">show</a>
+                    
+                </td>
+            </tr>
         {% else %}
             <tr>
                 <td colspan="5">no records found</td>
@@ -34,6 +35,5 @@
         </tbody>
     </table>
 
-  <a href="{{ path('app_atelier_new') }}" class="btn btn-success">Créer un nouvel atelier</a>
-
+   
 {% endblock %}

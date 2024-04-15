@@ -21,6 +21,13 @@ class AtelierController extends AbstractController
             'ateliers' => $atelierRepository->findAll(),
         ]);
     }
+    #[Route('/frontatelier', name: 'app_atelier_index1', methods: ['GET'])]
+    public function index3(AtelierRepository $atelierRepository): Response
+    {
+        return $this->render('atelier/indexfrontatelier.html.twig', [
+            'ateliers' => $atelierRepository->findAll(),
+        ]);
+    }
 
     #[Route('/new', name: 'app_atelier_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

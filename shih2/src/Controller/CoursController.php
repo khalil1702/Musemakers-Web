@@ -21,6 +21,14 @@ class CoursController extends AbstractController
             'cours' => $coursRepository->findAll(),
         ]);
     }
+    #[Route('/front', name: 'app_cours_index1', methods: ['GET'])]
+    public function index2(CoursRepository $coursRepository): Response
+    {
+        return $this->render('cours/indexfront.html.twig', [
+            'cours' => $coursRepository->findAll(),
+        ]);
+    }
+   
 
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -80,4 +88,5 @@ class CoursController extends AbstractController
 
         return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
     }
+   
 }
