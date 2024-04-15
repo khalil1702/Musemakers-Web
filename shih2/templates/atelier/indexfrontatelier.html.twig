@@ -12,7 +12,7 @@
                 <th>DatedebutAtelier</th>
                 <th>DatefinAtelier</th>
                 <th>LienAtelier</th>
-                <th>actions</th>
+               
             </tr>
         </thead>
         <tbody>
@@ -23,7 +23,7 @@
                 <td>{{ atelier.datefinAtelier ? atelier.datefinAtelier|date('Y-m-d') : '' }}</td>
                 <td>{{ atelier.lienAtelier }}</td>
                 <td>
-                    <a href="{{ path('app_atelier_show', {'idAtelier': atelier.idAtelier}) }}">show</a>
+ 
                     
                 </td>
             </tr>

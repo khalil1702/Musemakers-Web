@@ -24,32 +24,32 @@
 {{ form_start(form, {'attr': {'class': 'form'}}) }}
     {{ form_row(form.titreCours, {'attr': {'class': 'form-control', 'placeholder': 'Titre du cours'}}) }}
     {% if not form.titreCours.vars.valid %}
-        <div class="isvalid">
-            {% for error in form.titreCours.vars.errors %}
-                {{ error.message }}
-            {% endfor %}
-        </div>
+         <div style="color: red; font-size: 25px;">
+                {% for error in form.titreCours.vars.errors %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
     {% endif %}    
     
     {{ form_row(form.descriCours, {'attr': {'class': 'form-control', 'placeholder': 'Description du cours'}}) }}
     
    {{ form_row(form.datedebutCours, {'attr': {'class': 'form-control'}}) }}
 {% if not form.datedebutCours.vars.valid %}
-    <div class="isvalid">
-        {% for error in form.datedebutCours.vars.errors %}
-            {{ error.message }}
-        {% endfor %}
-    </div>
+    <div style="color: red; font-size: 25px;">
+                {% for error in form.datedebutCours.vars.errors %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
 {% endif %}
 
     
   {{ form_row(form.datefinCours, {'attr': {'class': 'form-control'}}) }}
 {% if not form.datefinCours.vars.valid %}
-    <div class="isvalid">
-        {% for error in form.datefinCours.vars.errors %}
-            {{ error.message }}
-        {% endfor %}
-    </div>
+   <div style="color: red; font-size: 25px;">
+                {% for error in form.datefinCours.vars.errors %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
 {% endif %}
 
     

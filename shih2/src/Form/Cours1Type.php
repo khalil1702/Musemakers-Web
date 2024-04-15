@@ -21,15 +21,15 @@ class Cours1Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titreCours', TextType::class, [
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Titre du cours'],
-                'constraints' => [
-                    new Regex([
-                        'pattern' => '/^[a-zA-Z]+$/',
-                        'message' => 'Le titre du cours doit contenir uniquement des lettres de l\'alphabet.'
-                    ]),
-                ],
-            ])
+        ->add('titreCours', TextType::class, [
+            'attr' => ['class' => 'form-control', 'placeholder' => 'Titre du cours'],
+            'constraints' => [
+                new Regex([
+                    'pattern' => '/^[a-zA-Z\s]+$/',
+                    'message' => 'Le titre du cours doit contenir uniquement des lettres de l\'alphabet et des espaces.'
+                ]),
+            ],
+        ])
             ->add('descriCours', TextType::class, [
                 'attr' => ['class' => 'form-control', 'placeholder' => 'Description du cours']
             ])

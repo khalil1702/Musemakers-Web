@@ -4,7 +4,7 @@
         {{ form_label(form.datedebutAtelier) }}
         {{ form_widget(form.datedebutAtelier, {'attr': {'class': 'form-control'}}) }}
         {% if not form.datedebutAtelier.vars.valid %}
-            <div class="isvalid">
+            <div style="color: red; font-size: 14px;">
                 {% for error in form.datedebutAtelier.vars.errors %}
                     {{ error.message }}
                 {% endfor %}
@@ -16,7 +16,7 @@
         {{ form_label(form.datefinAtelier) }}
         {{ form_widget(form.datefinAtelier, {'attr': {'class': 'form-control'}}) }}
         {% if not form.datefinAtelier.vars.valid %}
-            <div class="isvalid">
+            <div style="color: red; font-size: 25px;">
                 {% for error in form.datefinAtelier.vars.errors %}
                     {{ error.message }}
                 {% endfor %}

@@ -13,7 +13,7 @@
                 <th>DescriCours</th>
                 <th>DatedebutCours</th>
                 <th>DatefinCours</th>
-                <th>actions</th>
+        
             </tr>
         </thead>
         <tbody>
@@ -25,7 +25,6 @@
                 <td>{{ cour.datedebutCours ? cour.datedebutCours|date('Y-m-d') : '' }}</td>
                 <td>{{ cour.datefinCours ? cour.datefinCours|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_cours_show', {'idCours': cour.idCours}) }}">show</a>
                    
                 </td>
             </tr>
