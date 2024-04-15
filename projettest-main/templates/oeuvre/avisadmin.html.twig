@@ -2,18 +2,41 @@
 
 {% block title %}Les avis par rapport a l'oeuvre {{ oeuvre.nomOeuvre }}{% endblock %}
 
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+    <style>
+        .oeuvre-card-front img {
+            max-width: 200px; /* Spécifiez la largeur souhaitée */
+            max-height: 300px; /* Spécifiez la hauteur souhaitée */
+            object-fit: cover; /* Assurez-vous que l'image remplit entièrement le conteneur en conservant ses proportions */
+        }
+    </style>
+{% endblock %}
+
 {% block avisadmin %}
+
+      
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ path('app_oeuvre_index') }}" class="btn btn-block btn-lg btn-gradient-primary">RETOUR</a>
+    </div>
+ 
     <h1>Les avis par rapport a l'oeuvre {{ oeuvre.nomOeuvre }}</h1>
-    
+
+    <div class="d-flex justify-content-center">
+    <div class="oeuvre-card-front">
+        <img src="{{ path('user_images', {'imageName': oeuvre.image}) }}" alt="{{ oeuvre.nomOeuvre }}">
+    </div>
+    </div>
+
     {% if avis is not empty %}
         <ul>
             {% for avi in avis %}
                 <li>
                     <strong>Commentaire:</strong> {{ avi.commentaire }}<br>
-                    <strong>Note:</strong> {{ avi.note }}<br>
+                    <strong>Note:</strong> {{ avi.note|rating }}<br>
                     <!-- Autres détails de l'avis si nécessaire -->
                     <!-- Formulaire pour le bouton "Supprimer" -->
-                   
                 </li>
             {% endfor %}
         </ul>
@@ -21,3 +44,4 @@
         <p>Aucun avis trouvé pour cette œuvre.</p>
     {% endif %}
 {% endblock %}
+

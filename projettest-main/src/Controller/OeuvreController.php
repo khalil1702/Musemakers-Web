@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 #[Route('/o')]
 class OeuvreController extends AbstractController
 {
+  
+
      #[Route('/afficher', name: 'app_oeuvre_index', methods: ['GET'])]
      public function index(OeuvreRepository $oeuvreRepository): Response
      {
@@ -28,21 +30,21 @@ class OeuvreController extends AbstractController
     }
 
     #[Route('/new', name: 'app_oeuvre_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $oeuvre = new Oeuvre();
-        $form = $this->createForm(OeuvreType::class, $oeuvre);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $oeuvre = new Oeuvre();
+    $form = $this->createForm(OeuvreType::class, $oeuvre);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-                  /** @var UploadedFile $imageFile */
+    if ($form->isSubmitted() && $form->isValid()) {
+        /** @var UploadedFile $imageFile */
         $imageFile = $form->get('image')->getData();
 
         // Check if an image file has been uploaded
         if ($imageFile) {
-            // Generate a unique filename
-            $newFilename = uniqid().'.'.$imageFile->guessExtension();
+            // Use the original filename
+            $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $newFilename = $originalFilename.'.'.$imageFile->guessExtension();
 
             // Move the file to the desired directory
             try {
@@ -51,27 +53,30 @@ class OeuvreController extends AbstractController
                     $newFilename
                 );
             } catch (FileException $e) {
-              
-                return $this->redirectToRoute('app_oeuvre_index', [
-                    'error' => 'Failed to upload the image file.'
-                ]);
+                // Add a flash message to inform the user about the error
+                $this->addFlash('error', 'Failed to upload the image file.');
+
+                // Redirect to the index page
+                return $this->redirectToRoute('app_oeuvre_index');
             }
 
-            // Update the 'image' property of the Exposition entity with the new filename
+            // Update the 'image' property of the Oeuvre entity with the new filename
             $oeuvre->setImage($newFilename);
         }
-              
-            $entityManager->persist($oeuvre);
-            $entityManager->flush();
 
-            return $this->redirectToRoute('app_oeuvre_index', [], Response::HTTP_SEE_OTHER);
-        }
+        $entityManager->persist($oeuvre);
+        $entityManager->flush();
 
-        return $this->renderForm('oeuvre/new.html.twig', [
-            'oeuvre' => $oeuvre,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_oeuvre_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // Render the form in all other cases
+    return $this->renderForm('oeuvre/new.html.twig', [
+        'oeuvre' => $oeuvre,
+        'form' => $form,
+    ]);
+}
+
 
     #[Route('/{idOeuvre}', name: 'app_oeuvre_show', methods: ['GET'])]
     public function show(Oeuvre $oeuvre): Response
@@ -84,17 +89,17 @@ class OeuvreController extends AbstractController
     #[Route('/{idOeuvre}/edit', name: 'app_oeuvre_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Oeuvre $oeuvre, EntityManagerInterface $entityManager): Response
     {
-       
         $form = $this->createForm(OeuvreType::class, $oeuvre);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $imageFile */
             $imageFile = $form->get('image')->getData();
-
+    
             // Check if an image file has been uploaded
             if ($imageFile) {
-                // Generate a unique filename
-                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+                // Use the original filename
+                $newFilename = $imageFile->getClientOriginalName();
     
                 // Move the file to the desired directory
                 try {
@@ -102,25 +107,29 @@ class OeuvreController extends AbstractController
                         'C:/xampp/htdocs/user_images',
                         $newFilename
                     );
-                    $oeuvre->setImage($newFilename);
                 } catch (FileException $e) {
-                   
-                    return $this->redirectToRoute('app_oeuvre_index', [
-                        'error' => 'Failed to upload the image file.'
-                    ]);
+                    // Add a flash message to inform the user about the error
+                    $this->addFlash('error', 'Failed to upload the image file.');
+    
+                    // Redirect to the index page
+                    return $this->redirectToRoute('app_oeuvre_index');
                 }
+    
+                // Update the 'image' property of the Oeuvre entity with the new filename
+                $oeuvre->setImage($newFilename);
             }
+    
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_oeuvre_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->renderForm('oeuvre/edit.html.twig', [
             'oeuvre' => $oeuvre,
-            
             'form' => $form,
         ]);
     }
+    
 
     #[Route('/{idOeuvre}', name: 'app_oeuvre_delete', methods: ['POST'])]
     public function delete(Request $request, Oeuvre $oeuvre, EntityManagerInterface $entityManager): Response
@@ -154,6 +163,8 @@ $avis = $avisRepository->findBy(['oeuvre' => $oeuvre->getIdOeuvre()]);
             'avis' => $avis,
         ]);
     }
+
+ 
 
  
 }

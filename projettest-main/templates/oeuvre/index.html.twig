@@ -62,7 +62,8 @@
 }
 
         .oeuvre-card img {
-            height: 300px; /* Hauteur fixe de l'image */
+         max-height: 300px; /* Hauteur fixe de l'image */
+          max-width: 100%; /* Largeur maximale de l'image */
             object-fit: cover; /* Ajuster l'image pour remplir le conteneur tout en préservant son aspect */
              position: absolute; /* Position absolue pour utiliser les propriétés top, bottom, left, right */
               top: 50%; /* Place le haut de l'image au milieu de la carte */
@@ -72,7 +73,10 @@
     </style>
 {% endblock %}
 
-<a href="{{ path('app_oeuvre_new') }}" class="btn btn-primary mt-3">Ajouter Nouveau</a>
+    <div class="d-flex justify-content-end mb-3">
+    <a href="{{ path('app_oeuvre_new') }}" class="btn btn-primary mt-3">Ajouter Nouveau</a>
+    </div>
+
 
 <div class="oeuvre-carousel">
         {% for oeuvre in oeuvres %}

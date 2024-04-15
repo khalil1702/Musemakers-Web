@@ -60,7 +60,8 @@
 }
 
         .oeuvre-card img {
-            height: 300px; /* Hauteur fixe de l'image */
+         max-height: 300px; /* Hauteur fixe de l'image */
+          max-width: 100%; /* Largeur maximale de l'image */
             object-fit: cover; /* Ajuster l'image pour remplir le conteneur tout en préservant son aspect */
              position: absolute; /* Position absolue pour utiliser les propriétés top, bottom, left, right */
               top: 50%; /* Place le haut de l'image au milieu de la carte */
@@ -87,7 +88,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="{{ path('app_avis_new', {'idOeuvre': oeuvre.idOeuvre}) }}" class="btn btn-primary mt-3">Donner votre avis</a>
+                <a href="{{ path('app_avis_new', {'idOeuvre': oeuvre.idOeuvre}) }}" class="btn btn-primary mt-3"> votre avis</a>
             </div>
         {% endfor %}
     </div>

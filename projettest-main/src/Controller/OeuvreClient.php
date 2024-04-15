@@ -17,6 +17,20 @@ use App\Entity\Avis;
 #[Route('/oeuvreclient')]
 class OeuvreClient extends AbstractController
 {
+     
+    #[Route('/search', name: 'oeuvre_search', methods: ['GET'])]
+
+    public function search(Request $request, OeuvreRepository $oeuvreRepository): Response
+    {
+        $query = $request->query->get('q');
+    
+        $oeuvres = $oeuvreRepository->searchByName($query);
+
+        return $this->render('oeuvre/search_results.html.twig', [
+            'oeuvres' => $oeuvres,
+        ]);
+    }
+  
 
     #[Route('/getalloeuvres', name: 'app4_oeuvre_index', methods: ['GET'])]
     public function getall2(OeuvreRepository $oeuvreRepository): Response
@@ -38,7 +52,9 @@ class OeuvreClient extends AbstractController
             'oeuvres' => $oeuvres,
         ]);
     }
+ 
 
+    
 
 
     
@@ -59,7 +75,7 @@ class OeuvreClient extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-
+    
 
     #[Route('/{idOeuvre}', name: 'app_oeuvre_showclient', methods: ['GET'])]
     public function show($idOeuvre): Response

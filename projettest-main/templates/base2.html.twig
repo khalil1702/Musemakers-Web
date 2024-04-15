@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+   
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Purple Admin</title>
     <!-- plugins:css -->
+   
     <link rel="stylesheet" href="{{asset('BackOffice/cssvendors/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="{{asset('BackOffice/vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
@@ -17,6 +20,15 @@
     <link rel="stylesheet" href="{{asset('BackOffice/css/style.css')}}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('BackOffice/images/favicon.ico')}}" />
+   
+    <style>
+        .oeuvre-card-front img {
+            max-width: 200px; /* Spécifiez la largeur souhaitée */
+            max-height: 300px; /* Spécifiez la hauteur souhaitée */
+            object-fit: cover; /* Assurez-vous que l'image remplit entièrement le conteneur en conservant ses proportions */
+        }
+    </style>
+
   </head>
   <body>
     <div class="container-scroller">
@@ -513,6 +525,18 @@
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/todolist.js"></script>
+     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+    <script>
+
+    (function(){
+      var animationInput = document.createElement('input');
+      animationInput.setAttribute('name', 'animation');
+      animationInput.setAttribute('type', 'hidden');
+      document.body.append(animationInput);
+    })();
+
+  </script>
     <!-- End custom js for this page -->
   </body>
 </html>

@@ -22,6 +22,10 @@
     <link href="{{asset('FrontOffice/css/bootstrap-reboot.min.css')}}" rel="stylesheet">
     <link href="{{asset('FrontOffice/css/jarallax.css')}}" rel="stylesheet">
     <link href="{{asset('FrontOffice/css/style-dropdown.css')}}" rel="stylesheet">
+    
+
+
+
     <style>
         /* CSS to position the footer at the bottom */
         footer {
@@ -53,10 +57,15 @@
                           <div class="collapse navbar-collapse" id="navbarSupportedContent">
                               <ul class="navbar-nav ml-auto">
                                   <li class="nav-item">
-                                      <a class="nav-link" href="index.html">Home
+                                      <a class="nav-link" href="{{ path('app1_oeuvre_index') }}">Home
                                           <span class="sr-only">(current)</span>
                                       </a>
                                   </li>
+
+                                   <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app4_oeuvre_index') }}">Oeuvres
+                                    <span class="sr-only">(current)</span></a>
+                                    </li>
                               
                                   <li class="nav-item">
                                       <a class="nav-link" href="about.html">About</a>
@@ -120,8 +129,12 @@
             position: relative;
             z-index: 1; /* Ensure the video section appears above other elements */
         }
-    </style>                  
- 
+    </style>      
+
+    
+<div style="margin-bottom: 50px;"></div>
+
+      
       {% block showdetailsoeuvre %} {% endblock %}
       {% block addavis %} {% endblock %}
       {% block succes %}  {% endblock %}
@@ -129,6 +142,8 @@
       {% block editavis %} {% endblock %}
       {% block affichageoeuvreclient1 %} {% endblock %}
       {% block affichagetousoeuvreclient %} {% endblock %}
+      {% block resultatrecherche %} {% endblock %}
+     
      
       <section class="footer2 cid-u76D6Gi8zy" id="footer-5-u76D6Gi8zy">
         <div class="container">

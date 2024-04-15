@@ -23,4 +23,13 @@ class OeuvreRepository extends ServiceEntityRepository
     }
 
     // Your other methods...
+
+    public function searchByName($query)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.nomOeuvre LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

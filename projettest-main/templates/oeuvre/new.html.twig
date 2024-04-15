@@ -3,9 +3,11 @@
 {% block title %}New Oeuvre{% endblock %}
 
 {% block addoeuvre %}
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ path('app_oeuvre_index') }}" class="btn btn-block btn-lg btn-gradient-primary">RETOUR</a>
+    </div>
+    
     <h1>Create new Oeuvre</h1>
 
     {{ include('oeuvre/_form.html.twig') }}
-
-    <a href="{{ path('app_oeuvre_index') }}">back to list</a>
 {% endblock %}

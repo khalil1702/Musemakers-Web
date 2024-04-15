@@ -1,3 +1,5 @@
+
+    
 {{ form_start(form) }}
     {#{{ form_widget(form) }}#}
      <div class="row">
@@ -15,9 +17,16 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                       {# Affichage de l'image actuelle juste en dessous du champ image #}
+                    {% if child.vars.name == 'image' %}
+                        {% if oeuvre.image %}
+                            <p>Image actuelle : {{ oeuvre.image }}</p>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
     </div>
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-block btn-lg btn-gradient-primary">{{ button_label|default('Save') }}</button>
+
 {{ form_end(form) }}

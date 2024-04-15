@@ -56,10 +56,14 @@ class OeuvreType extends AbstractType
                     new Assert\NotBlank(['message' => 'La description de l\'oeuvre ne peut pas être vide']),
                 ],
             ])
+          
             ->add('image', FileType::class, [
                 'label' => 'Image',
-                'required' => false, // make it optional
+          
                 'data' => $options['current_image'],
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'L image de l\'oeuvre ne peut pas être vide']),
+                ],
             ]);
         
     }

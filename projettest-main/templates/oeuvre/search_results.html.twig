@@ -1,9 +1,5 @@
-{% extends 'nav_foot_client.html.twig' %}
-
-{% block affichagetousoeuvreclient %}
-
 {% block stylesheets %}
-    {{ parent() }}
+    
     <style>
         .oeuvre-carousel {
             display: flex;
@@ -69,13 +65,7 @@
         }
     </style>
 {% endblock %}
-
- <div class="col-md-3">
-    <input type="text" id="search-input" onkeyup="search()" class="form-control form-control-sm" placeholder="Rechercher par nom" style="font-size: 0.8rem;">
-</div>
-
-
-<div id="oeuvres" class="oeuvre-carousel">
+<div  id="oeuvres" class="oeuvre-carousel">
     {% if oeuvres is defined %}
         {% if oeuvres %}
             {% for oeuvre in oeuvres %}
@@ -102,25 +92,5 @@
             <p>Aucun résultat trouvé.</p>
         {% endif %}
     {% endif %}
+ 
 </div>
-<script>
-    function search() {
-        let query = document.getElementById('search-input').value;
-        fetch(`/oeuvreclient/search?q=${query}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.text())
-        .then(data => {
-            let div = document.getElementById('oeuvres');
-            div.innerHTML = data;
-        })
-        .catch(error => console.error('Error:', error));
-    }
-    
-</script> 
-
-{% endblock %}

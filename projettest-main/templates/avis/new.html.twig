@@ -1,53 +1,72 @@
-
-
 {% extends 'nav_foot_client.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+    <style>
+        /* Styles pour définir la taille maximale des images */
+        .img-fluid {
+            max-width: 400px; /* Définissez la largeur maximale souhaitée */
+            max-height: 400px; /* Définissez la hauteur maximale souhaitée */
+        }
+    </style>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+    <script>
+    // Fonction pour afficher une boîte de dialogue de confirmation avant la suppression
+    function confirmDelete(idAvis) {
+        if (confirm("Voulez-vous vraiment supprimer cet avis?")) {
+            // Si l'utilisateur confirme, soumettez le formulaire de suppression
+            document.getElementById('delete-form-' + idAvis).submit();
+        } else {
+            // Sinon, ne faites rien
+            return false;
+        }
+    }
+</script>
 {% endblock %}
 
- {% block addavis %}
+{% block addavis %}
     <div class="row">
+        <div class="col-md-6 text-center">
+            <img src="{{ imageUrl }}" alt="Image de l'œuvre" class="img-fluid">
+        </div>
         <div class="col-md-6">
             <h1>Exprimez vous</h1>
             {{ include('avis/_form.html.twig') }}
-            <a href="{{ path('app1_oeuvre_index') }}" class="btn btn-primary">Back to list</a>
-            
-        </div>
-        <div class="col-md-6 text-center">
-            <img src="{{ imageUrl }}" alt="Image de l'œuvre" class="img-fluid" style="max-width: 200; height: auto;">
         </div>
     </div>
-     <div class="row mt-5">
-    <div class="col-md-12">
-        <h2>Les avis de nos clients</h2>
-        <ul class="list-group">
-            {% for avis in avis %}
-                <li class="list-group-item">
-                     <strong> Client :</strong> {{ avis.user.nomUser }} {{ avis.user.prenomUser }}<br>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2>Les avis de nos clients</h2>
+            <ul class="list-group">
+                {% for avis in avis %}
+                    <li class="list-group-item">
+                        <strong>Client :</strong> {{ avis.user.nomUser }} {{ avis.user.prenomUser }}<br>
                         <strong>Commentaire :</strong> {{ avis.commentaire }}<br>
                         <strong>Note :</strong> {{ avis.note|rating }}<br>
-                    <!-- Ajoutez d'autres détails de l'avis si nécessaire -->
-                    {% if userId == avis.user.idUser %}
-            <a href="{{ path('app_avis_edit', {'idAvis': avis.idAvis}) }}" class="btn btn-primary">Modifier avis</a>
-            <form action="{{ path('app_avis_delete', {'idAvis': avis.idAvis}) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet avis?');">
-                <input type="hidden" name="_method" value="DELETE">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avis.idAvis) }}">
-                <button type="submit" class="btn btn-danger">Supprimer avis</button>
-            </form>
-        {% endif %}
-                </li>
-            {% else %}
-                <li class="list-group-item">Aucun avis disponible pour le moment.</li>
-            {% endfor %}
-        </ul>
+                        {% if userId == avis.user.idUser %}
+                            <a href="{{ path('app_avis_edit', {'idAvis': avis.idAvis}) }}" class="btn btn-primary">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <button class="btn btn-danger" onclick="confirmDelete({{ avis.idAvis }})">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <form id="delete-form-{{ avis.idAvis }}" action="{{ path('app_avis_delete', {'idAvis': avis.idAvis}) }}" method="post" style="display: none;">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avis.idAvis) }}">
+                            </form>
+                        {% endif %}
+                    </li>
+                {% else %}
+                    <li class="list-group-item">Aucun avis disponible pour le moment.</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-  </div>
+    
 {% endblock %}

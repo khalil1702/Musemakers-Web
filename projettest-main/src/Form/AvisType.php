@@ -32,15 +32,7 @@ class AvisType extends AbstractType
                     new Assert\NotBlank(['message' => 'La note est obligatoire']), // Contrainte de validation NotBlank
                 ],
             ])
-            ->add('likes', Type\IntegerType::class, [
-                'required' => false,
-            ])
-            ->add('dislikes', Type\IntegerType::class, [
-                'required' => false,
-            ])
-            ->add('favoris', Type\CheckboxType::class, [
-                'required' => false,
-            ])
+          
           
         ;
     }
