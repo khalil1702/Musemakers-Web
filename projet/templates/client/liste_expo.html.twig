@@ -55,11 +55,11 @@
                             <p class="text-muted">
                                 <br>Theme: {{ exposition.theme }} <br>
                                 {% if exposition.dateDebut %}
-                                    Date debut  {{ exposition.dateDebut|date('Y-m-d ')}}à  {{ exposition.heureDebut|date('H:i') }} <br>
+                                    Date debut  {{ exposition.dateDebut|date('Y-m-d ')}}   <br>
                                 {% endif %}
                                 {% if exposition.dateFin %}
-                                    Date fin {{ exposition.dateFin|date('Y-m-d ') }}à  {{ exposition.heureFin|date('H:i') }}
-                                {% endif %}
+                                    Date fin {{ exposition.dateFin|date('Y-m-d ') }}
+                                {% endif %} <br>
                             </p>
                             <div class="mt-auto">
                                 <a href="{{ path('app_client_show', {'idExposition': exposition.idExposition}) }}" 

@@ -42,13 +42,13 @@ class ReservationRepository extends ServiceEntityRepository
 
         $stats['annulees'] = $this->createQueryBuilder('r')
             ->select('COUNT(r.idReservation)')
-            ->andWhere('r.accessByAdmin = 2')
+            ->andWhere('r.accessByAdmin = 3')
             ->getQuery()
             ->getSingleScalarResult();
 
         $stats['refusees'] = $this->createQueryBuilder('r')
             ->select('COUNT(r.idReservation)')
-            ->andWhere('r.accessByAdmin = 3')
+            ->andWhere('r.accessByAdmin = 2')
             ->getQuery()
             ->getSingleScalarResult();
 

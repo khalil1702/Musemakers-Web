@@ -31,24 +31,26 @@ class AdminReser extends AbstractController
     }
 
     #[Route('/requests', name: 'admin_reservation_requests')]
-public function reservationRequests(Request $request, ReservationRepository $reservationRepository, PaginatorInterface $paginator): Response
-{
-    $reservationRequests = $reservationRepository->findBy(['accessByAdmin' => 0]);
-
-    $reservationRequests = $paginator->paginate(
-        $reservationRequests,
-        $request->query->getInt('page', 1), // Get the current page number
-        5 // Number of items per page
-    );
-    return $this->render('back_office/reservation_requests.html.twig', [
-        'reservationRequests' => $reservationRequests,
-        'knp_pagination' => $reservationRequests
-
-    ]);
-
-
-
-} 
+    public function reservationRequests(Request $request, ReservationRepository $reservationRepository, PaginatorInterface $paginator): Response
+    {
+        $reservationRequests = $reservationRepository->findBy(['accessByAdmin' => 0]);
+    
+        $reservationRequests = $paginator->paginate(
+            $reservationRequests,
+            $request->query->getInt('page', 1), // Get the current page number
+            5 // Number of items per page
+        );
+    
+        // Récupérer les données pour le graphique
+        $stats = $reservationRepository->getReservationStats();
+    
+        return $this->render('back_office/reservation_requests.html.twig', [
+            'reservationRequests' => $reservationRequests,
+            'knp_pagination' => $reservationRequests,
+            'stats' => $stats
+        ]);
+    }
+    
 
 
     #[Route('/all-reservations', name: 'admin_all_reservations')]

@@ -21,16 +21,16 @@
                   </div>
                 </div>
                 <div class="col-md-5 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Statistique Générale</h4>
-                            <canvas id="traffic-chart">            
-
-                            </canvas>
+                    <div class="card" style="height: 300px; overflow-y: auto;">
+                        <div class="card-body" >
+                            <h4 class="card-title" style="height=200">Statistique Génèrale</h4>
+                            <canvas id="traffic-chart"></canvas>
                             <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
+                            {% include 'back_office/statistics.html.twig' with {'stats': stats} %}
                         </div>
                     </div>
                 </div>
+                
               </div>
 
 

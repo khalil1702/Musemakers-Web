@@ -7,7 +7,7 @@
 {% block expoclient %}
 <section class="features03 cid-u76D6GfSIP" id="events-1-u76D6GfSIP">
     <div class="container-fluid">
-        <div class="row justify-content-center mb-5">
+        <div class="row justify-content-between mb-5">
             <div class="col-12 content-head">
                 <div class="mbr-section-head">
                     <h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
@@ -15,6 +15,10 @@
                     </h4>
                 </div>
             </div>
+            <div class="col-auto">
+                <a href="{{ path('app_client_getallExpo') }}" class="btn btn-primary">Voir toutes les expositions</a>
+            </div>
+        </div>
         </div>
         <div class="row flex-nowrap overflow-auto">
             {% for exposition in expositions %}
@@ -22,19 +26,17 @@
                 <div class="item-wrapper">
                     <div class="item-img mb-3">
                         {% if exposition.image %}
-                        <img src="{{ path('user_images', {'imageName': exposition.image}) }}" alt="{{ exposition.nom }}">
-                    {% else %}
+                        <img src="{{ path('user_images', {'imageName': exposition.image}) }}" alt="{{ exposition.nom }}" style="width: 300px; height: 400px;">                    {% else %}
                         <!-- Handle the case where there is no image -->
                     {% endif %}                    </div>
                     <div class="item-content align-left">
                         <h6 class="item-subtitle mbr-fonts-style mb-3 display-5">
                             <strong><a class="text-black fw-bold" href="#">{{ exposition.nom }}</a></strong>
                         </h6>
-                        <p class="mbr-text mbr-fonts-style mb-3 display-7">{{ exposition.dateDebut ? exposition.dateDebut|date('Y-m-d') : '' }}</p>
-                        <p class="mbr-text mbr-fonts-style mb-3 display-7">{{ exposition.dateDebut ? exposition.dateFin|date('Y-m-d') : '' }}</p>
-                        <p class="mbr-text mbr-fonts-style mb-3 display-7">{{ exposition.description }}</p>
+                        <p class="mbr-text mbr-fonts-style mb-3 display-7">{{  exposition.theme }}</p>
+                       
                         <div class="mbr-section-btn item-footer">
-                            <a href="{{ path('app_client_show', {'idExposition': exposition.idExposition}) }}" class="btn item-btn btn-primary display-7">Réserver</a>
+                            <a href="{{ path('app_client_show', {'idExposition': exposition.idExposition}) }}" class="btn item-btn btn-primary display-7">Détails</a>
                         </div>
                     </div>
                 </div>

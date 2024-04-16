@@ -52,12 +52,14 @@ class ExpositionType extends AbstractType
     'required' => false,
 ])
 
-            ->add('description', Type\TextType::class, [
-                'constraints' => [
-                    new Assert\NotBlank(['message' => 'Le desc de l\'exposition ne peut pas être vide']),
-                ],
-                'required' => false,
-            ])
+->add('description', Type\TextareaType::class, [
+    'constraints' => [
+        new Assert\NotBlank(['message' => 'Le desc de l\'exposition ne peut pas être vide']),
+    ],
+    'required' => false,
+    'attr' => ['rows' => 6], // Adjust the number of rows as needed
+])
+
 
             ->add('theme', Type\ChoiceType::class, [
                 'placeholder' => 'cliquer pour choisir un thème',

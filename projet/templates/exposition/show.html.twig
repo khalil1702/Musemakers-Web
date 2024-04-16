@@ -6,8 +6,11 @@
 <div class="d-flex justify-content-center container mt-5">
     <div class="card_show p-3 bg-white">
         <div class="about-product text-center mt-2">
+            {% if exposition.image %}
             <img class="exposition-image img-fluid" src="{{ path('user_images', {'imageName': exposition.image}) }}" alt="{{ exposition.nom }}" width="300">
-            <div>
+        {% else %}
+            <!-- Afficher une image par défaut ou un message d'erreur ici -->
+        {% endif %}            <div>
                 <h4>{{ exposition.nom }}</h4>
                 <h6 class="mt-0 text-black-50">{{ exposition.description }}</h6>
             </div>

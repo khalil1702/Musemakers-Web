@@ -39,11 +39,12 @@
                         <br>Theme: {{ exposition.theme }}
                         {% endif %}
                         {% if exposition.dateDebut and exposition.heureDebut %}
-                        <br>Date de début: {{ exposition.dateDebut|date('Y-m-d') }} à {{ exposition.heureDebut|date('H:i') }}
+                        <br>De {{ exposition.dateDebut|date('Y-m-d') }} à 
                     {% endif %}
                     {% if exposition.dateFin and exposition.heureFin %}
-                        <br>Date de fin: {{ exposition.dateFin|date('Y-m-d') }} à {{ exposition.heureFin|date('H:i') }}
+                         {{ exposition.dateFin|date('Y-m-d') }}
                     {% endif %}
+                   <br> De {{ exposition.heureDebut|date('H:i') }}  à {{ exposition.heureFin|date('H:i') }}
                     
             
        

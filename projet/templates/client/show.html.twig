@@ -5,14 +5,19 @@
 {% block content %}
     <div class="wrapper">
         <div class="product-img">
-            <img src="{{ path('user_images', {'imageName': exposition.image}) }}" height="420" width="327" alt="{{ exposition.nom }}">
+            {% if exposition.image %}
+                <img src="{{ path('user_images', {'imageName': exposition.image}) }}" height="420" width="327" alt="{{ exposition.nom }}">
+            {% else %}
+                <!-- Afficher une image par défaut ou un message d'erreur ici -->
+            {% endif %}
         </div>
         <div class="product-info">
             <div class="product-text">
                 <h1>{{ exposition.nom }}</h1>
                 <h2>Theme {{ exposition.theme }}</h2>
-                <p>{{ exposition.description }} <br> Date Debut : {{ exposition.dateDebut|date('d-m-Y') }} à  {{ exposition.heureDebut|date('H:i') }} 
-                    <br> Date fin : {{ exposition.dateFin|date('d-m-Y') }} à  {{ exposition.heureFin|date('H:i') }}</p>
+                <p>{{ exposition.description }} <br> Date Debut : {{ exposition.dateDebut|date('d-m-Y') }} 
+                    <br> Date fin : {{ exposition.dateFin|date('d-m-Y') }}  <br>
+                     De {{ exposition.heureDebut|date('H:i') }} à  {{ exposition.heureFin|date('H:i') }} </p>
  
 
             </div>
