@@ -14,23 +14,37 @@ use DateTime;
 use Twilio\Rest\Client;
 use Symfony\Component\HttpFoundation\JsonCommentaire;
 use App\Repository\ReclamationRepository;
-
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/reclamation')]
 class ReclamationController extends AbstractController
 {
     #[Route('/', name: 'app_reclamation_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
-    {
-        $reclamations = $entityManager
-            ->getRepository(Reclamation::class)
-            ->findAll();
-            $statistiques = $this->calculerStatistiques($reclamations);
-        return $this->render('reclamation/index.html.twig', [
-            'reclamations' => $reclamations,
-            'statistiques' => $statistiques, // Passage des statistiques au template
-        ]);
-    }
+    public function index(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
+{
+    $reclamations = $entityManager
+        ->getRepository(Reclamation::class)
+        ->findAll();
+    
+    $statistiques = $this->calculerStatistiques($reclamations);
+    
+    // Pagination logic
+    $currentPage = $request->query->getInt('page', 1); 
+    $perPage = 6; 
+
+    $paginatedReclamations = $paginator->paginate(
+        $reclamations,
+        $currentPage,
+        $perPage
+    );
+    
+    return $this->render('reclamation/index.html.twig', [
+        'reclamations' => $paginatedReclamations, // Use paginated reclamations
+        'knp_pagination' => $paginatedReclamations,
+        'statistiques' => $statistiques,
+    ]);
+}
+
     
     // Méthode pour calculer les statistiques
     private function calculerStatistiques($reclamations)
@@ -59,7 +73,7 @@ class ReclamationController extends AbstractController
     }
 
     #[Route('/back', name: 'app_reclamation_indexBack', methods: ['GET'])]
-    public function indexBack(EntityManagerInterface $entityManager): Response
+    public function indexBack(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
         $reclamations = $entityManager
             ->getRepository(Reclamation::class)
@@ -67,10 +81,21 @@ class ReclamationController extends AbstractController
     
         // Calcul des statistiques
         $statistiques = $this->calculerStatistiques($reclamations);
+        // Pagination logic
+    $currentPage = $request->query->getInt('page', 1); 
+    $perPage = 6; 
+
+    $paginatedReclamations = $paginator->paginate(
+        $reclamations,
+        $currentPage,
+        $perPage
+    );
     
         return $this->render('reclamation/indexBack.html.twig', [
             'reclamations' => $reclamations,
             'statistiques' => $statistiques, // Passage des statistiques au template
+            'reclamations' => $paginatedReclamations, // Use paginated reclamations
+        'knp_pagination' => $paginatedReclamations,
         ]);
     }
     #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]

@@ -3,6 +3,7 @@
 {% block title %}Index des réclamations{% endblock %}
 
 {% block body %}
+
     <h1>Liste des réclamations</h1>
    
     <div class="card-body">
@@ -46,11 +47,33 @@
                     <td colspan="6">aucun enregistrement trouvé</td>
                 </tr>
             {% endfor %}
+        
             </tbody>
+            
         </table>
+        
     </div>
 
-    <div class="row">
+    <!-- Pagination -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_reclamation_indexBack', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
+          </li>
+          {% for page in 1..knp_pagination.pageCount %}
+          <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
+            <a class="page-link" href="{{ path('app_reclamation_indexBack', {'page': page }) }}">{{ page }}</a>
+          </li>
+          {% endfor %}
+          <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_reclamation_indexBack', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
+          </li>
+        </ul>
+    </nav>
+    <!-- End Pagination -->
+
+  <div class="row">
+    
               <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
@@ -58,9 +81,12 @@
                     <canvas id="statutChart" style="height: 124px; display: block; width: 248px;" width="496" height="248" class="chartjs-render-monitor"></canvas>
                   </div>
                 </div>
+                
               </div>
+              
                 <!-- JavaScript pour afficher la pie chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var statutData = {
@@ -170,3 +196,5 @@
     </div>
 </div>
 {% endblock %}
+
+

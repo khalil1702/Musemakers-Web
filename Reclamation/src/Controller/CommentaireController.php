@@ -10,29 +10,51 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTime;
+use Knp\Component\Pager\PaginatorInterface;
 #[Route('/commentaire')]
 class CommentaireController extends AbstractController
 {
     #[Route('/', name: 'app_commentaire_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(Request $request,EntityManagerInterface $entityManager,PaginatorInterface $paginator): Response
     {
         $commentaires = $entityManager
             ->getRepository(Commentaire::class)
             ->findAll();
-            
+             // Pagination logic
+    $currentPage = $request->query->getInt('page', 1); 
+    $perPage = 6; 
+
+    $paginatedCommentaires = $paginator->paginate(
+        $commentaires,
+        $currentPage,
+        $perPage
+    );
 
         return $this->render('commentaire/index.html.twig', [
             'commentaires' => $commentaires,
+            'commentaires' => $paginatedCommentaires, // Use paginated reclamations
+        'knp_pagination' => $paginatedCommentaires,
         ]);
     }
     #[Route('/back', name: 'app_commentaire_indexBack', methods: ['GET'])]
-    public function indexBack(EntityManagerInterface $entityManager): Response
+    public function indexBack(Request $request,EntityManagerInterface $entityManager,PaginatorInterface $paginator): Response
     {
         $commentaires = $entityManager
             ->getRepository(Commentaire::class)
             ->findAll();
+                   // Pagination logic
+    $currentPage = $request->query->getInt('page', 1); 
+    $perPage = 6; 
+
+    $paginatedCommentaires = $paginator->paginate(
+        $commentaires,
+        $currentPage,
+        $perPage
+    );
 
         return $this->render('commentaire/indexBack.html.twig', [
+            'commentaires' => $paginatedCommentaires, // Use paginated reclamations
+            'knp_pagination' => $paginatedCommentaires,
             'commentaires' => $commentaires,
         ]);
     }
