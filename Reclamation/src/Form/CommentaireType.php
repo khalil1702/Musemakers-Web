@@ -15,7 +15,7 @@ class CommentaireType extends AbstractType
         $builder
             ->add('datecom')
             ->add('contenucom')
-            ->add('idrec')
+            
             ->add('idrec', EntityType::class, [
                 'class' => Reclamation::class,
                 'choice_label' => 'descrirec', // Le champ de l'entité à afficher dans le formulaire

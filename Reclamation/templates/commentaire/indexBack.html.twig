@@ -26,8 +26,8 @@
                 <td>{{ commentaire.datecom ? commentaire.datecom|date('Y-m-d') : '' }}</td>
                 
                 <td>
-                    <a href="{{ path('app_commentaire_show', {'idcom': commentaire.idcom}) }}">Voir</a>
-                    <a href="{{ path('app_commentaire_edit', {'idcom': commentaire.idcom}) }}">Modifier</a>
+                    <a href="{{ path('app_commentaire_showBack', {'idcom': commentaire.idcom}) }}">Voir</a>
+                    <a href="{{ path('app_commentaire_editBack', {'idcom': commentaire.idcom}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -38,5 +38,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_commentaire_new') }}">Créer un nouveau commentaire</a>
+    <a href="{{ path('app_commentaire_newBack') }}">Créer un nouveau commentaire</a>
 {% endblock %}

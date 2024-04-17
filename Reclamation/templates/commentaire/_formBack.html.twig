@@ -1,0 +1,27 @@
+{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+
+ <div style="display: none;">
+        {{ form_row(form.datecom) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.idrec, 'Description la réclamation', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.idrec, {'attr': {'class': 'form-control'}}) }}
+
+        <div class="error-message">
+            {{ form_errors(form.idrec) }} {# Affiche les erreurs de validation pour ifrec #}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.contenucom, 'Contenu du commentaire', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.contenucom, {'attr': {'class': 'form-control'}}) }}
+
+        <div class="error-message">
+            {{ form_errors(form.contenucom) }} {# Affiche les erreurs de validation pour le contenucom #}
+        </div>
+    </div>
+
+<button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+
+{{ form_end(form) }}

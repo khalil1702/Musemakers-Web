@@ -108,6 +108,13 @@ class ReclamationController extends AbstractController
             'reclamation' => $reclamation,
         ]);
     }
+    #[Route('/{idrec}/Back', name: 'app_reclamation_showBack', methods: ['GET'])]
+    public function showBack(Reclamation $reclamation): Response
+    {
+        return $this->render('reclamation/showBack.html.twig', [
+            'reclamation' => $reclamation,
+        ]);
+    }
 
     #[Route('/{idrec}/edit', name: 'app_reclamation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
@@ -145,8 +152,9 @@ class ReclamationController extends AbstractController
 
 
         // Remplacez SID et AuthToken par vos informations Twilio
-        $sid    = "key";
-        $token  = "key";
+        
+      //  $sid    = "key";
+        //$token  = "key";
         $twilio = new Client($sid, $token);
 
         $user = $reclamation->getIdu();
@@ -156,12 +164,13 @@ class ReclamationController extends AbstractController
         $prenomUser = $user->getPrenomUser();
         $descrirec = $reclamation->getDescriRec();
         $statutrec = $reclamation->getStatutRec();
+        $numTel = $user->getNumTel();
     
 
 
         // Envoi du SMS
         $message = $twilio->messages
-            ->create("+21627163524", // destinataire
+            ->create( "+216$numTel", // destinataire
                 array(
                     "from" => "+18154733136",
                     "body" => "Cher(e) $nomUser $prenomUser\nLe statut de ta réclamation : $descrirec est : $statutrec"
@@ -191,6 +200,16 @@ class ReclamationController extends AbstractController
         }
 
         return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/{idrec}/Back', name: 'app_reclamation_deleteBack', methods: ['POST'])]
+    public function deleteBack(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$reclamation->getIdrec(), $request->request->get('_token'))) {
+            $entityManager->remove($reclamation);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_reclamation_indexBack', [], Response::HTTP_SEE_OTHER);
     }
     private function filterInappropriateWords($text, $inappropriateWords) {
         foreach ($inappropriateWords as $word) {
