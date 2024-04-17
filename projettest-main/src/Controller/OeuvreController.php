@@ -21,16 +21,95 @@ class OeuvreController extends AbstractController
      
     #[Route('/rechercheoeuvre', name: 'oeuvre_search1', methods: ['GET'])]
 
-    public function search(Request $request, OeuvreRepository $oeuvreRepository): Response
+    public function search(Request $request, OeuvreRepository $oeuvreRepository , AvisRepository $avisRepository): Response
     {
         $query = $request->query->get('q');
     
         $oeuvres = $oeuvreRepository->searchByName($query);
+        $averageRatings = [];
+    
+        // Parcourir chaque œuvre pour calculer la moyenne des notes
+        foreach ($oeuvres as $oeuvre) {
+            // Récupérer les avis correspondant à l'œuvre
+            $avis = $avisRepository->findBy(['oeuvre' => $oeuvre->getIdOeuvre()]);
+            
+            // Initialiser la somme des notes et le nombre d'avis
+            $totalRating = 0;
+            $numberOfRatings = count($avis);
+            
+            // Calculer la somme des notes
+            foreach ($avis as $avi) {
+                $totalRating += $avi->getNote();
+            }
+            
+            // Calculer la moyenne des notes
+            $averageRating = $numberOfRatings > 0 ? $totalRating / $numberOfRatings : 0;
+            
+            // Ajouter la moyenne des notes à chaque œuvre
+            $averageRatings[$oeuvre->getIdOeuvre()] = $averageRating;
+        }
 
         return $this->render('oeuvre/search_results.html.twig', [
             'oeuvres' => $oeuvres,
+            'averageRatings' => $averageRatings,
         ]);
     }
+
+    #[Route('/sort1', name: 'oeuvre_sort1', methods: ['GET'])]
+    public function sort(Request $request, OeuvreRepository $oeuvreRepository, AvisRepository $avisRepository): Response
+    {
+        // Récupérer les critères de tri depuis la requête
+        $sortBy = $request->query->get('sort_by');
+        $sortOrder = $request->query->get('sort_order');
+
+        // Vérifier si les critères de tri sont définis
+        if ($sortBy) {
+        // Vérifier si sortOrder est également défini, sinon définir par défaut comme croissant
+        if ($sortOrder) {
+        // Trier les œuvres en fonction des critères sélectionnés
+        $criteria = [$sortBy => $sortOrder];
+        } else {
+        // Définir par défaut l'ordre de tri comme croissant
+        $criteria = [$sortBy => 'ASC'];
+        }
+        $oeuvres = $oeuvreRepository->findBy([], $criteria);
+        } else {
+        // Par défaut, ne pas appliquer de tri
+        $oeuvres = $oeuvreRepository->findAll();
+        }
+
+        $averageRatings = [];
+    
+        // Parcourir chaque œuvre pour calculer la moyenne des notes
+        foreach ($oeuvres as $oeuvre) {
+            // Récupérer les avis correspondant à l'œuvre
+            $avis = $avisRepository->findBy(['oeuvre' => $oeuvre->getIdOeuvre()]);
+            
+            // Initialiser la somme des notes et le nombre d'avis
+            $totalRating = 0;
+            $numberOfRatings = count($avis);
+            
+            // Calculer la somme des notes
+            foreach ($avis as $avi) {
+                $totalRating += $avi->getNote();
+            }
+            
+            // Calculer la moyenne des notes
+            $averageRating = $numberOfRatings > 0 ? $totalRating / $numberOfRatings : 0;
+            
+            // Ajouter la moyenne des notes à chaque œuvre
+            $averageRatings[$oeuvre->getIdOeuvre()] = $averageRating;
+        }
+    
+
+        return $this->render('oeuvre/index.html.twig', [
+            'oeuvres' => $oeuvres,
+            'sortBy' => $sortBy,
+            'sortOrder' => $sortOrder,
+            'averageRatings' => $averageRatings,
+        ]);
+    }
+
   
 
      #[Route('/afficher', name: 'app_oeuvre_index', methods: ['GET'])]
@@ -43,8 +122,8 @@ class OeuvreController extends AbstractController
     }
 
     #[Route('/new', name: 'app_oeuvre_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $entityManager): Response
-{
+     public function new(Request $request, EntityManagerInterface $entityManager): Response
+   {
     $oeuvre = new Oeuvre();
     $form = $this->createForm(OeuvreType::class, $oeuvre);
     $form->handleRequest($request);

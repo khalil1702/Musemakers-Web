@@ -81,7 +81,8 @@
                                 <p>PRIX: {{ oeuvre.prixOeuvre }}</p>
                                 <p>CATEGORIE: {{ oeuvre.categorieOeuvre }}</p> 
                                 <p>Date Creation: {{ oeuvre.datecreation ? oeuvre.datecreation|date('Y-m-d') : '' }}</p> 
-                                 
+                                  <p>  {{ averageRatings[oeuvre.idOeuvre]|rating }}</p>
+   
                             </div>
                         </div>
                     </div>

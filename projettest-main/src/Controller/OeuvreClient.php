@@ -19,20 +19,7 @@ use App\Entity\Avis;
 class OeuvreClient extends AbstractController
 {
      
-     #[Route('/search', name: 'oeuvre_search', methods: ['GET'])]
-
-    public function search(Request $request, OeuvreRepository $oeuvreRepository): Response
-    {
-        $query = $request->query->get('q');
     
-        $oeuvres = $oeuvreRepository->searchByName($query);
-
-        return $this->render('oeuvre/search_results.html.twig', [
-            'oeuvres' => $oeuvres,
-        ]);
-    }
-  
-
     #[Route('/getalloeuvres', name: 'app4_oeuvre_index', methods: ['GET'])]
     public function getall2(OeuvreRepository $oeuvreRepository,  AvisRepository $avisRepository): Response
     {
@@ -81,10 +68,102 @@ class OeuvreClient extends AbstractController
             'oeuvres' => $oeuvres,
         ]);
     }
- 
+  
+
+    #[Route('/search', name: 'oeuvre_search', methods: ['GET'])]
+
+    public function search(Request $request, OeuvreRepository $oeuvreRepository ,  AvisRepository $avisRepository): Response
+    {
+        $query = $request->query->get('q');
+        
+    
+        $oeuvres = $oeuvreRepository->searchByName($query);
+
+      
+    $averageRatings = [];
+    
+    // Parcourir chaque œuvre pour calculer la moyenne des notes
+    foreach ($oeuvres as $oeuvre) {
+        // Récupérer les avis correspondant à l'œuvre
+        $avis = $avisRepository->findBy(['oeuvre' => $oeuvre->getIdOeuvre()]);
+        
+        // Initialiser la somme des notes et le nombre d'avis
+        $totalRating = 0;
+        $numberOfRatings = count($avis);
+        
+        // Calculer la somme des notes
+        foreach ($avis as $avi) {
+            $totalRating += $avi->getNote();
+        }
+        
+        // Calculer la moyenne des notes
+        $averageRating = $numberOfRatings > 0 ? $totalRating / $numberOfRatings : 0;
+        
+        // Ajouter la moyenne des notes à chaque œuvre
+        $averageRatings[$oeuvre->getIdOeuvre()] = $averageRating;
+    }
+
+        return $this->render('oeuvre/search_results.html.twig', [
+            'oeuvres' => $oeuvres,
+            'averageRatings' => $averageRatings,
+        ]);
+    }
 
     
+    #[Route('/sort', name: 'oeuvre_sort', methods: ['GET'])]
+    public function sort(Request $request, OeuvreRepository $oeuvreRepository, AvisRepository $avisRepository): Response
+    {
+         // Récupérer les critères de tri depuis la requête
+         $sortBy = $request->query->get('sort_by');
+         $sortOrder = $request->query->get('sort_order');
+ 
+         // Vérifier si les critères de tri sont définis
+         if ($sortBy) {
+         // Vérifier si sortOrder est également défini, sinon définir par défaut comme croissant
+         if ($sortOrder) {
+         // Trier les œuvres en fonction des critères sélectionnés
+         $criteria = [$sortBy => $sortOrder];
+         } else {
+         // Définir par défaut l'ordre de tri comme croissant
+         $criteria = [$sortBy => 'ASC'];
+         }
+         $oeuvres = $oeuvreRepository->findBy([], $criteria);
+         } else {
+         // Par défaut, ne pas appliquer de tri
+         $oeuvres = $oeuvreRepository->findAll();
+         }
 
+        $averageRatings = [];
+    
+        // Parcourir chaque œuvre pour calculer la moyenne des notes
+        foreach ($oeuvres as $oeuvre) {
+            // Récupérer les avis correspondant à l'œuvre
+            $avis = $avisRepository->findBy(['oeuvre' => $oeuvre->getIdOeuvre()]);
+            
+            // Initialiser la somme des notes et le nombre d'avis
+            $totalRating = 0;
+            $numberOfRatings = count($avis);
+            
+            // Calculer la somme des notes
+            foreach ($avis as $avi) {
+                $totalRating += $avi->getNote();
+            }
+            
+            // Calculer la moyenne des notes
+            $averageRating = $numberOfRatings > 0 ? $totalRating / $numberOfRatings : 0;
+            
+            // Ajouter la moyenne des notes à chaque œuvre
+            $averageRatings[$oeuvre->getIdOeuvre()] = $averageRating;
+        }
+    
+
+        return $this->render('oeuvre/affichertousoeuvrs.html.twig', [
+            'oeuvres' => $oeuvres,
+            'sortBy' => $sortBy,
+            'sortOrder' => $sortOrder,
+            'averageRatings' => $averageRatings,
+        ]);
+    }
 
     
     #[Route('/user-images/{imageName}', name: 'user_images1')]
