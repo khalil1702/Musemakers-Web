@@ -145,6 +145,36 @@ class AvisController extends AbstractController
             'avis' => $userAvisHistory,
         ]);
     }
+
+    #[Route('/avis/statistics', name: 'app_avis_statistics', methods: ['GET'])]
+public function avisStatistics(AvisRepository $avisRepository): Response
+{
+    // Récupérer tous les avis depuis le repository
+    $avis = $avisRepository->findAll();
+    
+    // Initialiser les compteurs pour les avis positifs, neutres et négatifs
+    $positifCount = 0;
+    $neutreCount = 0;
+    $negatifCount = 0;
+    
+    // Parcourir les avis pour compter les avis positifs, neutres et négatifs
+    foreach ($avis as $avi) {
+        if ($avi->getNote() >= 4 ) {
+            $positifCount++;
+        } elseif ($avi->getNote() >= 3) {
+            $neutreCount++;
+        } else {
+            $negatifCount++;
+        }
+    }
+    
+    // Passer les données à la vue pour affichage
+    return $this->render('avis/statistics.html.twig', [
+        'positifCount' => $positifCount,
+        'neutreCount' => $neutreCount,
+        'negatifCount' => $negatifCount,
+    ]);
+}
   
    
 }

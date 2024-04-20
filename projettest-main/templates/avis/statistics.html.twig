@@ -1,0 +1,32 @@
+{% extends 'base2.html.twig' %}
+
+
+{% block stat %}
+
+<h2>Statistiques des avis</h2>
+
+<canvas id="avisChart" width="400" height="400"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var positifCount = {{ positifCount }};
+    var neutreCount = {{ neutreCount }};
+    var negatifCount = {{ negatifCount }};
+
+    var ctx = document.getElementById('avisChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Positif', 'Neutre', 'Négatif'],
+            datasets: [{
+                data: [positifCount, neutreCount, negatifCount],
+                backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+            }]
+        },
+        options: {
+            // Options de configuration du graphique
+        }
+    });
+</script>
+
+{% endblock %}
