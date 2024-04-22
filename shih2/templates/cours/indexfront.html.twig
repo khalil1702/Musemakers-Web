@@ -3,38 +3,32 @@
 {% block title %}Cours index{% endblock %}
 
 {% block body %}
-    <h1>Cours index</h1>
+    <h1 class="mb-4">Cours index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>IdCours</th>
-                <th>TitreCours</th>
-                <th>DescriCours</th>
-                <th>DatedebutCours</th>
-                <th>DatefinCours</th>
-        
-            </tr>
-        </thead>
-        <tbody>
+    <div class="row">
         {% for cour in cours %}
-            <tr>
-                <td>{{ cour.idCours }}</td>
-                <td>{{ cour.titreCours }}</td>
-                <td>{{ cour.descriCours }}</td>
-                <td>{{ cour.datedebutCours ? cour.datedebutCours|date('Y-m-d') : '' }}</td>
-                <td>{{ cour.datefinCours ? cour.datefinCours|date('Y-m-d') : '' }}</td>
-                <td>
-                   
-                </td>
-            </tr>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ cour.titreCours }}</h5>
+                        <p class="card-text">{{ cour.descriCours }}</p>
+                        <ul class="list-unstyled">
+                            <li><strong>Date de début :</strong> {{ cour.datedebutCours ? cour.datedebutCours|date('Y-m-d') : 'Non spécifiée' }}</li>
+                            <li><strong>Date de fin :</strong> {{ cour.datefinCours ? cour.datefinCours|date('Y-m-d') : 'Non spécifiée' }}</li>
+                        </ul>
+                        <div class="mt-3">
+                            <a href="{{ path('app_cours_show', {'idCours': cour.idCours}) }}" class="btn btn-info mr-2">Afficher</a>
+                            
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
+            <div class="col">
+                <p>Aucun enregistrement trouvé.</p>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
-    
+    </div>
 {% endblock %}

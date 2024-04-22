@@ -27,7 +27,7 @@ class CoursController extends AbstractController
   
       // Pagination logic
       $currentPage = $request->query->getInt('page', 1); 
-      $perPage = 3; 
+      $perPage = 5; 
   
       $paginatedCours = $paginator->paginate(
           $cours,
@@ -44,7 +44,14 @@ class CoursController extends AbstractController
           'knp_pagination' => $paginatedCours,
       ]);
 }
-    
+#[Route('/front', name: 'app_cours_index1', methods: ['GET'])]
+public function index2(CoursRepository $coursRepository): Response
+{
+    return $this->render('cours/indexfront.html.twig', [
+        'cours' => $coursRepository->findAll(),
+    ]);
+
+}
    
 
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
@@ -68,6 +75,7 @@ class CoursController extends AbstractController
             'form' => $form,
         ]);
     }
+    
 
     #[Route('/{idCours}', name: 'app_cours_show', methods: ['GET'])]
     public function show(Cours $cour): Response

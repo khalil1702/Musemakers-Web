@@ -21,10 +21,10 @@ class AtelierController extends AbstractController
             'ateliers' => $atelierRepository->findAll(),
         ]);
     }
-    #[Route('/front', name: 'app_atelier_index1', methods: ['GET'])]
+    #[Route('/frontatelier', name: 'app_atelier_index1', methods: ['GET'])]
     public function index3(AtelierRepository $atelierRepository): Response
     {
-        return $this->render('atelier/indexfr.html.twig', [
+        return $this->render('atelier/indexfrontatelier.html.twig', [
             'ateliers' => $atelierRepository->findAll(),
         ]);
     }
