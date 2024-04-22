@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -11,19 +12,46 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 
 class RegistrationFormType extends AbstractType
 {
-
-public function buildForm(FormBuilderInterface $builder, array $options): void
-{
-    $builder
-        ->add('email')
-        ->add('nomUser')
-        ->add('prenomUser')
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('email')
+            ->add('nomUser', null, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Regex([
+                        'pattern' => '/\d/',
+                        'match' => false,
+                        'message' => 'Votre nom ne peut pas contenir de chiffres',
+                    ]),
+                ],
+            ])
+            ->add('prenomUser', null, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Regex([
+                        'pattern' => '/\d/',
+                        'match' => false,
+                        'message' => 'Votre prénom ne peut pas contenir de chiffres',
+                    ]),
+                ],
+            ])
+            ->add('numTel', TelType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Regex([
+                        'pattern' => '/^\d+$/',
+                        'message' => 'Votre numéro de téléphone doit contenir uniquement des chiffres',
+                    ]),
+                ],
+            ])
         ->add('numTel', TelType::class)
         ->add('image', FileType::class, [
             'label' => 'Upload Image',
@@ -63,7 +91,21 @@ public function buildForm(FormBuilderInterface $builder, array $options): void
                 ]),
             ],
         ])
-    ;
+        ->add('recaptcha', EWZRecaptchaType::class, [
+            'mapped' => false,
+            'label' => false,
+            'constraints' => [
+                new IsTrue([
+                    'message' => 'The captcha is not valid.',
+                ]),
+                
+            ],
+        ]);
+        
+        
+        
+        ;
+    
 }
 
     public function configureOptions(OptionsResolver $resolver): void

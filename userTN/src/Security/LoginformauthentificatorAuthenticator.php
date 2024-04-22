@@ -47,10 +47,20 @@ class LoginformauthentificatorAuthenticator extends AbstractLoginFormAuthenticat
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
-
-        // For example:
-         return new RedirectResponse($this->urlGenerator->generate('app_user_index'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+    
+        // Récupérer les rôles de l'utilisateur
+        $roles = $token->getUser()->getRoles();
+    
+        // Rediriger en fonction du rôle
+        if (in_array('ROLE_ADMIN', $roles, true)) {
+            return new RedirectResponse($this->urlGenerator->generate('app_user_index'));
+        } elseif (in_array('ROLE_USER', $roles, true)) {
+            return new RedirectResponse($this->urlGenerator->generate('editProfile'));
+        }elseif (in_array('ROLE_ARTISTE', $roles, true)) {
+            return new RedirectResponse($this->urlGenerator->generate('editProfile'));
+        }
+    
+        throw new \Exception('Aucun rôle trouvé pour cet utilisateur');
     }
     
 

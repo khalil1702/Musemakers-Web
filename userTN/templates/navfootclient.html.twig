@@ -84,8 +84,8 @@
                                           Profile
                                       </a>
                                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                          <a class="dropdown-item" href="blog-fullwidth.html">modifier votre profile</a>
-                                          <a class="dropdown-item" href="blog-left-sidebar.html">changer de mot de passe</a>
+                                          <a class="dropdown-item" href="{{ path('editProfile') }}">modifier votre profile</a>
+                                          <a class="dropdown-item"  href="{{ path('app_reset_password') }}" >changer de mot de passe</a>
                                           <a class="dropdown-item" href="{{ path('app_logout') }}">Se deconnecter </a>
                                       </div>
                                   </li>
@@ -98,7 +98,7 @@
       </section>
       </section>
      
-
+{% block login %}{% endblock %}
 
 
       {% block editProfile %}{% endblock %}
@@ -106,6 +106,8 @@
       {% block content %}{% endblock %}
       {% block myReservations %}{% endblock %}
       {% block listeExposition %}{% endblock %}
+      {% block body %}{% endblock %}
+
 
 
 

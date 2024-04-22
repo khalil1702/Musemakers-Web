@@ -36,7 +36,13 @@
                     <td>{{ user.cartepro }}</td>
                     <td>{{ user.status }}</td>
                     <td>{{ user.sexe }}</td>
-    <td><img src="{{ path('user_images', {'imageName': user.image}) }}" alt="User image"></td>
+<td>
+    {% if user.image %}
+        <img src="{{ path('user_images', {'imageName': user.image}) }}" alt="User image">
+    {% else %}
+        <img src="{{ asset('images/default.png') }}" alt="Default image">
+    {% endif %}
+</td>
 <td>
     <a href="{{ path('app_user_show', {'idUser': user.idUser}) }}" class="btn btn-primary">Show</a>
     <a href="{{ path('app_user_edit', {'idUser': user.idUser}) }}" class="btn btn-secondary">Edit</a>

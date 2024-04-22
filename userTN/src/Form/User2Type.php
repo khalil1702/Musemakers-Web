@@ -8,16 +8,44 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class User2Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nomUser')
-            ->add('prenomUser')
+            ->add('nomUser', null, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Regex([
+                        'pattern' => '/\d/',
+                        'match' => false,
+                        'message' => 'Votre nom ne peut pas contenir de chiffres',
+                    ]),
+                ],
+            ])
+            ->add('prenomUser', null, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Regex([
+                        'pattern' => '/\d/',
+                        'match' => false,
+                        'message' => 'Votre prénom ne peut pas contenir de chiffres',
+                    ]),
+                ],
+            ])
             ->add('email')
-            ->add('numTel')
+            ->add('numTel', null, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Regex([
+                        'pattern' => '/^\d+$/',
+                        'message' => 'Votre numéro de téléphone doit contenir uniquement des chiffres',
+                    ]),
+                ],
+            ])
             ->add('dateDeNaissance')
             ->add('sexe', ChoiceType::class, [
                 'choices' => [
