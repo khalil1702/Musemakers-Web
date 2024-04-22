@@ -38,11 +38,11 @@ class ReclamationType extends AbstractType
                 'placeholder' => 'Choisir le statut', // Optionnel : affichez un libellé par défaut
                 'required' => true, // Optionnel : spécifiez si la sélection d'une catégorie est obligatoire
             ])
-            
+          /*  
             ->add('idu', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'prenomUser', // Le champ de l'entité à afficher dans le formulaire
-            ])
+            ])*/
         ;
     }
 

@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommentaireRepository;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Qirolab\Laravel\Reactions\Traits\Reacts;
 #[ORM\Entity(repositoryClass: CommentaireRepository::class)]
 class Commentaire
 {
@@ -28,7 +28,7 @@ class Commentaire
     #[ORM\ManyToOne(targetEntity: Reclamation::class)]
     #[ORM\JoinColumn(name: "idrec", referencedColumnName: "idRec")]
     private ?Reclamation $idrec=null;
-
+    
     // Getters
     public function getIdcom(): int
     {
@@ -74,4 +74,5 @@ class Commentaire
         $this->idrec = $idrec;
         return $this;
     }
+   
 }

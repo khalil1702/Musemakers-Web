@@ -5,7 +5,18 @@
 {% block body %}
 
     <h1>Liste des réclamations</h1>
-   
+     <div class="tri-dropdown">
+    <select onchange="handleChange(this)">
+        <option value="">Trier par...</option>
+        <option value="date_asc">Date Ascendant</option>
+        <option value="date_desc">Date Descendant</option>
+        <option value="categorie_asc">Catégorie Ascendant</option>
+        <option value="categorie_desc">Catégorie Descendant</option>
+        <option value="statut_asc">Statut Ascendant</option>
+        <option value="statut_desc">Statut Descendant</option>
+    </select>
+</div>
+
     <div class="card-body">
         <table class="table">
             <thead>
@@ -195,6 +206,47 @@
         </ul>
     </div>
 </div>
+
+<script>
+function handleChange(select) {
+    var selectedOption = select.value;
+    if (selectedOption !== "") {
+        var triBack = "";
+        var order = "";
+
+        switch (selectedOption) {
+            case "date_asc":
+                triBack = "date";
+                order = "asc";
+                break;
+            case "date_desc":
+                triBack = "date";
+                order = "desc";
+                break;
+            case "categorie_asc":
+                triBack = "categorie";
+                order = "asc";
+                break;
+            case "categorie_desc":
+                triBack = "categorie";
+                order = "desc";
+                break;
+            case "statut_asc":
+                triBack = "statut";
+                order = "asc";
+                break;
+            case "statut_desc":
+                triBack = "statut";
+                order = "desc";
+                break;
+            default:
+                break;
+        }
+
+        // Redirection vers la route avec les paramètres de tri
+        window.location.href = "{{ path('app_reclamation_indexBack') }}" + "?triBack=" + triBack + "&order=" + order;
+    }
+}
+</script>
+
 {% endblock %}
-
-

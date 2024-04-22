@@ -2,31 +2,36 @@
 
 <div style="display: none;">
     {{ form_row(form.daterec) }}
+    
+</div>
+<div style="display: none;">
+    {{ form_row(form.categorierec) }}
+    </div>
+     <div style="display: none;">
+    {{ form_row(form.descrirec) }}
+    
+</div>
+<div class="form-group">
+  <label >Nom et Prenom : </label>
+  <dd class="col-sm-9">{{ reclamation.idU.nomUser }} {{ reclamation.idU.prenomUser }} </dd>
+  
 </div>
 
 <div class="form-group">
-    {{ form_label(form.descrirec, 'Description', {'label_attr': {'class': 'form-label'}}) }}
-    {{ form_widget(form.descrirec, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
-    <div class="error-message">
-        {{ form_errors(form.descrirec) }} {# Affiche les erreurs de validation pour la description #}
-    </div>
-</div>
+  <label > Catégorie : </label>
+  <dd class="col-sm-9">{{ reclamation.categorierec  }}  </dd>
+  </div>
 
 <div class="form-group">
-    {{ form_label(form.categorierec, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
-    {{ form_widget(form.categorierec, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
-    <div class="error-message">
-        {{ form_errors(form.categorierec) }} {# Affiche les erreurs de validation pour la catégorie #}
-    </div>
-</div>
+  <label > Description : </label>
+  <dd class="col-sm-9">{{ reclamation.descrirec }}  </dd>
+  </div>
+ 
+ <div class="form-group">
+  <label > Date du Reclamation : </label>
+  <dd class="col-sm-9">{{ reclamation.daterec ? reclamation.daterec|date('Y-m-d') : '' }}  </dd>
+  </div>
 
-<div class="form-group">
-    {{ form_label(form.idu, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
-    {{ form_widget(form.idu, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
-    <div class="error-message">
-        {{ form_errors(form.idu) }} {# Affiche les erreurs de validation pour le prénom #}
-    </div>
-</div>
 
 
 <div class="form-group">

@@ -5,6 +5,18 @@
 {% block body %}
     <h1>Index des commentaires</h1>
 
+    <div class="tri-dropdown">
+    <select onchange="handleChange(this)">
+        <option value="">Trier par...</option>
+        <option value="date_asc">Date Ascendant</option>
+        <option value="date_desc">Date Descendant</option>
+        <option value="description_asc">Description Ascendant</option>
+        <option value="description_desc">Description Descendant</option>
+        <option value="contenucom_asc">Contenu commentaire Ascendant</option>
+        <option value="contenucom_desc">Contenu commentaire Descendant</option>
+    </select>
+</div>
+
     <table class="table">
         <thead>
             <tr>
@@ -37,7 +49,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+ 
     <a href="{{ path('app_commentaire_new') }}">Créer un nouveau commentaire</a>
         
     <nav aria-label="Page navigation example">
@@ -55,5 +67,47 @@
           </li>
         </ul>
     </nav>
+
+   <script>
+function handleChange(select) {
+    var selectedOption = select.value;
+    if (selectedOption !== "") {
+        var tri = "";
+        var order = "";
+
+        switch (selectedOption) {
+            case "date_asc":
+                tri = "date";
+                order = "asc";
+                break;
+            case "date_desc":
+                tri = "date";
+                order = "desc";
+                break;
+            case "description_asc":
+                tri = "description";
+                order = "asc";
+                break;
+            case "description_desc":
+                tri = "description";
+                order = "desc";
+                break;
+            case "contenucom_asc":
+                tri = "contenucom";
+                order = "asc";
+                break;
+            case "contenucom_desc":
+                tri = "contenucom";
+                order = "desc";
+                break;
+            default:
+                break;
+        }
+
+        // Redirection vers la route avec les paramètres de tri
+        window.location.href = "{{ path('app_commentaire_index') }}" + "?tri=" + tri + "&order=" + order;
+    }
+}
+</script>
 
 {% endblock %}

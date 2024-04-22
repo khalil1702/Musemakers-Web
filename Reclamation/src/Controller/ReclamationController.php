@@ -20,14 +20,33 @@ use Knp\Component\Pager\PaginatorInterface;
 class ReclamationController extends AbstractController
 {
     #[Route('/', name: 'app_reclamation_index', methods: ['GET'])]
-    public function index(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
+    public function index(Request $request, ReclamationRepository $reclamationRepository, PaginatorInterface $paginator): Response
 {
-    $reclamations = $entityManager
-        ->getRepository(Reclamation::class)
-        ->findAll();
+    // Récupérer le paramètre de tri depuis la requête
+    $tri = $request->query->get('tri');
+        $order = $request->query->get('order');
+    $defaultUser = $this->getDoctrine()->getRepository(User::class)->find(22);
+    $reclamations = $reclamationRepository->findBy(['idu' => $defaultUser]);
     
-    $statistiques = $this->calculerStatistiques($reclamations);
     
+    // Effectuez le tri en fonction du paramètre
+    if ($tri === 'date') {
+        // Tri par date
+        usort($reclamations, function($a, $b) use ($order) {
+            return ($order === 'desc' ? -1 : 1) * ($a->getDaterec() <=> $b->getDaterec());
+        });
+    } elseif ($tri === 'categorie') {
+        // Tri par catégorie
+        usort($reclamations, function($a, $b) use ($order) {
+            return ($order === 'desc' ? -1 : 1) * strcmp($a->getCategorierec(), $b->getCategorierec());
+        });
+    } elseif ($tri === 'statut') {
+        // Tri par statut
+        usort($reclamations, function($a, $b) use ($order) {
+            return ($order === 'desc' ? -1 : 1) * strcmp($a->getStatutrec(), $b->getStatutrec());
+        });
+    }
+
     // Pagination logic
     $currentPage = $request->query->getInt('page', 1); 
     $perPage = 6; 
@@ -41,7 +60,7 @@ class ReclamationController extends AbstractController
     return $this->render('reclamation/index.html.twig', [
         'reclamations' => $paginatedReclamations, // Use paginated reclamations
         'knp_pagination' => $paginatedReclamations,
-        'statistiques' => $statistiques,
+        
     ]);
 }
 
@@ -75,33 +94,62 @@ class ReclamationController extends AbstractController
     #[Route('/back', name: 'app_reclamation_indexBack', methods: ['GET'])]
     public function indexBack(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
+        // Récupérer le paramètre de triBack et order depuis la requête
+        $triBack = $request->query->get('triBack');
+        $order = $request->query->get('order');
         $reclamations = $entityManager
             ->getRepository(Reclamation::class)
             ->findAll();
     
+        // Effectuez le triBack en fonction du paramètre
+        if ($triBack === 'date') {
+            // Tri par date
+            usort($reclamations, function($a, $b) use ($order) {
+                return ($order === 'desc' ? -1 : 1) * ($a->getDaterec() <=> $b->getDaterec());
+            });
+        } elseif ($triBack === 'categorie') {
+            // Tri par catégorie
+            usort($reclamations, function($a, $b) use ($order) {
+                return ($order === 'desc' ? -1 : 1) * strcmp($a->getCategorierec(), $b->getCategorierec());
+            });
+        } elseif ($triBack === 'statut') {
+            // Tri par statut
+            usort($reclamations, function($a, $b) use ($order) {
+                return ($order === 'desc' ? -1 : 1) * strcmp($a->getStatutrec(), $b->getStatutrec());
+            });
+        }
+    
         // Calcul des statistiques
         $statistiques = $this->calculerStatistiques($reclamations);
+    
         // Pagination logic
-    $currentPage = $request->query->getInt('page', 1); 
-    $perPage = 6; 
-
-    $paginatedReclamations = $paginator->paginate(
-        $reclamations,
-        $currentPage,
-        $perPage
-    );
+        $currentPage = $request->query->getInt('page', 1); 
+        $perPage = 6; 
+    
+        $paginatedReclamations = $paginator->paginate(
+            $reclamations,
+            $currentPage,
+            $perPage
+        );
     
         return $this->render('reclamation/indexBack.html.twig', [
             'reclamations' => $reclamations,
             'statistiques' => $statistiques, // Passage des statistiques au template
             'reclamations' => $paginatedReclamations, // Use paginated reclamations
-        'knp_pagination' => $paginatedReclamations,
+            'knp_pagination' => $paginatedReclamations,
         ]);
     }
+    
+   
+    
+
     #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, ReclamationRepository $reclamationRepository,EntityManagerInterface $entityManager): Response
     {
         $reclamation = new Reclamation();
+        $defaultUser = $this->getDoctrine()->getRepository(User::class)->find(22);
+    $reclamations = $reclamationRepository->findBy(['idu' => $defaultUser]);
+    $reclamation->setIdu($defaultUser);
         $reclamation->setStatutrec('En Cours');
         $reclamation->setDaterec(new DateTime());
         $form = $this->createForm(ReclamationType::class, $reclamation);
@@ -180,6 +228,7 @@ class ReclamationController extends AbstractController
         
       //  $sid    = "key";
         //$token  = "key";
+          
         $twilio = new Client($sid, $token);
 
         $user = $reclamation->getIdu();
@@ -220,6 +269,7 @@ class ReclamationController extends AbstractController
     public function delete(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$reclamation->getIdrec(), $request->request->get('_token'))) {
+            
             $entityManager->remove($reclamation);
             $entityManager->flush();
         }

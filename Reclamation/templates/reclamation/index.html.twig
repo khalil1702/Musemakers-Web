@@ -7,7 +7,17 @@
 
     <a href="{{ path('app_reclamation_new') }}">Créer une nouvelle Réclamation</a>
             
-
+    <div class="tri-dropdown">
+    <select onchange="handleChange(this)">
+        <option value="">Trier par...</option>
+        <option value="date_asc">Date Ascendant</option>
+        <option value="date_desc">Date Descendant</option>
+        <option value="categorie_asc">Catégorie Ascendant</option>
+        <option value="categorie_desc">Catégorie Descendant</option>
+        <option value="statut_asc">Statut Ascendant</option>
+        <option value="statut_desc">Statut Descendant</option>
+    </select>
+</div>
 
 <section class="people04 cid-u76D6GhCcM" id="testimonials-4-u76D6GhCcM">
           <div class="container">
@@ -65,5 +75,45 @@
           </li>
         </ul>
     </nav>
+<script>
+function handleChange(select) {
+    var selectedOption = select.value;
+    if (selectedOption !== "") {
+        var tri = "";
+        var order = "";
 
+        switch (selectedOption) {
+            case "date_asc":
+                tri = "date";
+                order = "asc";
+                break;
+            case "date_desc":
+                tri = "date";
+                order = "desc";
+                break;
+            case "categorie_asc":
+                tri = "categorie";
+                order = "asc";
+                break;
+            case "categorie_desc":
+                tri = "categorie";
+                order = "desc";
+                break;
+            case "statut_asc":
+                tri = "statut";
+                order = "asc";
+                break;
+            case "statut_desc":
+                tri = "statut";
+                order = "desc";
+                break;
+            default:
+                break;
+        }
+
+        // Redirection vers la route avec les paramètres de tri
+        window.location.href = "{{ path('app_reclamation_index') }}" + "?tri=" + tri + "&order=" + order;
+    }
+}
+</script>
      {% endblock %}
