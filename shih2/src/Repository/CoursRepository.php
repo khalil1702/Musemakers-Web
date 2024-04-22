@@ -24,9 +24,12 @@ class CoursRepository extends ServiceEntityRepository
 
     public function findFilteredAndSorted($sortBy, $searchTerm)
     {
-        $queryBuilder = $this->createQueryBuilder('c')
-            ->andWhere('c.titreCours LIKE :searchTerm')
-            ->setParameter('searchTerm', '%'.$searchTerm.'%');
+        $queryBuilder = $this->createQueryBuilder('c');
+    
+        if (!empty($searchTerm)) {
+            $queryBuilder->andWhere('c.titreCours LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $searchTerm . '%');
+        }
     
         if ($sortBy === 'default_field') {
             // Utiliser un champ de tri par défaut
@@ -34,7 +37,7 @@ class CoursRepository extends ServiceEntityRepository
         }
     
         return $queryBuilder
-            ->orderBy('c.'.$sortBy, 'ASC')
+            ->orderBy('c.' . $sortBy, 'ASC')
             ->getQuery()
             ->getResult();
     }

@@ -10,39 +10,41 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/cours')]
 class CoursController extends AbstractController
 {
     #[Route('/', name: 'app_cours_index', methods: ['GET', 'POST'])]
-    public function index(CoursRepository $coursRepository, Request $request): Response
+    public function index(CoursRepository $coursRepository, Request $request , EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
-  // Récupérer les paramètres de tri et de recherche depuis la requête
-  $sortBy = $request->query->get('sort_by', 'default_field'); // Champ de tri par défaut
-  $searchTerm = $request->query->get('search', '');
-
-  // Utiliser ces paramètres pour récupérer les cours correspondants depuis le repository
-  $cours = $coursRepository->findFilteredAndSorted($sortBy, $searchTerm);
-
-  return $this->render('cours/index.html.twig', [
-      'cours' => $cours,
-      'searchTerm' => $searchTerm,
-      'sortBy' => $sortBy,
-  ]);
+      // Récupérer les paramètres de tri et de recherche depuis la requête
+      $sortBy = $request->query->get('sort_by', 'default_field'); // Champ de tri par défaut
+      $searchTerm = $request->query->get('search', '');
   
-        return $this->render('cours/index.html.twig', [
-            'cours' => $cours,
-            'searchTerm' => $searchTerm,
-        ]);
+      // Utiliser ces paramètres pour récupérer les cours correspondants depuis le repository
+      $cours = $coursRepository->findFilteredAndSorted($sortBy, $searchTerm);
+  
+      // Pagination logic
+      $currentPage = $request->query->getInt('page', 1); 
+      $perPage = 3; 
+  
+      $paginatedCours = $paginator->paginate(
+          $cours,
+          $currentPage,
+          $perPage
+      );
+  
+      // Passer la variable 'knp_pagination' dans le contexte de rendu
+      // pour qu'elle soit disponible dans le template Twig
+      return $this->render('cours/index.html.twig', [
+          'cours' => $paginatedCours,
+          'searchTerm' => $searchTerm,
+          'sortBy' => $sortBy,
+          'knp_pagination' => $paginatedCours,
+      ]);
+}
     
-    }
-    #[Route('/front', name: 'app_cours_index1', methods: ['GET'])]
-    public function index2(CoursRepository $coursRepository): Response
-    {
-        return $this->render('cours/indexfront.html.twig', [
-            'cours' => $coursRepository->findAll(),
-        ]);
-    }
    
 
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]

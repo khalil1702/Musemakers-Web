@@ -55,9 +55,49 @@
     {# Afficher les détails du cours #}
 {% endfor %}
 
+<form id="searchForm" action="{{ path('app_cours_index') }}" method="GET">
+    <input type="text" id="searchInput" name="search" placeholder="Rechercher...">
+</form>
+
+<div id="searchResults"></div>
+
+<script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+        var searchTerm = this.value;
+        var form = document.getElementById('searchForm');
+        var formData = new FormData(form);
+
+        fetch(form.action + '?search=' + searchTerm, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('searchResults').innerHTML = data;
+        });
+    });
+</script>
 
 
-
+  <!-- Pagination -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_cours_index', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
+          </li>
+          {% for page in 1..knp_pagination.pageCount %}
+          <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
+            <a class="page-link" href="{{ path('app_cours_index', {'page': page }) }}">{{ page }}</a>
+          </li>
+          {% endfor %}
+          <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_cours_index', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
+          </li>
+        </ul>
+    </nav>
+    <!-- End Pagination -->
 
 
 <a href="{{ path('app_cours_new') }}" class="btn btn-success">Créer un nouveau</a>{% endblock %}

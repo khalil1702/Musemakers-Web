@@ -9,23 +9,22 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/atelier')]
 class AtelierController extends AbstractController
 {
     #[Route('/', name: 'app_atelier_index', methods: ['GET'])]
-    public function index(AtelierRepository $atelierRepository ,Request $request): Response
-    {   
+    public function index(AtelierRepository $atelierRepository): Response
+    {
         return $this->render('atelier/index.html.twig', [
             'ateliers' => $atelierRepository->findAll(),
         ]);
     }
-    #[Route('/frontatelier', name: 'app_atelier_index1', methods: ['GET'])]
+    #[Route('/front', name: 'app_atelier_index1', methods: ['GET'])]
     public function index3(AtelierRepository $atelierRepository): Response
     {
-        return $this->render('atelier/indexfrontatelier.html.twig', [
+        return $this->render('atelier/indexfr.html.twig', [
             'ateliers' => $atelierRepository->findAll(),
         ]);
     }
