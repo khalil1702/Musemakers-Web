@@ -5,7 +5,25 @@
 {% block body %}
     <h1>Artiste*
      index</h1>
-   
+       <div class="col-md-5 grid-margin stretch-card">
+                    <div class="card" style="height: 300px; overflow-y: auto;">
+                        <div class="card-body" >
+                            <h4 class="card-title" style="height=200">Statistique Génèrale</h4>
+                            <canvas id="traffic-chart"></canvas>
+                            <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
+                            {% include 'statistics/statistics.html.twig' with {'stats': stats} %}
+                        </div>
+                    </div>
+                </div>
+       
+
+<form id="search-form" method="get">
+    <input type="text" id="nomUser" name="nomUser" placeholder="Nom">
+    <input type="text" id="prenomUser" name="prenomUser" placeholder="Prénom">
+    <input type="text" id="email" name="email" placeholder="Email">
+    <input type="text" id="numTel" name="numTel" placeholder="Numéro de téléphone">
+    <button type="submit">Rechercher</button>
+</form>
 
     <table class="table">
         <thead>
@@ -36,7 +54,16 @@
                     <td>{{ user.cartepro }}</td>
                     <td>{{ user.status }}</td>
                     <td>{{ user.sexe }}</td>
-    <td><img src="{{ path('user_images', {'imageName': user.image}) }}" alt="User image"></td>
+<td>
+    {% if user.image %}
+        <img src="{{ path('user_images', {'imageName': user.image}) }}" alt="User image">
+    {% else %}
+        <!-- Display a default image or no image -->
+        <img src="{{ asset('images/default.png') }}" alt="Default image">
+    {% endif %}
+</td>
+
+
 <td>
     <a href="{{ path('app_user_show', {'idUser': user.idUser}) }}" class="btn btn-primary">Show</a>
     <a href="{{ path('app_user_edit', {'idUser': user.idUser}) }}" class="btn btn-secondary">Edit</a>
@@ -51,7 +78,28 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+    {{ knp_pagination_render(users) }}
+</div>
 
 <a href="{{ path('app_user_new') }}" class="btn btn-success">Create new</a>
+<script>
+$(document).ready(function() {
+    $('#search-form').on('submit', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '{{ path('app_user_index') }}',
+            type: 'get',
+            data: $(this).serialize(),
+            success: function(data) {
+                // Update the table view with the search results
+                // This will depend on how your server returns the results
+            }
+        });
+    });
+});
+</script>
 
 {% endblock %}
+

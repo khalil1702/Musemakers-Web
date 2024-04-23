@@ -68,6 +68,14 @@ class RegistrationFormType extends AbstractType
             'expanded' => true,
             'multiple' => false,
         ])
+        ->add('sexe', ChoiceType::class, [
+            'choices'  => [
+                'homme' => 'homme',
+                'femme' => 'femme',
+            ],
+            'expanded' => true,
+            'multiple' => false,
+        ])
         
         ->add('agreeTerms', CheckboxType::class, [
             'mapped' => false,

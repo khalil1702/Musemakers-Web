@@ -9,11 +9,13 @@ use App\Form\User2Type;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -24,12 +26,46 @@ class UserController extends AbstractController
 {
   
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
-    {
-        return $this->render('user/indexartiste.html.twig', [
-            'users' => $userRepository->findAll(),
+public function index(Request $request, UserRepository $userRepository, PaginatorInterface $paginator): Response
+{
+    $nomUser = $request->query->get('nomUser');
+    $prenomUser = $request->query->get('prenomUser');
+    $email = $request->query->get('email');
+    $numTel = $request->query->get('numTel');
+
+    $usersQuery = $userRepository->search($nomUser, $prenomUser, $email, $numTel);
+
+    // Paginate the results of the query
+    $users = $paginator->paginate(
+        // Doctrine Query, not results
+        $usersQuery,
+        // Define the page parameter
+        $request->query->getInt('page', 1),
+        // Items per page
+        10
+    );
+
+    // If it's an AJAX request, return the search results directly
+    if ($request->isXmlHttpRequest()) {
+        return new JsonResponse([
+            'users' => $users,
+            // Add any other data you want to return
         ]);
     }
+
+    // Get the gender statistics
+    $stats = $userRepository->getUserGenderStats();
+
+    // Render the template and pass the statistics
+    return $this->render('user/indexartiste.html.twig', [
+        'users' => $users,
+        'stats' => $stats,  // Pass the stats to your template
+    ]);
+}
+
+    
+    
+    
     #[Route('/clients', name: 'app_user_indexclients', methods: ['GET'])]
     public function index2(UserRepository $userRepository): Response
     {

@@ -1,0 +1,58 @@
+{% block stat %}
+<div class="col-md-5 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">User Statistics</h4>
+            <canvas id="user-stats-chart"></canvas>
+            <div id="user-stats-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
+        </div>
+    </div>
+</div>
+    <script src="{{asset('https://cdn.jsdelivr.net/npm/chart.js')}}"></script>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the stats from the controller
+        var stats = {{ stats | json_encode | raw }};
+
+        // Extract the data for the chart
+        var labels = Object.keys(stats);
+        var data = Object.values(stats);
+
+        // Configure the chart
+        var ctx = document.getElementById('user-stats-chart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Number of Users',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Display the legend
+        document.getElementById('user-stats-chart-legend').innerHTML = myChart.generateLegend();
+    });
+</script>
+{% endblock %}

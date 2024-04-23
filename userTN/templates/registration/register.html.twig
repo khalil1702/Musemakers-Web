@@ -49,6 +49,11 @@
                   {{ form_widget(registrationForm.role, {'attr': {'class': 'form-check-input'}}) }}
                   {{ form_errors(registrationForm.role) }}
                 </div> 
+                  <div class="form-group">
+                  {{ form_label(registrationForm.sexe, 'sexe', {'label_attr': {'class': 'form-label'}}) }}
+                  {{ form_widget(registrationForm.sexe, {'attr': {'class': 'form-check-input'}}) }}
+                  {{ form_errors(registrationForm.sexe) }}
+                </div> 
                 <br>
                 <br>
                 <div class="form-group">
