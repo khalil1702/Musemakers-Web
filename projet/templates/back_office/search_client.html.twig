@@ -1,23 +1,4 @@
-{% extends 'nav_foot_admin.html.twig' %}
-
-{% block title %}Reservation Requests{% endblock %}
-
-{% block requestreser %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-12 grid-margin">
-          
-                <div class="col-6">
-                  <input type="text" class="form-control" onchange="search()" id="search-input" placeholder="Rechercher expositions par nom">
-                </div>
-
-            <br>
-
-            <div class="card">
-
-                <div class="card-body">
-                    <h4 class="card-title">Tous les Reservations</h4>
-                    {% if reservations is empty %}
+{% if reservations is empty %}
                         <p>No reservations found.</p>
                     {% else %}
                         <div class="table-responsive">
@@ -56,27 +37,4 @@
                                         </tr>
                                     {% endfor %}
                                 </tbody>
-                            </table> <br/>
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                  <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
-                                    <a class="page-link" href="{{ path('admin_all_reservations', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
-                                  </li>
-                                  {% for page in 1..knp_pagination.pageCount %}
-                                  <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
-                                    <a class="page-link" href="{{ path('admin_all_reservations', {'page': page }) }}">{{ page }}</a>
-                                  </li>
-                                  {% endfor %}
-                                  <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
-                                    <a class="page-link" href="{{ path('admin_all_reservations', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
-                                  </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
+                            </table>

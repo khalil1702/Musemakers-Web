@@ -6,18 +6,47 @@
 
 <div class="container mt-100">
 
+    <div class="container">
+        <div class="row mb-3">
+          <div class="col-12 text-right">
+            <a href="{{ path('app_exposition_new') }}" class="btn btn-primary btn-lg">Ajouter exposition</a>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-6">
+            <input type="text" class="form-control" onchange="search()" id="search-input" placeholder="Rechercher expositions par nom">
+          </div>
+      
+          <div class="col-6">
+            <select class="form-control form-control-sm" id="theme-select" onchange="search()" aria-labelledby="theme-select-label">
 
-    <div class="row mb-3">
-        <div class="col-6">
-            <!-- Search input field -->
-            <input type="text" class="form-control" id="searchInput" placeholder="Rechercher expositions...">
+                <option value="">Choisir un thème</option>
+
+                <option value="Peinture à l'huile">Peinture à l'huile</option>
+
+                <option value="Photographie contemporaine">Photographie contemporaine</option>
+
+                <option value="Sculptures abstraites">Sculptures abstraites</option>
+
+                <option value="Art numérique">Art numérique</option>
+
+                <option value="Art moderne">Art moderne</option>
+
+                <option value="Street Art">Street Art</option>
+
+                <option value="Portraits contemporains">Portraits contemporains</option>
+
+                <option value="Art fantastique">Art fantastique</option>
+
+              </select>
+          </div>
         </div>
-        <div class="col-6 text-end">
-            <a href="{{ path('app_exposition_new') }}" class="btn btn-primary">Ajouter exposition</a>
-        </div>
-    </div>
+      </div>
+      <br>
+      
     
-    <div class="row d-flex">
+    <div  id="expositions-container" class="row d-flex">
         {% for exposition in expositions %}
         <div class="col-md-4 col-sm-6 d-flex">
             <div class="card mb-30 flex-fill">
@@ -79,5 +108,38 @@
         </ul>
     </nav>
 </div>
+<script>
+    // Function to handle search as the user types
+    function search() {
+        let nameInput = document.getElementById('search-input');
+        let themeSelect = document.getElementById('theme-select');
+
+        if (nameInput && themeSelect) {
+            let name = nameInput.value;
+            let theme = themeSelect.value;
+
+            fetch(`/exposition/search?q=${name}&theme=${theme}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                let div = document.getElementById('expositions-container');
+                div.innerHTML = data;
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+            console.error('One or more elements not found.');
+        }
+    }
+
+    // Listen to input event on search input field
+    document.getElementById('search-input').addEventListener('input', search);
+    // Listen to input event on theme select field
+    document.getElementById('theme-select').addEventListener('change', search);
+</script>
 
 {% endblock %}

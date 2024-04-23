@@ -46,7 +46,18 @@ public function index(Request $request, ExpositionRepository $expositionReposito
         'knp_pagination' => $paginatedExpositions, // Pass the pagination object to Twig
     ]);
 }
+#[Route('/search', name: 'searchExpo_admin', methods: ['GET'])]
+public function search(Request $request, ExpositionRepository $expositionRepository): Response
+{
+    $query = $request->query->get('q');
+    $theme = $request->query->get('theme');
 
+    $expositions = $expositionRepository->searchByNameAndTheme($query, $theme);
+
+    return $this->render('back_office/search_expo.html.twig', [
+        'expositions' => $expositions,
+    ]);
+}
     
     #[Route('/user-images/{imageName}', name: 'user_images')]
 public function getUserImage(string $imageName): Response

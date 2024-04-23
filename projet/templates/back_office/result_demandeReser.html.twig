@@ -1,0 +1,19 @@
+<tbody id="reservation-requests-container">
+    {% for reservation in reservationRequests %}
+        <tr>
+            <td>{{ reservation.user.nomUser }}</td>
+            <td>{{ reservation.exposition.nom }}</td>
+            <td>{{ reservation.ticketsNumber }}</td>
+            <td>{{ reservation.dateReser|date('Y-m-d H:i:s') }}</td>
+            <td>
+                <a href="#" class="btn btn-success btn-accept" data-id="{{ reservation.idReservation }}">Accept</a>
+                <a href="#" class="btn btn-danger btn-reject" data-id="{{ reservation.idReservation }}">Reject</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">No reservations found.</td>
+        </tr>
+    {% endfor %}
+    
+</tbody>

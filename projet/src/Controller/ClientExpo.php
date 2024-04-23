@@ -56,17 +56,18 @@ class ClientExpo extends AbstractController
     }
     
     #[Route('/search', name: 'exposition_search', methods: ['GET'])]
-
     public function search(Request $request, ExpositionRepository $expositionRepository): Response
     {
         $query = $request->query->get('q');
+        $theme = $request->query->get('theme');
     
-        $expositions = $expositionRepository->searchByName($query);
-
+        $expositions = $expositionRepository->searchByNameAndTheme($query, $theme);
+    
         return $this->render('client/search_expo.html.twig', [
             'expositions' => $expositions,
         ]);
     }
+    
   
 
     #[Route('/user-images/{imageName}', name: 'user_images')]

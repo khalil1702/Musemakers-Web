@@ -1,50 +1,49 @@
-{% extends 'nav_foot_admin.html.twig' %}
 
-{% block title %}Top Reserved Expositions{% endblock %}
 
 {% block stat1 %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <h4 class="card-title">Top Reserved Expositions</h4>
-            <canvas id="top-reserved-expositions-chart"></canvas>
-        </div>
-    </div>
+<div class="container">
+    <canvas id="expositionsChart"></canvas>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Récupérer les données transmises depuis le contrôleur
-        var topReservedExpositions = {{ topReservedExpositions | json_encode | raw }};
-
-        // Extraire les données pour le graphique
-        var labels = topReservedExpositions.map(item => item.exposition.nom);
-        var data = topReservedExpositions.map(item => item.reservationsCount);
-
-        // Configuration du graphique
-        var ctx = document.getElementById('top-reserved-expositions-chart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Nombre de réservations',
-                    data: data,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
+    var ctx = document.getElementById('expositionsChart').getContext('2d');
+    var expositionsChart = new Chart(ctx, {
+        type: 'doughnut', // ou 'pie'
+        data: {
+            labels: [
+                {% for item in topExpositions %}
+                    "{{ item.exposition_nom }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Nombre de réservations',
+                data: [
+                    {% for item in topExpositions %}
+                        {{ item.reservationsCount }},
+                    {% endfor %}
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            aspectRatio: 1, // Pour s'assurer que le graphique est un cercle
+        }
     });
 </script>
+
 {% endblock %}

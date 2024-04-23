@@ -15,6 +15,8 @@
                         <h4 class="card-title float-left">Les expositions les plus reservés</h4>
                         
                         <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+                        {% include 'back_office/stat1.html.twig' with {'topExpositions': topExpositions} %}
+
                       </div>
                       <canvas id="visit-sale-chart" class="mt-4"></canvas>
                     </div>
@@ -34,7 +36,16 @@
               </div>
 
 
-
+              <div class="col-md-3 d-flex  text-center">
+                <!-- Combo box for sorting by date -->
+                <select class="form-control form-control-sm"  id="date-sort" onchange="sortByDate()" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
+                    <option value="" selected disabled>Trier par date</option>
+                    <option value="desc">Date la plus récente</option>
+                    <option value="asc">Date la plus ancienne</option>
+                </select>
+            </div>
+            
+             <br>
             <div class="card">
                 
                 <div class="card-body">
@@ -53,7 +64,7 @@
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="reservation-requests-container"> {# Add the ID here #}
                                     {% for reservation in reservationRequests %}
                                         <tr>
                                             <td>{{ reservation.user.nomUser }}</td>
@@ -118,5 +129,53 @@
     });
     
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+// Define sortByDate function in the global scope
+function sortByDate() {
+    let sortOption = document.getElementById('date-sort').value;
+
+    fetch(`/admin/sort_by_date?sort=${sortOption}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.text())
+    .then(data => {            
+        document.getElementById('reservation-requests-container').innerHTML = data;
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Attach event listener after DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    const acceptButtons = document.querySelectorAll('.btn-accept');
+    const rejectButtons = document.querySelectorAll('.btn-reject');
+
+    acceptButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const id = this.getAttribute('data-id');
+            if (confirm('Vous êtes sûr que vous voulez accepter la réservation?')) {
+                window.location.href = "{{ path('admin_accept_reservation', {'id': 'ID'})|replace({'ID': 'REPLACE_ID'}) }}".replace('REPLACE_ID', id);
+            }
+        });
+    });
+
+    rejectButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const id = this.getAttribute('data-id');
+            if (confirm('Vous êtes sûr que vous voulez refuser la réservation?')) {
+                window.location.href = "{{ path('admin_reject_reservation', {'id': 'ID'})|replace({'ID': 'REPLACE_ID'}) }}".replace('REPLACE_ID', id);
+            }
+        });
+    });
+});
+</script>
+
 
 {% endblock %}

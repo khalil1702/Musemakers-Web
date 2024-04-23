@@ -23,14 +23,28 @@ class ExpositionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Exposition::class);
     }
-public function searchByName($query)
-{
-    return $this->createQueryBuilder('e')
-        ->andWhere('e.nom LIKE :query')
-        ->setParameter('query', '%' . $query . '%')
-        ->getQuery()
-        ->getResult();
-}
+    public function searchByNameAndTheme($name, $theme)
+    {
+        $queryBuilder = $this->createQueryBuilder('e');
+    
+        if (!empty($name)) {
+            $queryBuilder
+                ->andWhere('e.nom LIKE :name')
+                ->setParameter('name', '%' . $name . '%');
+        }
+    
+        if (!empty($theme)) {
+            $queryBuilder
+                ->andWhere('e.theme = :theme')
+                ->setParameter('theme', $theme);
+        }
+    
+        return $queryBuilder->getQuery()->getResult();
+    }
+   
+   
+    
+
 
 
 

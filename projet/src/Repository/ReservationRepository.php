@@ -55,17 +55,42 @@ class ReservationRepository extends ServiceEntityRepository
         return $stats;
     }
   
-    public function getTopReservedExpositions(): array
+    public function getTopReservedExpositions($limit = 5)
     {
         return $this->createQueryBuilder('r')
-            ->select('r.exposition', 'COUNT(r.idReservation) as reservationsCount')
-            ->join('r.exposition', 'exposition') // Join with the Exposition entity
-            ->andWhere('r.accessByAdmin = 1')
-            ->groupBy('exposition') // Group by the Exposition entity
+            ->select('e.nom AS exposition_nom, COUNT(r.idReservation) AS reservationsCount')
+            ->leftJoin('r.exposition', 'e')
+            ->where('r.accessByAdmin = :accessByAdmin')
+            ->setParameter('accessByAdmin', 1)
+            ->groupBy('e.idExposition')
             ->orderBy('reservationsCount', 'DESC')
-            ->setMaxResults(5)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+    public function findAllSortedByDateDesc(): array
+    {
+        return $this->createQueryBuilder('r')
+        ->andWhere('r.accessByAdmin = :accessByAdmin')
+        ->setParameter('accessByAdmin', 0)
+        ->orderBy('r.dateReser', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
+public function findAllSortedByDateAsc(): array
+{
+    return $this->createQueryBuilder('r')
+        ->andWhere('r.accessByAdmin = :accessByAdmin')
+        ->setParameter('accessByAdmin', 0)
+        ->orderBy('r.dateReser', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
+
+
+
+
+
     }
     
     
@@ -75,5 +100,5 @@ class ReservationRepository extends ServiceEntityRepository
 
    
  
-}
+
 

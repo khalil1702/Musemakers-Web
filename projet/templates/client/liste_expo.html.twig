@@ -10,24 +10,30 @@
               
               
               
-          <div class="col-md-3">
-            <!-- Menu déroulant compact de tri -->
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="themeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded=false>
-                Choisir un thème
-              </button>
-              <div class="dropdown-menu" aria-labelledby="themeDropdown">
-                <a class="dropdown-item" href="#">Peinture à l'huile</a>
-                <a class="dropdown-item" href="#">Photographie contemporaine</a>
-                <a class="dropdown-item" href="#">Sculptures abstraites</a>
-                <a class="dropdown-item" href="#">Art numérique</a>
-                <a class="dropdown-item" href="#">Art moderne</a>
-                <a class="dropdown-item" href="#">Street Art</a>
-                <a class="dropdown-item" href="#">Portraits contemporains</a>
-                <a class="dropdown-item" href="#">Art fantastique</a>
-              </div>
+              <div class="col-md-3">
+                <!-- Combo box for selecting a theme -->
+                <select class="form-control form-control-sm" id="theme-select" onchange="search()" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
+                    <option value="">Choisir un thème</option>
+                    <option value="Peinture à l'huile">Peinture à l'huile</option>
+                    <option value="Photographie contemporaine">Photographie contemporaine</option>
+                    <option value="Sculptures abstraites">Sculptures abstraites</option>
+                    <option value="Art numérique">Art numérique</option>
+                    <option value="Art moderne">Art moderne</option>
+                    <option value="Street Art">Street Art</option>
+                    <option value="Portraits contemporains">Portraits contemporains</option>
+                    <option value="Art fantastique">Art fantastique</option>
+                </select>
             </div>
-          </div>
+            <div class="col-md-3">
+                <!-- Combo box for sorting by date -->
+                <select class="form-control form-control-sm" id="date-sort" onchange="sortByDate()" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
+                    <option value="desc">Date la plus récente</option>
+                    <option value="asc">Date la plus ancienne</option>
+                </select>
+            </div>
+            
+            
+            
         </div>
       </div>
       
@@ -91,22 +97,34 @@
 </div>
 <script>
     function search() {
-        let query = document.getElementById('search-input').value;
-        fetch(`/client/search?q=${query}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.text())
-        .then(data => {
-            let div = document.getElementById('expositions');
-            div.innerHTML = data;
-        })
-        .catch(error => console.error('Error:', error));
+        let nameInput = document.getElementById('search-input');
+        let themeSelect = document.getElementById('theme-select');
+    
+        if (nameInput && themeSelect) {
+            let name = nameInput.value;
+            let theme = themeSelect.value;
+            
+            fetch(`/client/search?q=${name}&theme=${theme}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                let div = document.getElementById('expositions');
+                div.innerHTML = data;
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+            console.error('One or more elements not found.');
+        }
     }
     
+    
 </script>    
+
+
 {% endblock %}
 

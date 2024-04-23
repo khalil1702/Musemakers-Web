@@ -38,16 +38,18 @@ class AdminReser extends AbstractController
         $reservationRequests = $paginator->paginate(
             $reservationRequests,
             $request->query->getInt('page', 1), // Get the current page number
-            5 // Number of items per page
+            3// Number of items per page
         );
     
         // Récupérer les données pour le graphique
         $stats = $reservationRepository->getReservationStats();
+        $topExpositions = $reservationRepository->getTopReservedExpositions();
     
         return $this->render('back_office/reservation_requests.html.twig', [
             'reservationRequests' => $reservationRequests,
             'knp_pagination' => $reservationRequests,
-            'stats' => $stats
+            'stats' => $stats,
+            'topExpositions' => $topExpositions,
         ]);
     }
     
@@ -222,18 +224,48 @@ public function viewPdf(int $reservationId): Response
             'stats' => $stats
         ]);
     }
-    #[Route('/top-reserved-expositions', name: 'admin_top_reserved_expositions')]
-    public function topReservedExpositions(ReservationRepository $reservationRepository): Response
+    #[Route('/statistics1', name: 'statistiques')]
+    public function index(ReservationRepository $reservationRepository): Response
     {
-        // Récupérer les données pour les expositions les plus réservées
-        $topReservedExpositions = $reservationRepository->getTopReservedExpositions();
+        $topExpositions = $reservationRepository->getTopReservedExpositions();
 
-        // Renvoyer les données au template Twig
         return $this->render('back_office/stat1.html.twig', [
-            'topReservedExpositions' => $topReservedExpositions
+            'topExpositions' => $topExpositions,
         ]);
     }
     
+
+
+    #[Route('/sort_by_date', name: 'sort_by_date', methods: ['GET'])]
+public function sortByDate(Request $request, ReservationRepository $reservationRepository): Response
+{
+    $sortOption = $request->query->get('sort');
+
+    // Fetch reservation requests based on sorting option
+    if ($sortOption === 'asc') {
+        $reservationRequests = $reservationRepository->findAllSortedByDateAsc(); // Tri croissant
+    } else {
+        // Tri décroissant par défaut
+        $reservationRequests = $reservationRepository->findAllSortedByDateDesc();
+    }
+
+    // Rendre le modèle partiel des demandes de réservation triées
+    return $this->render('back_office/result_demandeReser.html.twig', [
+        'reservationRequests' => $reservationRequests, // Passer la variable au modèle
+    ]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
   
 }
