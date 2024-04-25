@@ -21,5 +21,14 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class); // Utilisez User::class pour le type d'entité
     }
 
+
+    public function findLimitedUsers($limit): array
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.idUser', 'ASC')
+            ->setMaxResults($limit) 
+            ->getQuery()
+            ->getResult();
+    }
     // Ajoutez des méthodes personnalisées si nécessaire
 }

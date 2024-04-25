@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cours favoris{% endblock %}
+
+{% block body %}
+    <h1 class="mb-4">Cours favoris</h1>
+
+    <div id="favorite-courses-list" class="row"></div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        // Function to fetch and display favorite courses
+        // Inside your JavaScript block
+            function fetchFavoriteCourses() {
+                    const favorites = JSON.parse(localStorage.getItem('favorites'));
+
+                    // Send the favorite course IDs to the server
+                    fetch('http://127.0.0.1:8000/cours/get-favorite-courses', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(favorites),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const favoriteCoursesList = document.getElementById('favorite-courses-list');
+                        favoriteCoursesList.innerHTML = ''; // Clear the existing list
+                        
+                        data.forEach(course => {
+                            const listItem = document.createElement('div');
+                            listItem.classList.add('col-md-4', 'mb-4');
+                            listItem.innerHTML = `
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${course.title}</h5>
+                                        <p class="card-text">${course.description}</p>
+                                        <ul class="list-unstyled">
+                                            <li><strong>Date de début :</strong> ${course.startDate ? course.startDate : 'Non spécifiée'}</li>
+                                            <li><strong>Date de fin :</strong> ${course.endDate ? course.endDate : 'Non spécifiée'}</li>
+                                        </ul>
+                                        <div class="mt-3">
+                                            <a href="/cours/${course.id}" class="btn btn-info mr-2">Afficher</a>
+                                            <button onclick="removeFromFavorites(${course.id})" class="btn btn-danger">Retirer des favoris</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            favoriteCoursesList.appendChild(listItem);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching favorite courses:', error);
+                        // Display an error message to the user
+                        const favoriteCoursesList = document.getElementById('favorite-courses-list');
+                        favoriteCoursesList.innerHTML = '<p>Failed to fetch favorite courses. Please try again later.</p>';
+                    });
+            }
+
+
+        // Fetch favorite courses when the page loads
+        window.addEventListener('load', fetchFavoriteCourses);
+    </script>
+{% endblock %}
