@@ -104,13 +104,11 @@ class CoursController extends AbstractController
     {
         $favoriteCourseIds = json_decode($request->getContent(), true);
     
-        // Log the favorite course IDs
-        $logger->info('Favorite course IDs:', $favoriteCourseIds);
+    
     
         $favoriteCourses = $coursRepository->findBy(['idCours' => $favoriteCourseIds]);
     
-        // Log the retrieved favorite courses
-        $logger->info('Favorite courses:', $favoriteCourses);
+    
     
         // Serialize the favorite courses to JSON
         $favoriteCoursesJson = [];

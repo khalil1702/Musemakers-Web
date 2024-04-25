@@ -35,7 +35,7 @@
 {% block javascripts %}
     <script>
         function addToFavorites(courseId) {
-            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];//hedhy liste li bech tethat fel local storage li bech nabi feha les ids
             
             if (favorites.includes(courseId)) {
                 alert('Ce cours est déjà dans vos favoris.');

@@ -5,7 +5,7 @@
 {% block body %}
     <h1 class="mb-4">Cours favoris</h1>
 
-    <div id="favorite-courses-list" class="row"></div>
+    <div id="favorite-courses-list" class="row"></div> {#hedhy div lkbira li bech nhot feha les cards sghaar #}
 {% endblock %}
 
 {% block javascripts %}
@@ -13,7 +13,7 @@
         // Function to fetch and display favorite courses
         // Inside your JavaScript block
             function fetchFavoriteCourses() {
-                    const favorites = JSON.parse(localStorage.getItem('favorites'));
+                    const favorites = JSON.parse(localStorage.getItem('favorites'));// hedhy lista mta3 les ids elli fel local storage
 
                     // Send the favorite course IDs to the server
                     fetch('http://127.0.0.1:8000/cours/get-favorite-courses', {
