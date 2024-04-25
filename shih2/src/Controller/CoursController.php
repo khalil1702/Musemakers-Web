@@ -100,14 +100,14 @@ class CoursController extends AbstractController
         ]);
     }
     #[Route('/get-favorite-courses', name: 'app_cours_getfav', methods: ['POST'])]
-    public function getFavoriteCourses(Request $request, LoggerInterface $logger): JsonResponse
+    public function getFavoriteCourses(Request $request, LoggerInterface $logger,CoursRepository $coursRepository): JsonResponse
     {
         $favoriteCourseIds = json_decode($request->getContent(), true);
     
         // Log the favorite course IDs
         $logger->info('Favorite course IDs:', $favoriteCourseIds);
     
-        $favoriteCourses = $this->getDoctrine()->getRepository(Cours::class)->findBy(['idCours' => $favoriteCourseIds]);
+        $favoriteCourses = $coursRepository->findBy(['idCours' => $favoriteCourseIds]);
     
         // Log the retrieved favorite courses
         $logger->info('Favorite courses:', $favoriteCourses);
