@@ -91,9 +91,10 @@ class CoursController extends AbstractController
                 }
             }
 
-            return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
-        }
+            $successMessage = 'Course added successfully!'; // Define your success message here
 
+            return $this->redirectToRoute('app_cours_index', ['success' => $successMessage], Response::HTTP_SEE_OTHER);
+        }
         return $this->renderForm('cours/new.html.twig', [
             'cour' => $cour,
             'form' => $form,
@@ -102,7 +103,7 @@ class CoursController extends AbstractController
     #[Route('/get-favorite-courses', name: 'app_cours_getfav', methods: ['POST'])]
     public function getFavoriteCourses(Request $request, LoggerInterface $logger,CoursRepository $coursRepository): JsonResponse
     {
-        $favoriteCourseIds = json_decode($request->getContent(), true);
+        $favoriteCourseIds = json_decode($request->getContent(), true);// web service tjyh liste mta3 id yrja3ha lista mta3 courat 
     
     
     

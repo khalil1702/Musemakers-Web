@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Cours index</h1>
-
+   
     <table class="table">
         <thead>
             <tr>
@@ -98,6 +98,10 @@
         </ul>
     </nav>
     <!-- End Pagination -->
-
-
+ <!-- Add the following JavaScript code at the end of the body block -->
+    <script>
+        {% if app.request.query.get('success') %}
+            alert('{{ app.request.query.get('success') }}');
+        {% endif %}
+    </script>
 <a href="{{ path('app_cours_new') }}" class="btn btn-success">Créer un nouveau</a>{% endblock %}
