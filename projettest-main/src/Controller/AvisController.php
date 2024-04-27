@@ -17,6 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use Symfony\Component\Security\Core\Security;
 
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 //#[Route('/avis')]
 class AvisController extends AbstractController
 {
@@ -46,7 +48,7 @@ class AvisController extends AbstractController
 
         $userId = 1;
         $user = $entityManager->getRepository(User::class)->find($userId);
-        
+
         // Récupérer l'œuvre associée à l'avis
         $oeuvre = $entityManager->getRepository(Oeuvre::class)->find($idOeuvre);
         
@@ -76,7 +78,9 @@ class AvisController extends AbstractController
             'form' => $form,
             'imageUrl' => $imageUrl, // Passer l'URL de l'image à la vue
             'avis' => $avis,
-            'userId' => $userId
+            'userId' => $userId,
+            'idOeuvre' => $oeuvre->getIdOeuvre(),
+            
         ]);
     }
     

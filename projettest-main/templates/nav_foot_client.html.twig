@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
+
+
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
     {% block stylesheets %}
+       <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-   <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
     <link rel="preconnect" href="{{asset('https://fonts.googleapis.com')}}">
     <link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" crossorigin>
     <link href="{{asset('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap')}}" rel="stylesheet">
@@ -23,8 +26,7 @@
     <link href="{{asset('FrontOffice/css/jarallax.css')}}" rel="stylesheet">
     <link href="{{asset('FrontOffice/css/style-dropdown.css')}}" rel="stylesheet">
     
-
-
+   
 
     <style>
         /* CSS to position the footer at the bottom */
@@ -35,6 +37,10 @@
             background-color: #f8f9fa; /* Adjust background color as needed */
             padding: 20px 0; /* Adjust padding as needed */
         }
+
+      
+
+
     </style>
     {% endblock %}
     
@@ -188,7 +194,7 @@
 <script src="{{asset('FrontOffice/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('FrontOffice/js/scroll-gallery.js')}}"></script>
  
- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
 
   <script>
@@ -201,6 +207,12 @@
     })();
 
   </script>
+
+
+    
+  
+  
+  
 
 {% endblock %}
 </body>
