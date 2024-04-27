@@ -38,6 +38,8 @@ class Reclamation
     #[ORM\JoinColumn(name: "idU", referencedColumnName: "id_user")]
     private ?User $idu=null;
 
+    
+
     // Getters
     public function getIdrec(): int
     {

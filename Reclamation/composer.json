@@ -14,6 +14,7 @@
         "knplabs/knp-paginator-bundle": "^5.9",
         "mpociot/chuck-norris-jokes": "^1.0",
         "phpdocumentor/reflection-docblock": "^5.3",
+        "phpmailer/phpmailer": "^6.9",
         "phpstan/phpdoc-parser": "^1.25",
         "qirolab/laravel-reactions": "^2.8",
         "sensio/framework-extra-bundle": "^6.2",

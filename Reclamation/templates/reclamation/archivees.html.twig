@@ -4,8 +4,8 @@
 
 {% block body %}
 
-    <h1>Liste des réclamations</h1>
-     <div class="tri-dropdown">
+    <h1>Liste des réclamations archivées</h1>
+   <div class="tri-dropdown">
     <select onchange="handleChange(this)">
         <option value="">Trier par...</option>
         <option value="date_asc">Date Ascendant</option>
@@ -69,21 +69,20 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
           <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
-            <a class="page-link" href="{{ path('app_reclamation_indexBack', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
+            <a class="page-link" href="{{ path('app_reclamation_archivees', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
           </li>
           {% for page in 1..knp_pagination.pageCount %}
           <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
-            <a class="page-link" href="{{ path('app_reclamation_indexBack', {'page': page }) }}">{{ page }}</a>
+            <a class="page-link" href="{{ path('app_reclamation_archivees', {'page': page }) }}">{{ page }}</a>
           </li>
           {% endfor %}
           <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
-            <a class="page-link" href="{{ path('app_reclamation_indexBack', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
+            <a class="page-link" href="{{ path('app_reclamation_archivees', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
           </li>
         </ul>
     </nav>
     <!-- End Pagination -->
-
-  <div class="row">
+    <div class="row">
     
               <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
@@ -113,9 +112,11 @@
                         {% endfor %}
                     ],
                     backgroundColor: [
-                         'rgba(255, 206, 86, 0.6)', // Jaune pour En Cours
-                         'rgba(255, 99, 132, 0.6)', // Rouge pour Fermée
-                         'rgba(75, 192, 192, 0.6)', // Bleu pour Resolue
+                        'rgba(255, 99, 132, 0.6)', // Rouge pour Fermée
+                       'rgba(75, 192, 192, 0.6)', // Bleu pour Resolue
+                        'rgba(255, 206, 86, 0.6)', // Jaune pour En Cours
+                        
+                         
                         
                     ],
                     borderColor: [
@@ -244,7 +245,7 @@ function handleChange(select) {
         }
 
         // Redirection vers la route avec les paramètres de tri
-        window.location.href = "{{ path('app_reclamation_indexBack') }}" + "?triBack=" + triBack + "&order=" + order;
+        window.location.href = "{{ path('app_reclamation_archivees') }}" + "?triBack=" + triBack + "&order=" + order;
     }
 }
 </script>
