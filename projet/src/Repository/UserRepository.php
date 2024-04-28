@@ -21,6 +21,23 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+    public function searchByNomAndPrenom(string $nom, string $prenom): array
+    {
+        $queryBuilder = $this->createQueryBuilder('u');
 
-    // Your other methods...
+        if (!empty($nom)) {
+            $queryBuilder
+                ->andWhere('u.nomUser LIKE :nom')
+                ->setParameter('nom', '%' . $nom . '%');
+        }
+
+        if (!empty($prenom)) {
+            $queryBuilder
+                ->andWhere('u.prenomUser LIKE :prenom')
+                ->setParameter('prenom', '%' . $prenom . '%');
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }
+

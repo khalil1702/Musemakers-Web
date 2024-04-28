@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\ExpositionType;
 use App\Repository\ExpositionRepository;
 use App\Repository\ReservationRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -35,10 +36,13 @@ class AdminReser extends AbstractController
     {
         $reservationRequests = $reservationRepository->findBy(['accessByAdmin' => 0]);
     
+        // Retrieve the sorting option from the query parameters
+        $sortOption = $request->query->get('sort');
+    
         $reservationRequests = $paginator->paginate(
             $reservationRequests,
-            $request->query->getInt('page', 1), // Get the current page number
-            3// Number of items per page
+            $request->query->getInt('page', 1),
+            6
         );
     
         // Récupérer les données pour le graphique
@@ -50,8 +54,9 @@ class AdminReser extends AbstractController
             'knp_pagination' => $reservationRequests,
             'stats' => $stats,
             'topExpositions' => $topExpositions,
-        ]);
+            'sortOption' => $request->query->get('sort'),        ]);
     }
+    
     
 
 
@@ -64,7 +69,7 @@ class AdminReser extends AbstractController
         $knp_pagination = $paginator->paginate(
             $reservationsQuery,
             $request->query->getInt('page', 1),
-            5
+            10
         );
     
         return $this->render('back_office/all_reservations.html.twig', [
@@ -237,25 +242,45 @@ public function viewPdf(int $reservationId): Response
 
 
     #[Route('/sort_by_date', name: 'sort_by_date', methods: ['GET'])]
-public function sortByDate(Request $request, ReservationRepository $reservationRepository): Response
-{
-    $sortOption = $request->query->get('sort');
-
-    // Fetch reservation requests based on sorting option
-    if ($sortOption === 'asc') {
-        $reservationRequests = $reservationRepository->findAllSortedByDateAsc(); // Tri croissant
-    } else {
-        // Tri décroissant par défaut
-        $reservationRequests = $reservationRepository->findAllSortedByDateDesc();
+    public function sortByDate(Request $request, ReservationRepository $reservationRepository, PaginatorInterface $paginator): Response
+    {
+        $sortOption = $request->query->get('sort');
+        $page = $request->query->getInt('page', 1); // Get the current page number
+    
+        // Fetch reservation requests based on sorting option
+        if ($sortOption === 'asc') {
+            $reservationRequests = $reservationRepository->findAllSortedByDateAsc();
+        } else {
+            $reservationRequests = $reservationRepository->findAllSortedByDateDesc();
+        }
+    
+        // Paginate the sorted reservation requests
+        $reservationRequests = $paginator->paginate(
+            $reservationRequests,
+            $page, // Use the current page number
+            3 // Number of items per page
+        );
+    
+        // Render the partial model of sorted reservation requests
+        return $this->render('back_office/result_demandeReser.html.twig', [
+            'reservationRequests' => $reservationRequests,
+            'sortOption' => $request->query->get('sort'),         ]);
     }
 
-    // Rendre le modèle partiel des demandes de réservation triées
-    return $this->render('back_office/result_demandeReser.html.twig', [
-        'reservationRequests' => $reservationRequests, // Passer la variable au modèle
+    #[Route('/search_client', name: 'user_search', methods: ['GET'])]
+public function search(Request $request, ReservationRepository $reservationRepository): Response
+{
+    $nom = $request->query->get('nom');
+    $prenom = $request->query->get('prenom');
+
+    $reservations = $reservationRepository->searchByNomAndPrenom($nom, $prenom);
+
+    return $this->render('back_office/search_client.html.twig', [
+        'reservations' => $reservations,
     ]);
 }
 
-
+    
 
 
 

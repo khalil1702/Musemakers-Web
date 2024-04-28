@@ -7,8 +7,14 @@
     <div class="row justify-content-center">
         <div class="col-12 grid-margin">
           
-                <div class="col-6">
-                  <input type="text" class="form-control" onchange="search()" id="search-input" placeholder="Rechercher expositions par nom">
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                        <input type="text" class="form-control form-control-sm" id="search-nom" placeholder="Nom du client" oninput="searchClient()">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control form-control-sm" id="search-prenom" placeholder="Prénom du client" oninput="searchClient()">
+                    </div>
+                    
                 </div>
 
             <br>
@@ -24,17 +30,20 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>User</th>
+                                        <th>username </th>
+                                        <th>last name </th>
                                         <th>Exposition</th>
                                         <th>Tickets Number</th>
                                         <th>Date</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="reservation-requests-container"> 
+                                    
                                     {% for reservation in reservations %}
                                         <tr>
                                             <td>{{ reservation.user.nomUser }}</td>
+                                            <td>{{ reservation.user.prenomUser }}</td>
                                             <td>{{ reservation.exposition.nom }}</td>
                                             <td>{{ reservation.ticketsNumber }}</td>
                                             <td>{{ reservation.dateReser|date('Y-m-d H:i:s') }}</td>
@@ -79,4 +88,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    function searchClient() {
+        let nom = document.getElementById('search-nom').value;
+        let prenom = document.getElementById('search-prenom').value;
+        
+        fetch(`/admin/search_client?nom=${nom}&prenom=${prenom}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(data => {            
+            document.getElementById('reservation-requests-container').innerHTML = data;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
+    
+</script>
 {% endblock %}

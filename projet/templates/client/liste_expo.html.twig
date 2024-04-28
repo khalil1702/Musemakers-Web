@@ -1,4 +1,4 @@
-{% extends 'nav_foot_client.html.twig' %} 
+{% extends 'nav_foot_client.html.twig' %}
 {% block title %}Exposition Display{% endblock %}
 {% block content %}
 <div class="container mt-100">
@@ -6,11 +6,8 @@
         <div class="row justify-content-center">
             <div class="col-md-3">
                 <input type="text" id="search-input" onkeyup="search()" class="form-control form-control-sm" placeholder="Rechercher par nom" style="font-size: 0.8rem;">
-              </div>
-              
-              
-              
-              <div class="col-md-3">
+            </div>
+            <div class="col-md-3">
                 <!-- Combo box for selecting a theme -->
                 <select class="form-control form-control-sm" id="theme-select" onchange="search()" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
                     <option value="">Choisir un thème</option>
@@ -24,22 +21,10 @@
                     <option value="Art fantastique">Art fantastique</option>
                 </select>
             </div>
-            <div class="col-md-3">
-                <!-- Combo box for sorting by date -->
-                <select class="form-control form-control-sm" id="date-sort" onchange="sortByDate()" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
-                    <option value="desc">Date la plus récente</option>
-                    <option value="asc">Date la plus ancienne</option>
-                </select>
-            </div>
-            
-            
-            
+          
         </div>
-      </div>
-      
-
-      
-<br>      
+    </div>
+    <br>      
     <div id="expositions" class="row">
         {% if expositions|length > 0 %}
             {% for exposition in expositions %}
@@ -68,8 +53,22 @@
                                 {% endif %} <br>
                             </p>
                             <div class="mt-auto">
-                                <a href="{{ path('app_client_show', {'idExposition': exposition.idExposition}) }}" 
-                                   class="btn item-btn btn-primary display-7">Voir Détails</a>
+                                <a href="{{ path('app_client_show', {'idExposition': exposition.idExposition}) }}" class="btn item-btn btn-primary display-7">Voir Détails</a>
+                                <a href="https://twitter.com/intent/tweet?text={{ 'Regardez cette image de l\'œuvre numéro ' ~ exposition.nom | url_encode }}" target="_blank" class="btn btn-primary">Tweet</a>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ url('app_client_show', {'idExposition': exposition.idExposition}, true) }}&quote={{ exposition.nom }} - Theme: {{ exposition.theme }} - Date debut: {{ exposition.dateDebut|date('Y-m-d ')}} - Date fin: {{ exposition.dateFin|date('Y-m-d ') }}" target="_blank" class="btn item-btn btn-primary display-7">FB</a>                               
+
+
+                            </div>
+                            <div class="star-rating">
+                                {% for i in 1..5 %}
+                                    <span class="star" data-value="{{ i }}" data-exposition-id="{{ exposition.idExposition }}">
+                                        {% if ratings[exposition.idExposition] >= i %}
+                                            ★
+                                        {% else %}
+                                            ☆
+                                        {% endif %}
+                                    </span>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -81,17 +80,17 @@
     </div>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-          <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
-            <a class="page-link" href="{{ path('app_client_getallExpo', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
-          </li>
-          {% for page in 1..knp_pagination.pageCount %}
-          <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
-            <a class="page-link" href="{{ path('app_client_getallExpo', {'page': page }) }}">{{ page }}</a>
-          </li>
-          {% endfor %}
-          <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
-            <a class="page-link" href="{{ path('app_client_getallExpo', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
-          </li>
+            <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
+                <a class="page-link" href="{{ path('app_client_getallExpo', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
+            </li>
+            {% for page in 1..knp_pagination.pageCount %}
+                <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
+                    <a class="page-link" href="{{ path('app_client_getallExpo', {'page': page }) }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
+                <a class="page-link" href="{{ path('app_client_getallExpo', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
+            </li>
         </ul>
     </nav>
 </div>
@@ -103,7 +102,7 @@
         if (nameInput && themeSelect) {
             let name = nameInput.value;
             let theme = themeSelect.value;
-            
+    
             fetch(`/client/search?q=${name}&theme=${theme}`, {
                 method: 'GET',
                 headers: {
@@ -115,6 +114,8 @@
             .then(data => {
                 let div = document.getElementById('expositions');
                 div.innerHTML = data;
+    
+                
             })
             .catch(error => console.error('Error:', error));
         } else {
@@ -122,9 +123,83 @@
         }
     }
     
-    
-</script>    
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', setRating);
+        star.addEventListener('mouseover', starOver);
+        star.addEventListener('mouseout', starOut);
+    });
 
+    function setRating(ev) {
+        let rating = ev.currentTarget.getAttribute('data-value');
+        let expositionId = ev.currentTarget.getAttribute('data-exposition-id');
+        let stars = document.querySelectorAll(`.star[data-exposition-id="${expositionId}"]`);
+        
+        stars.forEach(star => {
+            star.innerHTML = (star.getAttribute('data-value') <= rating) ? '★' : '☆';
+        });
+        
+        // Store the rating in the session storage with a unique key for each user and exposition
+        sessionStorage.setItem(`ratingUser_${expositionId}`, rating);
+        
+        // Send the rating to the server using AJAX
+        sendRatingToServer(expositionId, rating);
+    }
+
+    function starOver(ev) {
+        let currentStar = ev.currentTarget.getAttribute('data-value');
+        let expositionId = ev.currentTarget.getAttribute('data-exposition-id');
+        let stars = document.querySelectorAll(`.star[data-exposition-id="${expositionId}"]`);
+        
+        stars.forEach(star => {
+            star.innerHTML = (star.getAttribute('data-value') <= currentStar) ? '★' : '☆';
+        });
+    }
+
+    function starOut() {
+        let expositionId = this.getAttribute('data-exposition-id');
+        let rating = sessionStorage.getItem(`ratingUser_${expositionId}`) || 0;
+        let stars = document.querySelectorAll(`.star[data-exposition-id="${expositionId}"]`);
+        
+        stars.forEach(star => {
+            star.innerHTML = (star.getAttribute('data-value') <= rating) ? '★' : '☆';
+        });
+    }
+
+    function sendRatingToServer(expositionId, rating) {
+        // Send the rating data to the server using AJAX
+        fetch(`/client/save-rating`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                expositionId: expositionId,
+                rating: rating
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle success response from the server if needed
+            console.log('Rating saved successfully:', data);
+        })
+        .catch(error => {
+            // Handle errors here
+            console.error('Error saving rating:', error);
+        });
+    }
+
+
+    
+    
+      
+</script>
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 
 {% endblock %}
-

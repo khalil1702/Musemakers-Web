@@ -87,7 +87,17 @@ public function findAllSortedByDateAsc(): array
         ->getResult();
 }
 
-
+public function searchByNomAndPrenom($nom, $prenom)
+{
+    return $this->createQueryBuilder('r')
+        ->innerJoin('r.user', 'u')
+        ->andWhere('u.nomUser LIKE :nom')
+        ->andWhere('u.prenomUser LIKE :prenom')
+        ->setParameter('nom', '%' . $nom . '%')
+        ->setParameter('prenom', '%' . $prenom . '%')
+        ->getQuery()
+        ->getResult();
+}
 
 
 

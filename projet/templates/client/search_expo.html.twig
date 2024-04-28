@@ -29,13 +29,95 @@
                             <a href="{{ path('app_client_show', {'idExposition': exposition.idExposition}) }}" 
                                class="btn item-btn btn-primary display-7">Voir Détails</a>
                         </div>
+                        <div class="star-rating">
+                            {% for i in 1..5 %}
+                                <span class="star" data-value="{{ i }}" data-exposition-id="{{ exposition.idExposition }}">
+                                    {% if ratings[exposition.idExposition] is defined and ratings[exposition.idExposition] >= i %}
+                                        ★
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                </span>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
         {% endfor %}
     {% else %}
-        <p>Aucune exposition n'est trouvé :( </p>
+        <p>Aucune exposition n'est trouvée :( </p>
     {% endif %}
 </div>
 
-</div>
+<script>
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', setRating);
+        star.addEventListener('mouseover', starOver);
+        star.addEventListener('mouseout', starOut);
+    });
+
+    function setRating(ev) {
+        let rating = ev.currentTarget.getAttribute('data-value');
+        let expositionId = ev.currentTarget.getAttribute('data-exposition-id');
+        let stars = document.querySelectorAll(`.star[data-exposition-id="${expositionId}"]`);
+        
+        stars.forEach(star => {
+            star.innerHTML = (star.getAttribute('data-value') <= rating) ? '★' : '☆';
+        });
+        
+        // Store the rating in the session storage with a unique key for each user and exposition
+        sessionStorage.setItem(`ratingUser_${expositionId}`, rating);
+        
+        // Send the rating to the server using AJAX
+        sendRatingToServer(expositionId, rating);
+    }
+
+    function starOver(ev) {
+        let currentStar = ev.currentTarget.getAttribute('data-value');
+        let expositionId = ev.currentTarget.getAttribute('data-exposition-id');
+        let stars = document.querySelectorAll(`.star[data-exposition-id="${expositionId}"]`);
+        
+        stars.forEach(star => {
+            star.innerHTML = (star.getAttribute('data-value') <= currentStar) ? '★' : '☆';
+        });
+    }
+
+    function starOut() {
+        let expositionId = this.getAttribute('data-exposition-id');
+        let rating = sessionStorage.getItem(`ratingUser_${expositionId}`) || 0;
+        let stars = document.querySelectorAll(`.star[data-exposition-id="${expositionId}"]`);
+        
+        stars.forEach(star => {
+            star.innerHTML = (star.getAttribute('data-value') <= rating) ? '★' : '☆';
+        });
+    }
+
+    function sendRatingToServer(expositionId, rating) {
+        // Send the rating data to the server using AJAX
+        fetch(`/client/save-rating`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                expositionId: expositionId,
+                rating: rating
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle success response from the server if needed
+            console.log('Rating saved successfully:', data);
+        })
+        .catch(error => {
+            // Handle errors here
+            console.error('Error saving rating:', error);
+        });
+    }
+</script>

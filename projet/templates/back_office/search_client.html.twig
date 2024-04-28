@@ -1,40 +1,30 @@
-{% if reservations is empty %}
-                        <p>No reservations found.</p>
+<tbody id="reservation-requests-container">
+    {% if reservations is empty %}
+        <tr>
+            <td colspan="5">Aucune personne n'a été trouvée.</td>
+        </tr>
+    {% else %}
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.user.nomUser }}</td>
+                <td>{{ reservation.user.prenomUser }}</td>
+                <td>{{ reservation.exposition.nom }}</td>
+                <td>{{ reservation.ticketsNumber }}</td>
+                <td>{{ reservation.dateReser|date('Y-m-d H:i:s') }}</td>
+                <td>
+                    {% if reservation.accessByAdmin == 0 %}
+                        <span class="badge badge-gradient-info">En cours</span>
+                    {% elseif reservation.accessByAdmin == 1 %}
+                        <span class="badge badge-gradient-success">Accepté</span>
+                    {% elseif reservation.accessByAdmin == 2 %}
+                        <span class="badge badge-gradient-danger">Refusé</span>
+                    {% elseif reservation.accessByAdmin == 3 %}
+                        <span class="badge badge-gradient-warning">Annulé</span>
                     {% else %}
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>User</th>
-                                        <th>Exposition</th>
-                                        <th>Tickets Number</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for reservation in reservations %}
-                                        <tr>
-                                            <td>{{ reservation.user.nomUser }}</td>
-                                            <td>{{ reservation.exposition.nom }}</td>
-                                            <td>{{ reservation.ticketsNumber }}</td>
-                                            <td>{{ reservation.dateReser|date('Y-m-d H:i:s') }}</td>
-                                            <td>
-                                                {% if reservation.accessByAdmin == 0 %}
-                                                <span class="badge badge-gradient-info">En cours</span>
-                                                {% elseif reservation.accessByAdmin == 1 %}
-                                                <span  class="badge badge-gradient-success">Accepté</span>
-
-                                                {% elseif reservation.accessByAdmin == 2 %}
-                                                <span class="badge badge-gradient-danger">Refusé</span>
-                                                {% elseif reservation.accessByAdmin == 3 %}
-                                                <span class="badge badge-gradient-warning">Annulé</span>
-
-                                                {% else %}
-                                                    Unknown
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                        Unknown
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</tbody>

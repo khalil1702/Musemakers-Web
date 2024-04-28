@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/client')]
 class ClientExpo extends AbstractController
@@ -36,10 +39,13 @@ class ClientExpo extends AbstractController
 //hethi  lel lista
 
 #[Route('/getallExpo', name: 'app_client_getallExpo', methods: ['GET'])]
-    public function getallExpoClient(Request $request,ExpositionRepository $expositionRepository,PaginatorInterface $paginator): Response
-    {
-        $expositions = $expositionRepository->findAll();
-        // Pagination logic
+public function getallExpoClient(Request $request, ExpositionRepository $expositionRepository, PaginatorInterface $paginator): Response
+{
+    $userId = 6; // Assuming user ID is 6
+
+    $expositions = $expositionRepository->findAll();
+
+    // Pagination logic
     $currentPage = $request->query->getInt('page', 1); // Get the current page number (default to 1)
     $perPage = 6; // Number of expositions per page (adjust as needed)
 
@@ -49,25 +55,78 @@ class ClientExpo extends AbstractController
         $perPage
     );
 
-        return $this->render('client/liste_expo.html.twig', [
-            'expositions' => $paginatedExpositions,
-            'knp_pagination' => $paginatedExpositions, 
-        ]);
+    // Retrieve rating from session for each exposition
+    $ratings = [];
+    foreach ($expositions as $exposition) {
+        $rating = $this->session->get('ratingUser_' . $userId . '_exposition_' . $exposition->getIdExposition(), null);
+        $ratings[$exposition->getIdExposition()] = $rating;
     }
-    
-    #[Route('/search', name: 'exposition_search', methods: ['GET'])]
-    public function search(Request $request, ExpositionRepository $expositionRepository): Response
-    {
-        $query = $request->query->get('q');
-        $theme = $request->query->get('theme');
-    
-        $expositions = $expositionRepository->searchByNameAndTheme($query, $theme);
-    
-        return $this->render('client/search_expo.html.twig', [
-            'expositions' => $expositions,
-        ]);
+
+    return $this->render('client/liste_expo.html.twig', [
+        'expositions' => $paginatedExpositions,
+        'knp_pagination' => $paginatedExpositions,
+        'ratings' => $ratings // Pass ratings to the template
+    ]);
+}
+
+
+#[Route('/search', name: 'exposition_search', methods: ['GET'])]
+public function search(Request $request, ExpositionRepository $expositionRepository): Response
+{
+    $userId = 6; // Assuming user ID is 6
+
+    // Fetch all expositions
+    $expositions = $expositionRepository->findAll();
+
+    // Initialize an empty array to store ratings
+    $ratings = [];
+
+    // Loop through each exposition to retrieve its rating
+    foreach ($expositions as $exposition) {
+        // Get the rating from session storage based on user ID and exposition ID
+        $rating = $this->session->get('ratingUser_' . $userId . '_exposition_' . $exposition->getIdExposition(), null);
+        
+        // Store the rating in the ratings array with the exposition ID as the key
+        $ratings[$exposition->getIdExposition()] = $rating;
     }
-    
+
+    // Retrieve query parameters
+    $query = $request->query->get('q');
+    $theme = $request->query->get('theme');
+
+    // Perform search based on query and theme
+    $expositions = $expositionRepository->searchByNameAndTheme($query, $theme);
+
+    // Render the search results template with expositions, user ID, and ratings
+    return $this->render('client/search_expo.html.twig', [
+        'expositions' => $expositions,
+        'idUser' => $userId,
+        'ratings' => $ratings,
+    ]);
+}
+
+#[Route('/share', name: 'app_share', methods: ['GET'])]
+public function share(Request $request)
+{
+    $expositionId = $request->query->get('id');
+
+    // Fetch the exposition from the database using the id
+    $repository = $this->getDoctrine()->getRepository(Exposition::class);
+    $exposition = $repository->find($expositionId);
+
+    if (!$exposition) {
+        // Handle error here
+        throw $this->createNotFoundException('No exposition found for id '.$expositionId);
+    }
+
+    // Create the message you want to share
+    $message = 'Regardez cette image de l\'œuvre numéro ' . $exposition->getNom();
+
+    $url = 'https://www.facebook.com/dialog/feed?app_id=YOUR_APP_ID&display=popup&caption=' . urlencode($message) . '&link=https://yourwebsite.com/exposition/&redirect_uri=https://yourwebsite.com/exposition/';
+
+    return new RedirectResponse($url);
+}
+  
   
 
     #[Route('/user-images/{imageName}', name: 'user_images')]
@@ -81,11 +140,31 @@ class ClientExpo extends AbstractController
     }
 
     private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    private $session;
+    public function __construct(EntityManagerInterface $entityManager,SessionInterface $session)
     {
         $this->entityManager = $entityManager;
+        $this->session = $session;
+
     }
+
+    #[Route('/save-rating', name: 'app_rate', methods: ['POST'])]
+public function saveRating(Request $request): JsonResponse
+{
+    // Get the exposition ID and rating from the request
+    $data = json_decode($request->getContent(), true);
+    $expositionId = $data['expositionId'];
+    $rating = $data['rating'];
+
+    // Save the rating to the session
+    $userId = 6; // Assuming user ID is 6
+    $this->session->set('ratingUser_' . $userId . '_exposition_' . $expositionId, $rating);
+
+    return new JsonResponse(['success' => true]);
+}
+
+    
+    
 
     #[Route('/{idExposition}', name: 'app_client_show', methods: ['GET'])]
     public function show(Request $request, Exposition $exposition): Response
@@ -94,17 +173,20 @@ class ClientExpo extends AbstractController
         $userId = 6; // Assuming user ID is 6
         $reservationRepository = $this->entityManager->getRepository(Reservation::class);
 
-        
         // Querying based on the conditions
         $reservationExists = $reservationRepository->findOneBy([
             'user' => $userId,
             'exposition' => $exposition,
             'accessByAdmin' => [0, 1] // Assuming accessByAdmin can only be 0 or 1
         ]);
-    
+        
+        // Get rating from session if exists
+        $rating = $this->session->get('ratingUser_' . $userId . '_exposition_' . $exposition->getIdExposition(), null);
+        
         return $this->render('client/show.html.twig', [
             'exposition' => $exposition,
             'reservationExists' => $reservationExists,
+            'rating' => $rating, // Pass rating to the template
         ]);
     }
     

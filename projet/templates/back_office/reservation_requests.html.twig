@@ -135,8 +135,9 @@
 // Define sortByDate function in the global scope
 function sortByDate() {
     let sortOption = document.getElementById('date-sort').value;
+    let currentPage = document.querySelector('.pagination .page-item.active .page-link').innerText; // Get the current page number
 
-    fetch(`/admin/sort_by_date?sort=${sortOption}`, {
+    fetch(`/admin/sort_by_date?sort=${sortOption}&page=${currentPage}`, { // Include the page number in the request
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
