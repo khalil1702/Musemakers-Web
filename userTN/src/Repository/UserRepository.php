@@ -73,6 +73,23 @@ public function search($nomUser, $prenomUser, $email, $numTel)
 
     return $queryBuilder->getQuery()->getResult();
 }
+public function searchByName($query)
+{
+    return $this->createQueryBuilder('u') // 'u' for 'User'
+        ->andWhere('u.nomUser LIKE :query') // Use 'nomUser' instead of 'nom'
+        ->setParameter('query', '%' . $query . '%')
+        ->getQuery()
+        ->getResult();
+}
+public function findOneByEmail($email): ?User
+{
+    return $this->createQueryBuilder('u')
+        ->andWhere('u.email = :email')
+        ->setParameter('email', $email)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
 
 
 

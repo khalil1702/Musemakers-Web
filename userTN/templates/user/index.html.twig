@@ -4,7 +4,10 @@
 
 {% block body %}
     <h1>user index</h1>
-   
+     <div class="form-group">
+    <label for="searchInput">Search:</label>
+    <input type="text" class="form-control" id="searchInput" placeholder="Enter search term">
+</div>
 
 
     <table class="table">
@@ -59,5 +62,32 @@
     </table>
 
 <a href="{{ path('app_user_new') }}" class="btn btn-success">Create new</a>
+</script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById('searchInput');
+        const rows = document.querySelectorAll('tbody tr');
 
+        searchInput.addEventListener('input', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                let found = false;
+
+                cells.forEach(cell => {
+                    if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                        found = true;
+                    }
+                });
+
+                if (found) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+</script> 
 {% endblock %}

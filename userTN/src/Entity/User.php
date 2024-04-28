@@ -53,6 +53,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $image = null;
+    #[ORM\Column(type: 'boolean', name: 'isVerified', options: ['default' => '0'])]
+    private $isVerified = false;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reservation::class)]
     private Collection $reservation;
@@ -130,6 +132,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateDeNaissance(?\DateTimeInterface $dateDeNaissance): static
     {
         $this->dateDeNaissance = $dateDeNaissance;
+
+        return $this;
+    }
+    public function getIsVerified()
+    {
+        return $this->isVerified;
+    }
+    /**
+     * Set the value of isVerified
+     *
+     * @return  self
+     */
+    public function setIsVerified($isVerified)
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

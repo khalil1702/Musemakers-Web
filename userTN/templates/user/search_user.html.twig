@@ -1,0 +1,40 @@
+<div id="users" class="row">
+    {% if users|length > 0 %}
+        {% for user in users %}
+            {% if user.role == 'ROLE_ARTISTE' %}
+                <div class="col-md-4 col-sm-6 mb-30">
+                    <div class="card h-100 d-flex flex-column">
+                        <a class="card-img-tiles" href="#" data-abc="true">
+                            <div class="inner">
+                                <div class="main-img">
+                                    {% if user.image %}
+                                        <img src="{{ path('user_images', {'imageName': user.image}) }}" alt="{{ user.nomUser }}" class="user-image" style="width: 100%; height: auto;">
+                                    {% else %}
+                                        <img src="placeholder.jpg" alt="Placeholder Image" class="user-image" style="width: 100%; height: auto;">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                        <div class="card-body text-center d-flex flex-column">
+                            <h4 class="card-title">{{ user.nomUser }} {{ user.prenomUser }}</h4>
+                            <p class="text-muted">
+                                Email: {{ user.email }} <br>
+                                Numéro de téléphone: {{ user.numTel }} <br>
+                                Date de naissance: {{ user.dateDeNaissance ? user.dateDeNaissance|date('Y-m-d') : '' }} <br>
+                                Carte professionnelle: {{ user.cartepro }} <br>
+                                Statut: {{ user.status }} <br>
+                                Sexe: {{ user.sexe }}
+                            </p>
+                            <div class="mt-auto">
+                                <a href="{{ path('app_user_show', {'idUser': user.idUser}) }}" 
+                                   class="btn item-btn btn-primary display-7">Voir Détails</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>Aucun utilisateur trouvé :( </p>
+    {% endif %}
+</div>
