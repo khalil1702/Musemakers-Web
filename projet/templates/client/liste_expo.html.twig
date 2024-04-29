@@ -54,9 +54,10 @@
                             </p>
                             <div class="mt-auto">
                                 <a href="{{ path('app_client_show', {'idExposition': exposition.idExposition}) }}" class="btn item-btn btn-primary display-7">Voir Détails</a>
-                                <a href="https://twitter.com/intent/tweet?text={{ 'Regardez cette image de l\'œuvre numéro ' ~ exposition.nom | url_encode }}" target="_blank" class="btn btn-primary">Tweet</a>
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ url('app_client_show', {'idExposition': exposition.idExposition}, true) }}&quote={{ exposition.nom }} - Theme: {{ exposition.theme }} - Date debut: {{ exposition.dateDebut|date('Y-m-d ')}} - Date fin: {{ exposition.dateFin|date('Y-m-d ') }}" target="_blank" class="btn item-btn btn-primary display-7">FB</a>                               
-
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ url('app_client_show', {'idExposition': exposition.idExposition}, true) }}&quote={{ exposition.nom }} - Theme: {{ exposition.theme }} - Date debut: {{ exposition.dateDebut|date('Y-m-d ')}} - Date fin: {{ exposition.dateFin|date('Y-m-d ') }}" target="_blank" class="btn item-btn btn-primary display-7">
+                                    <i class="fab fa-facebook-f"></i> share 
+                                </a>
+                                
 
                             </div>
                             <div class="star-rating">

@@ -25,7 +25,7 @@ class ExpositionRepository extends ServiceEntityRepository
     }
     public function searchByNameAndTheme($name, $theme)
     {
-        $queryBuilder = $this->createQueryBuilder('e');
+        $queryBuilder = $this->createQueryBuilder('e'); 
     
         if (!empty($name)) {
             $queryBuilder

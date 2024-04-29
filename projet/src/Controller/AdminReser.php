@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Endroid\QrCode\QrCode as QrCodeQrCode;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Endroid\QrCode\QrCode;
+
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/admin')]
 class AdminReser extends AbstractController
@@ -184,6 +188,7 @@ public function downloadPdf(int $reservationId): Response
         throw $this->createNotFoundException('Reservation not found or unauthorized access.');
     }}
 
+
     #[Route('/view-pdf/{reservationId}', name: 'app_view_pdf', methods: ['GET'])]
 public function viewPdf(int $reservationId): Response
 {
@@ -216,6 +221,9 @@ public function viewPdf(int $reservationId): Response
         throw $this->createNotFoundException('Reservation not found or unauthorized access.');
     }
 }
+
+    
+
 
 
 #[Route('/statistics', name: 'admin_statistics')]
@@ -258,7 +266,7 @@ public function viewPdf(int $reservationId): Response
         $reservationRequests = $paginator->paginate(
             $reservationRequests,
             $page, // Use the current page number
-            3 // Number of items per page
+            10// Number of items per page
         );
     
         // Render the partial model of sorted reservation requests

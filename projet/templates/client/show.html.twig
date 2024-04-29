@@ -14,30 +14,38 @@
         <div class="product-info">
             <div class="product-text">
                 <h1>{{ exposition.nom }}</h1>
+                
                 <h2>Theme {{ exposition.theme }}</h2>
                 <p>{{ exposition.description }} <br> Date Debut : {{ exposition.dateDebut|date('d-m-Y') }} 
                     <br> Date fin : {{ exposition.dateFin|date('d-m-Y') }}  <br>
                      De {{ exposition.heureDebut|date('H:i') }} à  {{ exposition.heureFin|date('H:i') }} </p>
  
-
+                    
             </div>
-            <div class="product-price-btn">
+            <div class="star-rating-wrapper" style="display: flex; align-items: center; justify-content: center; margin-top: 20px;">
+                <div class="star-rating">
+                    {% for i in 1..5 %}
+                        <span class="star" data-value="{{ i }}" data-exposition-id="{{ exposition.idExposition }}">
+                            {% if rating >= i %}
+                                ★
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        </span>
+                    {% endfor %}
+                   
+                </div> </div>
+                <div class="product-price-btn">
                
-                <button type="button" id="reserveButton">Je Réserve</button>
+                    <button type="button" id="reserveButton">Je Réserve</button>
+                    
+                </div>
                 
-            </div>
+           
+            
+            
         </div>
-        <div class="star-rating">
-            {% for i in 1..5 %}
-                <span class="star" data-value="{{ i }}" data-exposition-id="{{ exposition.idExposition }}">
-                    {% if rating >= i %}
-                        ★
-                    {% else %}
-                        ☆
-                    {% endif %}
-                </span>
-            {% endfor %}
-        </div>
+        
     </div>
 
     <!-- Reservation Modal -->

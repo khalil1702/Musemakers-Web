@@ -147,25 +147,28 @@
 </div>
 
 <script>
-    // Gérer la soumission du formulaire de modification de réservation
-    document.getElementById('editForm{{ reservation.idReservation }}').addEventListener('submit', function(event) {
-        var ticketsNumber = document.getElementById('ticketsNumber{{ reservation.idReservation }}').value;
-        var ticketsInput = document.getElementById('ticketsNumber{{ reservation.idReservation }}');
-        var errorLabel = document.getElementById('ticketsError{{ reservation.idReservation }}');
+  document.getElementById('editForm{{ reservation.idReservation }}').addEventListener('submit', function(event) {
+    var ticketsNumber = document.getElementById('ticketsNumber{{ reservation.idReservation }}').value;
+    var ticketsInput = document.getElementById('ticketsNumber{{ reservation.idReservation }}');
+    var errorLabel = document.getElementById('ticketsError{{ reservation.idReservation }}');
 
-        // Vérifier si le nombre de tickets est supérieur à 200
-        if (ticketsNumber > 200) {
-            errorLabel.textContent = "Nombre trop grand ! Veuillez saisir un nombre inférieur ou égal à 200.";
-            errorLabel.style.color = 'red';
-            ticketsInput.style.borderColor = 'red';
-            event.preventDefault(); // Empêcher la soumission du formulaire
+    // Vérifier si le nombre de tickets est supérieur à 200 ou s'il est 0 ou négatif
+    if (ticketsNumber > 200 || ticketsNumber <= 0) {
+        if (ticketsNumber <= 0) {
+            errorLabel.textContent = "Nombre invalide ! Veuillez saisir un nombre supérieur à zéro.";
         } else {
-            // Réinitialiser le label et le style du champ
-            errorLabel.textContent = '';
-            errorLabel.style.color = ''; // Réinitialiser la couleur du texte
-            ticketsInput.style.borderColor = ''; // Réinitialiser la couleur de la bordure
+            errorLabel.textContent = "Nombre trop grand ! Veuillez saisir un nombre inférieur ou égal à 200.";
         }
-    });
+        errorLabel.style.color = 'red';
+        ticketsInput.style.borderColor = 'red';
+        event.preventDefault(); // Empêcher la soumission du formulaire
+    } else {
+        // Réinitialiser le label et le style du champ
+        errorLabel.textContent = '';
+        errorLabel.style.color = ''; // Réinitialiser la couleur du texte
+        ticketsInput.style.borderColor = ''; // Réinitialiser la couleur de la bordure
+    }
+});
 </script>
 {% endfor %}
 
