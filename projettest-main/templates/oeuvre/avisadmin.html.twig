@@ -1,10 +1,21 @@
 {% extends 'base2.html.twig' %}
 
 {% block title %}Les avis par rapport a l'oeuvre {{ oeuvre.nomOeuvre }}{% endblock %}
+ 
 
-{% block head %}
+ {% block avisadmin %}
+ {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+{% endblock %}
+
+
+
+
+      
+
+    
+
     <style>
         .oeuvre-card-front img {
             max-width: 200px; /* Spécifiez la largeur souhaitée */
@@ -12,11 +23,8 @@
             object-fit: cover; /* Assurez-vous que l'image remplit entièrement le conteneur en conservant ses proportions */
         }
     </style>
-{% endblock %}
 
-{% block avisadmin %}
 
-      
     <div class="d-flex justify-content-end mb-3">
         <a href="{{ path('app_oeuvre_index') }}" class="btn btn-block btn-lg btn-gradient-primary">RETOUR</a>
     </div>
@@ -43,5 +51,13 @@
     {% else %}
         <p>Aucun avis trouvé pour cette œuvre.</p>
     {% endif %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+{% endblock %}
+
 {% endblock %}
 

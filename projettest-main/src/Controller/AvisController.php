@@ -80,7 +80,7 @@ class AvisController extends AbstractController
             'avis' => $avis,
             'userId' => $userId,
             'idOeuvre' => $oeuvre->getIdOeuvre(),
-            
+            'nomOeuvre' => $oeuvre->getNomOeuvre(),
         ]);
     }
     
@@ -180,5 +180,6 @@ public function avisStatistics(AvisRepository $avisRepository): Response
     ]);
 }
   
-   
+
+  
 }

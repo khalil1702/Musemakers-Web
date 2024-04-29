@@ -10,7 +10,8 @@
    
     <link rel="stylesheet" href="{{asset('BackOffice/cssvendors/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="{{asset('BackOffice/vendors/css/vendor.bundle.base.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+    
+ 
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
@@ -22,16 +23,27 @@
     <link rel="shortcut icon" href="{{asset('BackOffice/images/favicon.ico')}}" />
    
     <style>
+    
         .oeuvre-card-front img {
             max-width: 200px; /* Spécifiez la largeur souhaitée */
             max-height: 300px; /* Spécifiez la hauteur souhaitée */
             object-fit: cover; /* Assurez-vous que l'image remplit entièrement le conteneur en conservant ses proportions */
         }
     </style>
-
+  
+   {% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+    {% endblock %}
  
+ {% block javascripts %}
+   
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+{% endblock %}
+
 
   </head>
+
   <body>
   
 
@@ -532,8 +544,7 @@
     <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/todolist.js"></script>
 
-     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+    
 
     <script>
     (function(){

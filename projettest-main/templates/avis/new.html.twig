@@ -44,8 +44,10 @@
         <div class="col-md-6 text-center">
             <img src="{{ imageUrl }}" alt="Image de l'œuvre" class="img-fluid">
               <button class="btn like-button " id="like-button" ><i class="bi bi-hand-thumbs-up"></i> Like</button>
-<button class="btn dislike-button " id="dislike-button" ><i class="bi bi-hand-thumbs-down"></i> Dislike</button>
-<a href="https://twitter.com/intent/tweet?text={{ 'Regardez cette image de l\'œuvre numéro ' ~ idOeuvre | url_encode }}&url={{ imageUrl | url_encode }}" target="_blank" class="btn btn-primary">Tweet</a>
+              <button class="btn dislike-button " id="dislike-button" ><i class="bi bi-hand-thumbs-down"></i> Dislike</button>
+              <div>
+              <a href="https://twitter.com/intent/tweet?text={{ 'Regardez cette image de l\'œuvre ' ~ nomOeuvre | url_encode }}&url={{ imageUrl | url_encode }}" target="_blank" class="btn btn-primary">Tweet</a>
+              </div>
         </div>
         <div class="col-md-6">
             <h1>Exprimez vous</h1>
@@ -90,59 +92,37 @@
     var likeButton = document.getElementById('like-button');
     var dislikeButton = document.getElementById('dislike-button');
 
-    // Récupérer l'état des boutons des cookies
-    if (getCookie('likeClicked-' + oeuvreId + '-' + userId) === 'true') {
+    // Récupérer l'état des boutons de localStorage
+    if (localStorage.getItem('likeClicked-' + oeuvreId + '-' + userId) === 'true') {
         likeButton.classList.add('liked');
     }
-    if (getCookie('dislikeClicked-' + oeuvreId + '-' + userId) === 'true') {
+    if (localStorage.getItem('dislikeClicked-' + oeuvreId + '-' + userId) === 'true') {
         dislikeButton.classList.add('disliked');
     }
 
     likeButton.addEventListener('click', function() {
         if (dislikeButton.classList.contains('disliked')) {
             dislikeButton.classList.remove('disliked');
-            // Réinitialiser l'état du bouton "dislike" dans les cookies
-            setCookie('dislikeClicked-' + oeuvreId + '-' + userId, 'false', 365);
+            // Réinitialiser l'état du bouton "dislike" dans localStorage
+            localStorage.setItem('dislikeClicked-' + oeuvreId + '-' + userId, 'false');
         }
         this.classList.toggle('liked');
-        // Mettre à jour l'état du bouton "like" dans les cookies
-        setCookie('likeClicked-' + oeuvreId + '-' + userId, this.classList.contains('liked'), 365);
+        // Mettre à jour l'état du bouton "like" dans localStorage
+        localStorage.setItem('likeClicked-' + oeuvreId + '-' + userId, this.classList.contains('liked'));
     });
 
     dislikeButton.addEventListener('click', function() {
         if (likeButton.classList.contains('liked')) {
             likeButton.classList.remove('liked');
-            // Réinitialiser l'état du bouton "like" dans les cookies
-            setCookie('likeClicked-' + oeuvreId + '-' + userId, 'false', 365);
+            // Réinitialiser l'état du bouton "like" dans localStorage
+            localStorage.setItem('likeClicked-' + oeuvreId + '-' + userId, 'false');
         }
         this.classList.toggle('disliked');
-        // Mettre à jour l'état du bouton "dislike" dans les cookies
-        setCookie('dislikeClicked-' + oeuvreId + '-' + userId, this.classList.contains('disliked'), 365);
+        // Mettre à jour l'état du bouton "dislike" dans localStorage
+        localStorage.setItem('dislikeClicked-' + oeuvreId + '-' + userId, this.classList.contains('disliked'));
     });
 });
 
-// Fonction pour définir un cookie
-function setCookie(name, value, days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
-
-// Fonction pour obtenir un cookie
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
 
 </script>
     

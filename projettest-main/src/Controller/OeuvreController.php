@@ -61,25 +61,18 @@ class OeuvreController extends AbstractController
         // Récupérer les critères de tri depuis la requête
         $sortBy = $request->query->get('sort_by');
         $sortOrder = $request->query->get('sort_order');
-
-        // Vérifier si les critères de tri sont définis
-        if ($sortBy) {
-        // Vérifier si sortOrder est également défini, sinon définir par défaut comme croissant
-        if ($sortOrder) {
-        // Trier les œuvres en fonction des critères sélectionnés
-        $criteria = [$sortBy => $sortOrder];
-        } else {
-        // Définir par défaut l'ordre de tri comme croissant
-        $criteria = [$sortBy => 'ASC'];
-        }
-        $oeuvres = $oeuvreRepository->findBy([], $criteria);
-        } else {
-        // Par défaut, ne pas appliquer de tri
-        $oeuvres = $oeuvreRepository->findAll();
-        }
-
-        $averageRatings = [];
     
+        if ($sortBy && $sortOrder) {
+            // Trier les œuvres en fonction des critères sélectionnés
+            $criteria = [$sortBy => $sortOrder];
+            $oeuvres = $oeuvreRepository->findBy([], $criteria);
+        } else {
+            // Par défaut, ne pas appliquer de tri et récupérer les œuvres dans l'ordre initial
+            $oeuvres = $oeuvreRepository->findAll();
+        }
+    
+        $averageRatings = [];
+        
         // Parcourir chaque œuvre pour calculer la moyenne des notes
         foreach ($oeuvres as $oeuvre) {
             // Récupérer les avis correspondant à l'œuvre
@@ -101,7 +94,6 @@ class OeuvreController extends AbstractController
             $averageRatings[$oeuvre->getIdOeuvre()] = $averageRating;
         }
     
-
         return $this->render('oeuvre/index.html.twig', [
             'oeuvres' => $oeuvres,
             'sortBy' => $sortBy,
@@ -109,6 +101,7 @@ class OeuvreController extends AbstractController
             'averageRatings' => $averageRatings,
         ]);
     }
+    
 
   
 
