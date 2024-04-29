@@ -1,34 +1,57 @@
-{% extends 'base2.html.twig' %}
+{% extends 'nav_foot_admin.html.twig' %}
 
 {% block title %}Artiste index{% endblock %}
+{% block artiste %}
 
-{% block body %}
-    <h1>Artiste*
-     index</h1>
-     <div class="form-group">
-    <label for="searchInput">Search:</label>
-    <input type="text" class="form-control" id="searchInput" placeholder="Enter search term">
-</div>
-  
-              
-       <div class="col-md-5 grid-margin stretch-card">
-                    <div class="card" style="height: 300px; overflow-y: auto;">
-                        <div class="card-body" >
-                            <h4 class="card-title" style="height=200">Statistique Génèrale</h4>
-                            <canvas id="traffic-chart"></canvas>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 grid-margin">
+            <div class="row">
+                <div class="col-md-7 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="clearfix">
+                        
                             <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
                             {% include 'statistics/statistics.html.twig' with {'stats': stats} %}
+
+                      </div>
+                      <canvas id="visit-sale-chart" class="mt-4"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5 grid-margin stretch-card">
+                    <div class="card" style="height: 300px; overflow-y: auto;">
+                        <div class="card-body">
+                            <h4 class="card-title">Statistique Génèrale</h4>
+                            <canvas id="traffic-chart"></canvas>
+                            <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
                         </div>
                     </div>
                 </div>
-       
+                
+              </div>
 
 
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>NomUser</th>
+              <div class="col-md-3 d-flex  text-center">
+                <!-- Combo box for sorting by date -->
+                <div class="form-group">
+    <label for="searchInput">Search:</label>
+    <input type="text" class="form-control" id="searchInput" placeholder="Enter search term">
+</div>
+            </div>
+            
+             <br>
+            <div class="card">
+                
+                <div class="card-body">
+                    <h4 class="card-title">Demande de Reservation </h4>
+                   
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>NomUser</th>
                 <th>PrenomUser</th>
                 <th>Email</th>
                 <th>Mdp</th>
@@ -39,99 +62,78 @@
                 <th>Sexe</th>
                 <th>Image</th>
                 <th>actions</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            {% if user.role == 'ROLE_ARTISTE' %}
-                <tr>
-                    <td>{{ user.nomUser }}</td>
-                    <td>{{ user.prenomUser }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.mdp }}</td>
-                    <td>{{ user.numTel }}</td>
-                    <td>{{ user.dateDeNaissance ? user.dateDeNaissance|date('Y-m-d') : '' }}</td>
-                    <td>{{ user.cartepro }}</td>
-                    <td>{{ user.status }}</td>
-                     <td>
-                <form method="post" action="{{ path('app_user_block', {'idUser': user.idUser}) }}" style="display: inline-block;" onsubmit="return confirm('Are you sure you want to block this user?');">
-                    <input type="hidden" name="_token" value="{{ csrf_token('block' ~ user.idUser) }}">
-                    <button class="btn btn-secondary btn-sm">Bloquer</button>
-                </form>
-                <form method="post" action="{{ path('app_user_unblock', {'idUser': user.idUser}) }}" style="display: inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir débloquer cet utilisateur ?');">
-                    <input type="hidden" name="_token" value="{{ csrf_token('unblock' ~ user.idUser) }}">
-                    <button class="btn btn-success btn-sm">Débloquer</button>
-                </form>
-                </td>
-            </td>
-                    <td>{{ user.sexe }}</td>
-                     
-                               
-                            </td>
-                            
-<td>
-    {% if user.image %}
-        <img src="{{ path('user_images', {'imageName': user.image}) }}" alt="User image">
-    {% else %}
-        <!-- Display a default image or no image -->
-        <img src="{{ asset('images/default.png') }}" alt="Default image">
-    {% endif %}
-</td>
-
-
-<td>
-    <a href="{{ path('app_user_show', {'idUser': user.idUser}) }}" class="btn btn-primary">Show</a>
-    <a href="{{ path('app_user_edit', {'idUser': user.idUser}) }}" class="btn btn-secondary">Edit</a>
-</td>
-
-                </tr>
-            {% endif %}
-        {% else %}
-            <tr>
-                <td colspan="11">No records found</td>
-            </tr>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                        {% if user.role == 'ROLE_ARTISTE' %}
+                                            <tr>
+                                                <td>{{ user.nomUser }}</td>
+                                                <td>{{ user.prenomUser }}</td>
+                                                <td>{{ user.email }}</td>
+                                                <td>{{ user.mdp }}</td>
+                                                <td>{{ user.numTel }}</td>
+                                                <td>{{ user.dateDeNaissance ? user.dateDeNaissance|date('Y-m-d') : '' }}</td>
+                                                <td>{{ user.cartepro }}</td>
+                                                <td>{{ user.status }}</td>
+                                                <td>
+                                                    <form method="post" action="{{ path('app_user_block', {'idUser': user.idUser}) }}" style="display: inline-block;" onsubmit="return confirm('Are you sure you want to block this user?');">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token('block' ~ user.idUser) }}">
+                                                        <button class="btn btn-secondary btn-sm">Bloquer</button>
+                                                    </form>
+                                                    <form method="post" action="{{ path('app_user_unblock', {'idUser': user.idUser}) }}" style="display: inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir débloquer cet utilisateur ?');">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token('unblock' ~ user.idUser) }}">
+                                                        <button class="btn btn-success btn-sm">Débloquer</button>
+                                                    </form>
+                                                </td>
+                                                <td>{{ user.sexe }}</td>
+                                                <td>
+                                                    {% if user.image %}
+                                                        <img src="{{ path('user_images', {'imageName': user.image}) }}" alt="User image">
+                                                    {% else %}
+                                                        <!-- Display a default image or no image -->
+                                                        <img src="{{ asset('images/default.png') }}" alt="Default image">
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <a href="{{ path('app_user_show', {'idUser': user.idUser}) }}" class="btn btn-primary">Show</a>
+                                                    <a href="{{ path('app_user_edit', {'idUser': user.idUser}) }}" class="btn btn-secondary">Edit</a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="11">No records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item {% if users.currentPageNumber == 1 %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_user_index', {'page': users.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
+        </li>
+        {% for page in 1..users.pageCount %}
+            <li class="page-item {% if page == users.currentPageNumber %}active{% endif %}">
+                <a class="page-link" href="{{ path('app_user_index', {'page': page }) }}">{{ page }}</a>
+            </li>
         {% endfor %}
-        </tbody>
-    </table>
-   <div class="navigation">
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            {{ knp_pagination_render(users) }}
-        </ul>
-    </nav>
-    <div id="google_translate_element"></div>  
-    <script type="text/javascript"> 
-    function googleTranslateElementInit() { 
-      new google.translate.TranslateElement({pageLanguage: 'en'},  'google_translate_element'); 
-    } 
-    </script>  
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <li class="page-item {% if users.currentPageNumber == users.pageCount %}disabled{% endif %}">
+            <a class="page-link" href="{{ path('app_user_index', {'page': users.currentPageNumber + 1 }) }}"> > </a>
+        </li>
+    </ul>
+</nav>
+
+                            <a href="{{ path('app_user_new') }}" class="btn btn-success">Create new</a>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-
-<a href="{{ path('app_user_new') }}" class="btn btn-success">Create new</a>
-
 <script>
-    function search() {
-        let query = document.getElementById('search-input').value;
-        fetch(`/user/search?q=${query}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.text())
-        .then(data => {
-            let div = document.getElementById('expositions');
-            div.innerHTML = data;
-        })
-        .catch(error => console.error('Error:', error));
-    }
-    
-</script>
-    <script>
     document.addEventListener("DOMContentLoaded", function() {
         const searchInput = document.getElementById('searchInput');
         const rows = document.querySelectorAll('tbody tr');
@@ -159,4 +161,3 @@
     });
 </script>    
 {% endblock %}
-

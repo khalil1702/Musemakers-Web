@@ -84,7 +84,7 @@ class UserController extends AbstractController
                     ->subject('Réinitialisation de mot de passe')
                     ->html("<p>Bonjour,</p><p>Vous avez demandé une réinitialisation de mot de passe. Cliquez sur le lien suivant pour procéder à la réinitialisation : <a href='$resetUrl'>Réinitialiser le mot de passe</a></p>");
     
-                    
+
                 // Création du transport
                 $transport = Transport::fromDsn('smtp://gofitpro8@gmail.com:czrr%20mudh%20itak%20iwhy@smtp.gmail.com:587');
     
@@ -168,42 +168,40 @@ class UserController extends AbstractController
   
 
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
-public function index(Request $request, UserRepository $userRepository, PaginatorInterface $paginator): Response
-{
-    $nomUser = $request->query->get('nomUser');
-    $prenomUser = $request->query->get('prenomUser');
-    $email = $request->query->get('email');
-    $numTel = $request->query->get('numTel');
-
-    $usersQuery = $userRepository->search($nomUser, $prenomUser, $email, $numTel);
-
-    // Paginate the results of the query
-    $users = $paginator->paginate(
-        // Doctrine Query, not results
-        $usersQuery,
-        // Define the page parameter
-        $request->query->getInt('page', 1),
-        // Items per page
-        10
-    );
-
-    // If it's an AJAX request, return the search results directly
-    if ($request->isXmlHttpRequest()) {
-        return new JsonResponse([
+    public function index(Request $request, UserRepository $userRepository, PaginatorInterface $paginator): Response
+    {
+        $nomUser = $request->query->get('nomUser');
+        $prenomUser = $request->query->get('prenomUser');
+        $email = $request->query->get('email');
+        $numTel = $request->query->get('numTel');
+    
+        $usersQuery = $userRepository->search($nomUser, $prenomUser, $email, $numTel);
+    
+        // Paginate the results of the query
+        $users = $paginator->paginate(
+            $usersQuery, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+    
+        // If it's an AJAX request, return the search results directly
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse([
+                'users' => $users,
+                // Add any other data you want to return
+            ]);
+        }
+    
+        // Get the gender statistics
+        $stats = $userRepository->getUserGenderStats();
+    
+        // Render the template and pass the statistics
+        return $this->render('user/indexartiste.html.twig', [
             'users' => $users,
-            // Add any other data you want to return
+            'stats' => $stats,  // Pass the stats to your template
         ]);
     }
-
-    // Get the gender statistics
-    $stats = $userRepository->getUserGenderStats();
-
-    // Render the template and pass the statistics
-    return $this->render('user/indexartiste.html.twig', [
-        'users' => $users,
-        'stats' => $stats,  // Pass the stats to your template
-    ]);
-}
+    
 #[Route('/search', name: 'user_search', methods: ['GET'])]
 public function search(Request $request, UserRepository $userRepository): Response
 {
