@@ -26,8 +26,7 @@
                 <td>{{ cour.datefinCours ? cour.datefinCours|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('app_cours_show', {'idCours': cour.idCours}) }}" class="btn btn-info">show</a>
-<a href="{{ path('app_cours_edit', {'idCours': cour.idCours}) }}" class="btn btn-primary">edit</a>
-
+<a href="{{ path('app_cours_edit', {'idCours': cour.idCours}) }}" class="btn btn-primary" style="background-color: #343a40; border-color: #343a40;">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -38,35 +37,21 @@
         </tbody>
     </table>
  
-<form action="{{ path('app_cours_index') }}" method="GET" style="margin-bottom: 20px;">
-    <input type="text" name="search" value="{{ searchTerm }}" placeholder="Rechercher..." style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-    <select name="sort_by" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-        <option value="default_field">Par défaut</option>
-        <option value="titreCours">Titre</option>
-        <option value="datedebutCours">Date de début</option>
-        <option value="datefinCours">Date de fin</option>
-    </select>
-    <button type="submit" style="padding: 8px 12px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Rechercher</button>
-</form>
 
-
-
-{% for cour in cours %}
-    {# Afficher les détails du cours #}
-{% endfor %}
-
-<form id="searchForm" action="{{ path('app_cours_index') }}" method="GET">
-    <input type="text" id="searchInput" name="search" placeholder="Rechercher...">
-</form>
-
-<div id="searchResults"></div>
-
-<script>
+    <script>
+        {% if app.request.query.get('success') %}
+            toastr.success('{{ app.request.query.get('success') }}');
+        {% endif %}
+    </script>
+ <form id="searchForm" action="{{ path('app_cours_index') }}" method="GET">
+        <input type="text" id="searchInput" name="search" placeholder="Rechercher...">
+    </form>
+ <script>
     document.getElementById('searchInput').addEventListener('input', function() {
         var searchTerm = this.value;
         var form = document.getElementById('searchForm');
-        var formData = new FormData(form);
 
+        // Envoi de la requête AJAX
         fetch(form.action + '?search=' + searchTerm, {
             method: 'GET',
             headers: {
@@ -75,33 +60,38 @@
         })
         .then(response => response.text())
         .then(data => {
+            // Mettre à jour les résultats de la recherche dans l'élément 'searchResults'
             document.getElementById('searchResults').innerHTML = data;
         });
     });
 </script>
-
-
-  <!-- Pagination -->
+    <div id="searchResults"></div>
+    <!-- Pagination -->
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-          <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
-            <a class="page-link" href="{{ path('app_cours_index', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
-          </li>
-          {% for page in 1..knp_pagination.pageCount %}
-          <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
-            <a class="page-link" href="{{ path('app_cours_index', {'page': page }) }}">{{ page }}</a>
-          </li>
-          {% endfor %}
-          <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
-            <a class="page-link" href="{{ path('app_cours_index', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
-          </li>
+            <li class="page-item {% if knp_pagination.currentPageNumber == 1 %}disabled{% endif %}">
+                <a class="page-link" href="{{ path('app_cours_index', {'page': knp_pagination.currentPageNumber - 1 }) }}" tabindex="-1"> < </a>
+            </li>
+            {% for page in 1..knp_pagination.pageCount %}
+                <li class="page-item {% if page == knp_pagination.currentPageNumber %}active{% endif %}">
+                    <a class="page-link" href="{{ path('app_cours_index', {'page': page }) }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item {% if knp_pagination.currentPageNumber == knp_pagination.pageCount %}disabled{% endif %}">
+                <a class="page-link" href="{{ path('app_cours_index', {'page': knp_pagination.currentPageNumber + 1 }) }}"> > </a>
+            </li>
         </ul>
     </nav>
     <!-- End Pagination -->
- <!-- Add the following JavaScript code at the end of the body block -->
-    <script>
-        {% if app.request.query.get('success') %}
-            alert('{{ app.request.query.get('success') }}');
-        {% endif %}
-    </script>
-<a href="{{ path('app_cours_new') }}" class="btn btn-success">Créer un nouveau</a>{% endblock %}
+
+    <a href="{{ path('app_cours_new') }}" class="btn btn-success">
+    <i class="mdi mdi-plus"></i> ADD Cour
+</a>
+   
+   
+{% for message in app.flashes('success') %}
+    <div style="background-color: #d4edda; color: #155724; border-color: #c3e6cb; padding: 10px; border-radius: 5px;">
+        {{ message }}
+    </div>
+{% endfor %}
+{% endblock %}

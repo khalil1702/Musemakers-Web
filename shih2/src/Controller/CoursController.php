@@ -23,9 +23,27 @@ class CoursController extends AbstractController
     #[Route('/', name: 'app_cours_index', methods: ['GET', 'POST'])]
     public function index(CoursRepository $coursRepository, Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
-        // Récupérer les paramètres de tri et de recherche depuis la requête
-        $sortBy = $request->query->get('sort_by', 'default_field'); // Champ de tri par défaut
-        $searchTerm = $request->query->get('search', '');
+       // Récupérer le critère de tri depuis la requête
+       $sortBy = $request->query->get('sort_by', 'titre_cours'); // Champ de tri par défaut
+
+       // Utiliser ce critère pour trier les cours
+       if ($sortBy === 'default_field') {
+           // Utiliser un tri par défaut si aucun tri spécifique n'est sélectionné
+           $cours = $coursRepository->findAll();
+       } else {
+           // Vérifier si le champ de tri existe dans l'entité Cours
+           $validSortFields = ['idCours', 'titreCours', 'descriCours', 'datedebutCours', 'datefinCours'];
+           if (!in_array($sortBy, $validSortFields)) {
+               // Champ de tri invalide, utiliser le tri par défaut
+               $sortBy = 'titreCours';
+           }
+
+           // Sinon, trier les cours en fonction du critère sélectionné
+           $cours = $coursRepository->findBy([], [$sortBy => 'ASC']);
+        }
+          $searchTerm = $request->query->get('search', '');
+          // Utiliser ces paramètres pour récupérer les cours correspondants depuis le repository
+
 
         // Utiliser ces paramètres pour récupérer les cours correspondants depuis le repository
         $cours = $coursRepository->findFilteredAndSorted($sortBy, $searchTerm);
@@ -90,10 +108,10 @@ class CoursController extends AbstractController
                     );
                 }
             }
+            // Afficher une notification de succès avec SweetAlert2
+            $this->addFlash('success', 'cour ajouté avec succes .');
 
-            $successMessage = 'Course added successfully!'; // Define your success message here
-
-            return $this->redirectToRoute('app_cours_index', ['success' => $successMessage], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_cours_index');
         }
         return $this->renderForm('cours/new.html.twig', [
             'cour' => $cour,

@@ -1,0 +1,56 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Cours index{% endblock %}
+
+{% block body %}
+    <h1>Cours index</h1>
+    <select id="sortSelect">
+        <option value="default_field">Par défaut</option>
+        <option value="titreCours">Titre</option>         
+        <option value="DescriCours">DescriCours</option>
+        <option value="datedebutCours">Date de début</option>
+        <option value="datefinCours">Date de fin</option>
+    </select>
+
+    <script>
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            var sortBy = this.value;
+
+            fetch('{{ path('app_cours_index') }}?sort_by=' + sortBy, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('searchResults').innerHTML = data;
+            });
+        });
+    </script>
+
+    <form id="searchForm" action="{{ path('app_cours_index') }}" method="GET">
+        <input type="text" id="searchInput" name="search" placeholder="Rechercher...">
+    </form>
+
+    <div id="searchResults"></div>
+
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function() {
+            var searchTerm = this.value;
+            var form = document.getElementById('searchForm');
+            var formData = new FormData(form);
+
+            fetch(form.action + '?search=' + searchTerm, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('searchResults').innerHTML = data;
+            });
+        });
+    </script>
+    {% endblock %}
