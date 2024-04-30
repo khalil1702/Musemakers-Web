@@ -4,19 +4,10 @@
  
 
  {% block avisadmin %}
- {% block stylesheets %}
-    {{ parent() }}
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
-{% endblock %}
 
+ 
 
-
-
-      
-
-    
-
-    <style>
+  <style>
         .oeuvre-card-front img {
             max-width: 200px; /* Spécifiez la largeur souhaitée */
             max-height: 300px; /* Spécifiez la hauteur souhaitée */
@@ -53,11 +44,11 @@
     {% endif %}
 
 
-{% block javascripts %}
-    {{ parent() }}
+
+   
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
-{% endblock %}
+
 
 {% endblock %}
 
