@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Reclamation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 /**
  * @extends ServiceEntityRepository<Reclamation>
  *
@@ -37,6 +38,9 @@ class ReclamationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
+    
+    
 
 //    /**
 //     * @return Reclamation[] Returns an array of Reclamation objects
@@ -53,5 +57,5 @@ class ReclamationRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-
+   
 }

@@ -24,6 +24,7 @@ class ReclamationType extends AbstractType
                     'Produits' => 'Produits',
                     'Service Client' => 'Service Client',
                     'Problème Technique' => 'Problème Technique',
+                   
                 ],
                 'placeholder' => 'Choisir une catégorie', // Optionnel : affichez un libellé par défaut
                 'required' => true, // Optionnel : spécifiez si la sélection d'une catégorie est obligatoire

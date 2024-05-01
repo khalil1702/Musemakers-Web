@@ -132,7 +132,7 @@ public function index(Request $request,CommentaireRepository $commentaireReposit
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-             
+            $commentaire->setContenucom($this->convertTextToEmojis($commentaire->getContenucom()));
              $inappropriateWords = ['bad', 'stupid', 'malade','psycho','putin','con','conne']; // Liste de mots inappropriés
              $contenucomFiltered = $this->filterInappropriateWords($commentaire->getContenucom(), $inappropriateWords);
              $commentaire->setContenucom($contenucomFiltered);
@@ -156,7 +156,7 @@ public function index(Request $request,CommentaireRepository $commentaireReposit
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-             
+            $commentaire->setContenucom($this->convertTextToEmojis($commentaire->getContenucom()));
              $inappropriateWords = ['bad', 'stupid', 'malade','psycho','putin','con','conne']; // Liste de mots inappropriés
              $contenucomFiltered = $this->filterInappropriateWords($commentaire->getContenucom(), $inappropriateWords);
              $commentaire->setContenucom($contenucomFiltered);
@@ -198,7 +198,7 @@ public function index(Request $request,CommentaireRepository $commentaireReposit
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           
+            $commentaire->setContenucom($this->convertTextToEmojis($commentaire->getContenucom()));
              $inappropriateWords = ['bad', 'stupid', 'malade','psycho','putin','con','conne']; // Liste de mots inappropriés
              $contenucomFiltered = $this->filterInappropriateWords($commentaire->getContenucom(), $inappropriateWords);
              $commentaire->setContenucom($contenucomFiltered);
@@ -260,5 +260,23 @@ public function index(Request $request,CommentaireRepository $commentaireReposit
         }
         return $text;
     }
-    
+    private function convertTextToEmojis(string $text): string
+    {
+        // Liste de correspondance entre les emojis texte et leurs représentations visuelles
+        $emojiMap = [
+            ':)' => '😊',
+            ':(' => '😢',
+            ':D' => '😄',
+            '(y)' => '👍', 
+             '<3' => '❤️',
+            
+        ];
+
+        // Remplacez chaque emoji texte par son équivalent visuel dans le texte
+        foreach ($emojiMap as $textEmoji => $visualEmoji) {
+            $text = str_replace($textEmoji, $visualEmoji, $text);
+        }
+
+        return $text;
+    }
 }

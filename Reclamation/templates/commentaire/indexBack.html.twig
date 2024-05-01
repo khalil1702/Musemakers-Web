@@ -15,7 +15,11 @@
         <option value="contenucom_desc">Contenu commentaire Descendant</option>
     </select>
 </div>
-
+<div class="input-group">
+                            <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                        </div>
+                        <div id="searchResults"> 
+<div id= "tabv">
     <table class="table">
         <thead>
             <tr>
@@ -48,7 +52,8 @@
         {% endfor %}
         </tbody>
     </table>
-
+</div>
+</div>
     <a href="{{ path('app_commentaire_newBack') }}">Créer un nouveau commentaire</a>
         
     <nav aria-label="Page navigation example">
@@ -107,6 +112,40 @@ function handleChange(select) {
         window.location.href = "{{ path('app_commentaire_indexBack') }}" + "?triBack=" + triBack  + "&order=" + order;
     }
 }
-</script>
 
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var searchInput = document.getElementById('searchInput');
+    var tabv = document.getElementById('tabv');
+    var searchResults = document.getElementById('searchResults');
+    var tableHead = tabv.querySelector('thead').outerHTML;
+
+    searchInput.addEventListener('input', function() {
+        var searchTerm = searchInput.value.trim().toLowerCase();
+        var matchedReserv = [];
+
+        // Sélectionnez toutes les lignes du tableau
+        var rows = tabv.querySelectorAll('tbody tr');
+
+        rows.forEach(function(row) {
+            var prenom = row.querySelector('td:first-child').textContent.toLowerCase();
+            var nom = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            var date = row.querySelector('td:nth-child(5)').textContent.toLowerCase();
+            if (prenom.includes(searchTerm) || nom.includes(searchTerm)|| date.includes(searchTerm)) {
+                matchedReserv.push(row.outerHTML);
+            }
+        });
+
+        // Affichez les résultats de la recherche avec la classe de table appropriée
+        if (matchedReserv.length > 0) {
+            searchResults.innerHTML = '<table class="table table-striped">' + tableHead + '<tbody>' + matchedReserv.join('') + '</tbody></table>';
+        } else {
+            // Supprimez le contenu de la zone d'affichage des résultats s'il n'y a aucun résultat trouvé
+            searchResults.innerHTML = '';
+        }
+    });
+});
+
+</script>
 {% endblock %}

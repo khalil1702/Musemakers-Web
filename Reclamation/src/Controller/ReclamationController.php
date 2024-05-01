@@ -18,12 +18,14 @@ use Knp\Component\Pager\PaginatorInterface;
 use Mpociot\ChuckNorrisJokes\JokeFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use PHPMailer\PHPMailer\PHPMailer;
+
 #[Route('/reclamation')]
 class ReclamationController extends AbstractController
 {
     #[Route('/', name: 'app_reclamation_index', methods: ['GET'])]
     public function index(Request $request, ReclamationRepository $reclamationRepository, PaginatorInterface $paginator): Response
 {
+    
     // Récupérer le paramètre de tri depuis la requête
     $tri = $request->query->get('tri');
         $order = $request->query->get('order');
@@ -67,7 +69,6 @@ class ReclamationController extends AbstractController
     ]);
 }
 
-    
     // Méthode pour calculer les statistiques
     private function calculerStatistiques($reclamations)
     {
@@ -214,8 +215,8 @@ $statistiques = $this->calculerStatistiques($reclamations);
         $reclamation->setDaterec(new DateTime());
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $reclamation->setDescriRec($this->convertTextToEmojis($reclamation->getDescriRec()));
             // Filtrer les mots inappropriés dans la description
             $inappropriateWords = ['bad', 'stupid', 'malade','psycho','putin','con','conne']; // Liste de mots inappropriés
             $descrirecFiltered = $this->filterInappropriateWords($reclamation->getDescriRec(), $inappropriateWords);
@@ -237,7 +238,7 @@ $mail->Debugoutput = 'error_log'; // Rediriger la sortie de débogage vers le fi
     $mail->Host = 'smtp-mail.outlook.com';
     $mail->SMTPAuth = true;
      $mail->Username = 'khalil.chekili@esprit.tn';
-     
+     $mail->Password = '211JMT6428@';
      $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
      $mail->Port = 587;
 
@@ -254,61 +255,98 @@ $mail->Debugoutput = 'error_log'; // Rediriger la sortie de débogage vers le fi
      $daterec = $reclamation->getDateRec();
      $categorierec = $reclamation->getCategorieRec();
      $numTel = $user->getNumTel();
-     $mail->Subject = ' Réclamation ';
+     $mail->Subject = 'Réclamation';
+     $mail->Body = '
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #00274c; /* Bordure bleu marine */
+        }
+        .header {
+            color: #17447a; /* Bleu */
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center; /* Centrage horizontal */
+            margin-bottom: 20px;
+            border-bottom: 2px solid #17447a; /* Bordure bleue */
+            padding-bottom: 10px; /* Espace sous le titre */
+        }
+        .content {
+            line-height: 1.6;
+            color: #00274c; /* Bleu marine */
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+            text-align: center; /* Centrage horizontal */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #00274c; /* Bordure bleu marine */
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #00274c; /* Bleu marine */
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Réclamation</div>
+        <div class="content">
+            <p>Cher(e) Administrateur,</p>
+            <p>Nous vous informons qu\'une réclamation a été soumise via notre système. Veuillez trouver ci-dessous les détails de la réclamation :</p>
+            <table>
+                <tr>
+                    <th>Nom et prénom</th>
+                    <td>' . $nomUser . ' ' . $prenomUser . '</td>
+                </tr>
+                <tr>
+                    <th>Description de la réclamation</th>
+                    <td>' . $descrirec . '</td>
+                </tr>
+                <tr>
+                    <th>Catégorie de la réclamation</th>
+                    <td>' . $categorierec . '</td>
+                </tr>
+                <tr>
+                    <th>Numéro de téléphone</th>
+                    <td>' . $numTel . '</td>
+                </tr>
+                <tr>
+                    <th>Date du réclamation</th>
+                    <td>' . $daterec->format('Y-m-d') . '</td>
+                </tr>
+            </table>
+            <p>Veuillez prendre les mesures nécessaires pour examiner et traiter cette réclamation dans les plus brefs délais. Nous vous remercions de votre attention et de votre diligence dans ce processus.</p>
+        </div>
+        <div class="footer">Cordialement,<br>Service de Réclamation</div>
+    </div>
+</body>
+</html>';
 
-     $mail->Body =  '
-     <html>
-     <head>
-         <style>
-             body {
-                 font-family: Arial, sans-serif;
-                 background-color: #f4f4f4;
-                 margin: 0;
-                 padding: 0;
-             }
-             .container {
-                 max-width: 600px;
-                 margin: 0 auto;
-                 padding: 20px;
-                 background-color: #fff;
-                 border-radius: 5px;
-                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-             }
-             .header {
-                 color: #333;
-                 font-size: 24px;
-                 font-weight: bold;
-                 margin-bottom: 20px;
-             }
-             .content {
-                 line-height: 1.6;
-             }
-             .footer {
-                 margin-top: 30px;
-                 font-size: 14px;
-                 color: #888;
-             }
-         </style>
-     </head>
-     <body>
-         <div class="container">
-             <div class="header">Réclamation</div>
-             <div class="content">
-                 Cher(e) Administrateur,<br><br>
-                 Nous vous informons qu\'une réclamation a été soumise via notre système. Veuillez trouver ci-dessous les détails de la réclamation :
-                 <ul>
-                     <li><strong>Nom et prénom :</strong> ' . $nomUser . ' ' . $prenomUser . '</li>
-                     <li><strong>Description de la réclamation :</strong> ' . $descrirec . '</li>
-                     <li><strong>Catégorie de la réclamation :</strong> ' . $categorierec . '</li>
-                     <li><strong>Numéro de téléphone :</strong> ' . $numTel . '</li>
-                     <li><strong>Date du réclamation :</strong> ' . $daterec->format('Y-m-d ') . '</li>
-                 </ul>
-                 Veuillez prendre les mesures nécessaires pour examiner et traiter cette réclamation dans les plus brefs délais. Nous vous remercions de votre attention et de votre diligence dans ce processus.<br><br>
-             </div>
-             <div class="footer">Cordialement,<br>Service de Réclamation</div>
-         </div>
-     </body>
-     </html>';
+     
+     
      
      
  
@@ -352,6 +390,7 @@ $mail->Debugoutput = 'error_log'; // Rediriger la sortie de débogage vers le fi
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $reclamation->setDescriRec($this->convertTextToEmojis($reclamation->getDescriRec()));
             // Filtrer les mots inappropriés dans la description
             $inappropriateWords = ['bad', 'stupid', 'malade','psycho','putin','con','conne']; 
             $descrirecFiltered = $this->filterInappropriateWords($reclamation->getDescriRec(), $inappropriateWords);
@@ -382,7 +421,7 @@ $mail->Debugoutput = 'error_log'; // Rediriger la sortie de débogage vers le fi
 
         // Remplacez SID et AuthToken par vos informations Twilio
         
-    
+       
         
         $twilio = new Client($sid, $token);
 
@@ -448,5 +487,24 @@ $mail->Debugoutput = 'error_log'; // Rediriger la sortie de débogage vers le fi
         return $text;
     }
     
- 
+    private function convertTextToEmojis(string $text): string
+    {
+        // Liste de correspondance entre les emojis texte et leurs représentations visuelles
+        $emojiMap = [
+            ':)' => '😊',
+            ':(' => '😢',
+            ':D' => '😄',
+            '(y)' => '👍', 
+             '<3' => '❤️',
+            
+        ];
+
+        // Remplacez chaque emoji texte par son équivalent visuel dans le texte
+        foreach ($emojiMap as $textEmoji => $visualEmoji) {
+            $text = str_replace($textEmoji, $visualEmoji, $text);
+        }
+
+        return $text;
+    }
+   
 }

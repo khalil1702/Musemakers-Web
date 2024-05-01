@@ -5,7 +5,7 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Commentaire;
-
+use Doctrine\ORM\EntityRepository;
 /**
  * @extends ServiceEntityRepository<Commentaire>
  *
@@ -38,7 +38,7 @@ class CommentaireRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+   
 //    /**
 //     * @return Commentaire[] Returns an array of Commentaire objects
 //     */
