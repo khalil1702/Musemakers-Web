@@ -46,7 +46,7 @@ class AvisController extends AbstractController
     {
         $avi = new Avis();
 
-        $userId = 1;
+        $userId = 3;
         $user = $entityManager->getRepository(User::class)->find($userId);
 
         // Récupérer l'œuvre associée à l'avis

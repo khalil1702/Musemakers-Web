@@ -40,14 +40,25 @@
 {% endblock %}
 
 {% block addavis %}
+
+<script>
+    function partagerSurTwitter(nomOeuvre, imageUrl) {
+        var pageUrl = window.location.href; // Obtient l'URL de la page actuelle
+        var tweetText = 'Regardez cette image de l\'œuvre ' + encodeURIComponent(nomOeuvre);
+        var tweetUrl = 'https://twitter.com/intent/tweet?text=' + tweetText + '&url=' + encodeURIComponent(pageUrl);
+        
+        window.open(tweetUrl, '_blank');
+    }
+</script>
     <div class="row">
         <div class="col-md-6 text-center">
             <img src="{{ imageUrl }}" alt="Image de l'œuvre" class="img-fluid">
               <button class="btn like-button " id="like-button" ><i class="bi bi-hand-thumbs-up"></i> Like</button>
               <button class="btn dislike-button " id="dislike-button" ><i class="bi bi-hand-thumbs-down"></i> Dislike</button>
               <div>
-              <a href="https://twitter.com/intent/tweet?text={{ 'Regardez cette image de l\'œuvre ' ~ nomOeuvre | url_encode }}&url={{ imageUrl | url_encode }}" target="_blank" class="btn btn-primary">Tweet</a>
-              </div>
+<button onclick="partagerSurTwitter('{{nomOeuvre}}', '{{imageUrl}}')" class="btn btn-primary">Tweet</button>            
+  </div>
+
         </div>
         <div class="col-md-6">
             <h1>Exprimez vous</h1>
@@ -125,6 +136,9 @@
 
 
 </script>
+
+
+
     
 {% endblock %}
   

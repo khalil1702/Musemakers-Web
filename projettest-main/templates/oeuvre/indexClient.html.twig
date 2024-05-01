@@ -1,98 +1,38 @@
+
 {% extends 'base.html.twig' %}
-
-{% block title %}Oeuvre index{% endblock %}
-
-{% block affichageoeuvreclient %}
 
 {% block stylesheets %}
     {{ parent() }}
     <style>
-        .oeuvre-carousel {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .oeuvre-card {
-            flex: 0 0 400px; /* Largeur fixe de chaque carte */
-            margin-right: 10px; /* Espacement entre les cartes */
-            scroll-snap-align: start;
-            background-color: transparent;
-            width: 400px;
-            height: 400px;
-            perspective: 1000px;
-        }
-
-        .oeuvre-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            background-color: #2980b9; /* Couleur de fond pour la carte arrière */
-            color: white; /* Couleur du texte pour la carte arrière */
-        }
-
-        .oeuvre-card:hover .oeuvre-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .oeuvre-card-front, .oeuvre-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-        }
-
-        .oeuvre-card-front {
-            background-color: #bbb;
-            color: black;
-        }
-
-    .oeuvre-card-back {
-    background-color: #E0E0E0; /* Couleur fumée */
-    color: #333333;/* Couleur du texte */
-    transform: rotateY(180deg);
-}
-
-        .oeuvre-card img {
-         max-height: 300px; /* Hauteur fixe de l'image */
-          max-width: 100%; /* Largeur maximale de l'image */
-            object-fit: cover; /* Ajuster l'image pour remplir le conteneur tout en préservant son aspect */
-             position: absolute; /* Position absolue pour utiliser les propriétés top, bottom, left, right */
-              top: 50%; /* Place le haut de l'image au milieu de la carte */
-            left: 50%; /* Place la gauche de l'image au milieu de la carte */
-             transform: translate(-50%, -50%); /* Déplace l'image de moitié de sa taille vers le haut et vers la gauche pour la centrer *
+        .carousel-item img {
+            max-height: 400px; /* Ajustez cette valeur selon vos besoins */
+            width: auto; /* Permet aux images de redimensionner proportionnellement */
+            object-fit: contain; /* Cette propriété permet de conserver les proportions de l'image */
         }
     </style>
 {% endblock %}
 
-<div class="oeuvre-carousel">
-        {% for oeuvre in oeuvres %}
-            <div class="oeuvre-card-container"> <!-- Div supplémentaire pour chaque carte et bouton -->
-                <div class="oeuvre-card">
-                    <div class="oeuvre-card-inner">
-                        <div class="oeuvre-card-front">
-                            <img src="{{ path('user_images', {'imageName': oeuvre.image}) }}" alt="{{ oeuvre.nomOeuvre }}">
-                        </div>
-                        <div class="oeuvre-card-back">
-                            <h1>{{ oeuvre.nomOeuvre }}</h1>
-                            <p>DESCRIPTION: {{ oeuvre.description }}</p>
-                            <p>PRIX: {{ oeuvre.prixOeuvre }}</p>
-                            <p>CATEGORIE: {{ oeuvre.categorieOeuvre }}</p> 
-                            <p>Date Creation: {{  oeuvre.datecreation ? oeuvre.datecreation|date('Y-m-d') : '' }}</p> 
-                        </div>
-                    </div>
-                </div>
-                <a href="{{ path('app_avis_new', {'idOeuvre': oeuvre.idOeuvre}) }}" class="btn btn-primary mt-3"> votre avis</a>
-            </div>
-        {% endfor %}
-    </div>
 
-    
+{% block affichageoeuvreclient %}
+
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {% for oeuvre in oeuvres %}
+      <div class="carousel-item {% if loop.first %}active{% endif %}">
+        <img src="{{ path('user_images', {'imageName': oeuvre.image}) }}" class="d-block w-100" alt="{{ oeuvre.nomOeuvre }}">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>{{ oeuvre.nomOeuvre }}</h5>
+         
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+
+
 {% endblock %}
+
 
