@@ -8,6 +8,7 @@ use App\Repository\CoursRepository;
 use App\Repository\UserRepository;
 use App\Service\SendMailService;
 use Doctrine\ORM\EntityManagerInterface;
+use Flasher\Prime\FlasherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,8 @@ use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Mailer\MailerInterface;
+use Yoeunes\Toastr\Toastr;
+
 
 #[Route('/cours')]
 class CoursController extends AbstractController
@@ -42,7 +45,6 @@ class CoursController extends AbstractController
            $cours = $coursRepository->findBy([], [$sortBy => 'ASC']);
         }
           $searchTerm = $request->query->get('search', '');
-          // Utiliser ces paramètres pour récupérer les cours correspondants depuis le repository
 
 
         // Utiliser ces paramètres pour récupérer les cours correspondants depuis le repository
@@ -67,6 +69,47 @@ class CoursController extends AbstractController
             'knp_pagination' => $paginatedCours,
         ]);
     }
+    #[Route('/search', name: 'app_cours_index_search', methods: ['GET', 'POST'])]
+    public function indexSearch(CoursRepository $coursRepository, Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
+    {
+        // Récupérer le critère de tri depuis la requête
+        $sortBy = $request->query->get('sort_by', 'titre_cours'); // Champ de tri par défaut
+    
+        // Utiliser ce critère pour trier les cours
+        if ($sortBy === 'default_field') {
+            // Utiliser un tri par défaut si aucun tri spécifique n'est sélectionné
+            $cours = $coursRepository->findAll();
+        } else {
+            // Vérifier si le champ de tri existe dans l'entité Cours
+            $validSortFields = ['idCours', 'titreCours', 'descriCours', 'datedebutCours', 'datefinCours'];
+            if (!in_array($sortBy, $validSortFields)) {
+                // Champ de tri invalide, utiliser le tri par défaut
+                $sortBy = 'titreCours';
+            }
+    
+            // Sinon, trier les cours en fonction du critère sélectionné
+            $cours = $coursRepository->findBy([], [$sortBy => 'ASC']);
+        }
+        
+        // Récupérer le terme de recherche depuis la requête
+        $searchTerm = $request->query->get('search', '');
+    
+        // Utiliser ces paramètres pour récupérer les cours correspondants depuis le repository
+        $filteredCours = $coursRepository->findFilteredAndSorted($sortBy, $searchTerm);
+    
+        // Pagination logic
+        $currentPage = $request->query->getInt('page', 1);
+        $perPage = 5;
+    
+        $paginatedCours = $paginator->paginate(
+            $filteredCours,
+            $currentPage,
+            $perPage
+        );
+
+        return $this->json($paginatedCours);
+    }
+    
     #[Route('/front', name: 'app_cours_index1', methods: ['GET'])]
     public function index2(CoursRepository $coursRepository): Response
     {
@@ -82,7 +125,7 @@ class CoursController extends AbstractController
 
 
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SendMailService $emailService, UserRepository $userRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SendMailService $emailService, UserRepository $userRepository,FlasherInterface $flasher): Response
     {
         $cour = new Cours();
         $users = $userRepository->findLimitedUsers(4);
@@ -95,23 +138,35 @@ class CoursController extends AbstractController
 
             if ($users != 0) {
 
-                foreach ($users as $user) {
-                    $emailService->send(
-                        'Musemakers@gmail.com',
-                        $user->getEmail(),
-                        'New Cour',
-                        'courInEmail',
-                        [
-                            'user' => $user,
-                            'cour' => $cour
-                        ]
-                    );
-                }
+                 foreach ($users as $user) {
+                     $emailService->send(
+                         'Musemakers@gmail.com',
+                         $user->getEmail(),
+                         'New Cour',
+                         'courInEmail',
+                         [
+                             'user' => $user,
+                             'cour' => $cour
+                         ]
+                     );
+                 }
             }
             // Afficher une notification de succès avec SweetAlert2
-            $this->addFlash('success', 'cour ajouté avec succes .');
-
+            // $this->addFlash('success', 'cour ajouté avec succes .');
+        
+            flash()->addSuccess('Cour ajouté avec suceess');
+            
+            // flash()
+            //     ->success('Your submission has been received successfully.')
+            //     ->flash();
+                
+            // app('flasher')->addSuccess('Your account has been unlocked.');
             return $this->redirectToRoute('app_cours_index');
+        // $toastr->success('Cours ajouté avec succès !');
+
+           // return $this->redirectToRoute('app_cours_index');
+
+
         }
         return $this->renderForm('cours/new.html.twig', [
             'cour' => $cour,
@@ -121,7 +176,7 @@ class CoursController extends AbstractController
     #[Route('/get-favorite-courses', name: 'app_cours_getfav', methods: ['POST'])]
     public function getFavoriteCourses(Request $request, LoggerInterface $logger,CoursRepository $coursRepository): JsonResponse
     {
-        $favoriteCourseIds = json_decode($request->getContent(), true);// web service tjyh liste mta3 id yrja3ha lista mta3 courat 
+        $favoriteCourseIds = json_decode($request->getContent(), true); 
     
     
     
@@ -146,6 +201,13 @@ class CoursController extends AbstractController
     public function show(Cours $cour): Response
     {
         return $this->render('cours/show.html.twig', [
+            'cour' => $cour,
+        ]);
+    }
+    #[Route('/{idCours}', name: 'app_cours_show', methods: ['GET'])]
+    public function showfront(Cours $cour): Response
+    {
+        return $this->render('cours/showFront.html.twig', [
             'cour' => $cour,
         ]);
     }
@@ -178,4 +240,5 @@ class CoursController extends AbstractController
 
         return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
     }
+    
 }

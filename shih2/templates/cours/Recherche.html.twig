@@ -1,56 +1,38 @@
-{% extends 'base2.html.twig' %}
 
-{% block title %}Cours index{% endblock %}
+<form id="searchForm">
+    <input type="text" id="searchInput" placeholder="Entrez votre terme de recherche">
+    <button type="submit">Rechercher</button>
+</form>
 
-{% block body %}
-    <h1>Cours index</h1>
-    <select id="sortSelect">
-        <option value="default_field">Par défaut</option>
-        <option value="titreCours">Titre</option>         
-        <option value="DescriCours">DescriCours</option>
-        <option value="datedebutCours">Date de début</option>
-        <option value="datefinCours">Date de fin</option>
-    </select>
+{# Div pour afficher les résultats de la recherche #}
+<div id="searchResults"></div>
 
-    <script>
-        document.getElementById('sortSelect').addEventListener('change', function() {
-            var sortBy = this.value;
+{# Ajoutez le script JavaScript pour effectuer la recherche en AJAX #}
+<script>
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Empêcher le formulaire de soumettre normalement
 
-            fetch('{{ path('app_cours_index') }}?sort_by=' + sortBy, {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.text())
+        var searchTerm = document.getElementById('searchInput').value;
+
+        // Effectuer une requête AJAX pour obtenir les résultats de la recherche
+        fetch('{{ path('search_cours') }}?searchTerm=' + encodeURIComponent(searchTerm))
+            .then(response => response.json())
             .then(data => {
-                document.getElementById('searchResults').innerHTML = data;
-            });
-        });
-    </script>
+                // Afficher les résultats dans la div des résultats de la recherche
+                var searchResultsDiv = document.getElementById('searchResults');
+                searchResultsDiv.innerHTML = ''; // Effacer les résultats précédents
 
-    <form id="searchForm" action="{{ path('app_cours_index') }}" method="GET">
-        <input type="text" id="searchInput" name="search" placeholder="Rechercher...">
-    </form>
+                data.forEach(function(cour) {
+                    // Créer un élément HTML pour chaque résultat
+                    var courDiv = document.createElement('div');
+                    courDiv.innerHTML = '<strong>' + cour.titre + '</strong>: ' + cour.description;
 
-    <div id="searchResults"></div>
-
-    <script>
-        document.getElementById('searchInput').addEventListener('input', function() {
-            var searchTerm = this.value;
-            var form = document.getElementById('searchForm');
-            var formData = new FormData(form);
-
-            fetch(form.action + '?search=' + searchTerm, {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
+                    // Ajouter l'élément au div des résultats de la recherche
+                    searchResultsDiv.appendChild(courDiv);
+                });
             })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('searchResults').innerHTML = data;
+            .catch(error => {
+                console.error('Une erreur s\'est produite lors de la recherche :', error);
             });
-        });
-    </script>
-    {% endblock %}
+    });
+</script>

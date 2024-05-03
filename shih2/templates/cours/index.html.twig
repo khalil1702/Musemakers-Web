@@ -26,7 +26,7 @@
                 <td>{{ cour.datefinCours ? cour.datefinCours|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('app_cours_show', {'idCours': cour.idCours}) }}" class="btn btn-info">show</a>
-<a href="{{ path('app_cours_edit', {'idCours': cour.idCours}) }}" class="btn btn-primary" style="background-color: #343a40; border-color: #343a40;">edit</a>
+                    <a href="{{ path('app_cours_edit', {'idCours': cour.idCours}) }}" class="btn btn-primary" style="background-color: #343a40; border-color: #343a40;">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -38,34 +38,63 @@
     </table>
  
 
-    <script>
-        {% if app.request.query.get('success') %}
-            toastr.success('{{ app.request.query.get('success') }}');
-        {% endif %}
-    </script>
- <form id="searchForm" action="{{ path('app_cours_index') }}" method="GET">
+   
+ <form id="searchForm" action="{{ path('app_cours_index_search') }}" method="GET">
         <input type="text" id="searchInput" name="search" placeholder="Rechercher...">
     </form>
  <script>
-    document.getElementById('searchInput').addEventListener('input', function() {
-        var searchTerm = this.value;
-        var form = document.getElementById('searchForm');
+        document.getElementById('searchInput').addEventListener('input', function() {
+            var searchTerm = this.value;
+            var form = document.getElementById('searchForm');
 
-        // Envoi de la requête AJAX
-        fetch(form.action + '?search=' + searchTerm, {
-            method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.text())
-        .then(data => {
-            // Mettre à jour les résultats de la recherche dans l'élément 'searchResults'
-            document.getElementById('searchResults').innerHTML = data;
+            // Envoi de la requête AJAX
+            fetch(form.action + '?search=' + searchTerm, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Mettre à jour les résultats de la recherche dans l'élément 'searchResults'
+                // Assuming 'searchResults' is a container where search results are displayed
+                document.getElementById('searchResults').innerHTML = ''; // Clear previous results
+                data.forEach(course => {
+                    // Create HTML elements for each course and append to 'searchResults'
+                    var courseElement = document.createElement('div');
+                    courseElement.textContent = course.titreCours; // Or any other property you want to display
+                    document.getElementById('searchResults').appendChild(courseElement);
+                });
+            });
         });
-    });
+
 </script>
     <div id="searchResults"></div>
+    <select id="sortSelect">
+        <option value="default_field">Par défaut</option>
+        <option value="titreCours">Titre</option>         
+        <option value="DescriCours">DescriCours</option>
+        <option value="datedebutCours">Date de début</option>
+        <option value="datefinCours">Date de fin</option>
+    </select>
+    
+    <script>
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            var sortBy = this.value;
+
+            fetch('{{ path('app_cours_index_search') }}?sort_by=' + sortBy, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('searchResults').innerHTML = data;
+            });
+        });
+    </script>
+
     <!-- Pagination -->
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
@@ -87,11 +116,5 @@
     <a href="{{ path('app_cours_new') }}" class="btn btn-success">
     <i class="mdi mdi-plus"></i> ADD Cour
 </a>
-   
-   
-{% for message in app.flashes('success') %}
-    <div style="background-color: #d4edda; color: #155724; border-color: #c3e6cb; padding: 10px; border-radius: 5px;">
-        {{ message }}
-    </div>
-{% endfor %}
+
 {% endblock %}

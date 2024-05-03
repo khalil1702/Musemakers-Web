@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block title %}Détails du cours{% endblock %}
+
+
+
+{% block body %}
+    <h1>Détails du cours</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Titre du cours</th>
+                <td>{{ cour.titreCours }}</td>
+            </tr>
+            <tr>
+                <th>Description du cours</th>
+                <td>{{ cour.descriCours }}</td>
+            </tr>
+            <tr>
+                <th>Date de début du cours</th>
+                <td>{{ cour.datedebutCours ? cour.datedebutCours|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date de fin du cours</th>
+                <td>{{ cour.datefinCours ? cour.datefinCours|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}
