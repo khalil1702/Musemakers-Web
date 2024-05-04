@@ -421,7 +421,7 @@ $mail->Debugoutput = 'error_log'; // Rediriger la sortie de débogage vers le fi
 
         // Remplacez SID et AuthToken par vos informations Twilio
         
-       
+        
         
         $twilio = new Client($sid, $token);
 
@@ -438,9 +438,9 @@ $mail->Debugoutput = 'error_log'; // Rediriger la sortie de débogage vers le fi
 
         // Envoi du SMS
         $message = $twilio->messages
-            ->create( "+216$numTel", // destinataire
+            ->create( "+216$numTel", 
                 array(
-                    "from" => "+18154733136",
+                    "from" => "+14437982279",
                     "body" => "Cher(e) $nomUser $prenomUser\nLe statut de ta réclamation : $descrirec est : $statutrec"
                 )
             );
